@@ -1,0 +1,44 @@
+[26-Nov-2015 16:16:52 America/Chicago] PHP Fatal error:  Call to a member function insertBatch() on a non-object in /home4/lss/public_html/trackngo2/application/controllers/Load.php on line 571
+[30-Nov-2015 13:18:24 America/Chicago] PHP Parse error:  syntax error, unexpected end of file, expecting ')' in /home4/lss/public_html/trackngo2/application/controllers/Load.php on line 548
+[04-Dec-2015 15:44:45 America/Chicago] PHP Fatal error:  Call to undefined method shipment_customer_contact_model::get_contacts() in /home4/lss/public_html/trackngo2/application/controllers/Load.php on line 177
+[07-Dec-2015 09:04:22 America/Chicago] PHP Parse error:  syntax error, unexpected '}' in /home4/lss/public_html/trackngo2/application/controllers/Load.php on line 485
+[07-Dec-2015 14:40:40 America/New_York] PHP Fatal error:  Call to a member function get() on a non-object in /home4/lss/public_html/trackngo2/application/controllers/Load.php on line 524
+[07-Dec-2015 14:44:07 America/New_York] PHP Fatal error:  Call to a member function get() on a non-object in /home4/lss/public_html/trackngo2/application/controllers/Load.php on line 524
+[15-Dec-2015 17:03:16 America/Chicago] PHP Parse error:  syntax error, unexpected end of file in /home4/lss/public_html/trackngo2/application/controllers/Load.php on line 1037
+[15-Dec-2015 17:05:08 America/Chicago] PHP Parse error:  syntax error, unexpected ''ts_load_idts_lo' (T_ENCAPSED_AND_WHITESPACE), expecting ']' in /home4/lss/public_html/trackngo2/application/controllers/Load.php on line 1182
+[15-Dec-2015 17:05:14 America/Chicago] PHP Parse error:  syntax error, unexpected end of file in /home4/lss/public_html/trackngo2/application/controllers/Load.php on line 1267
+[16-Dec-2015 16:34:29 America/Chicago] PHP Parse error:  syntax error, unexpected end of file in /home4/lss/public_html/trackngo2/application/controllers/Load.php on line 165
+[16-Dec-2015 16:41:04 America/Chicago] PHP Parse error:  syntax error, unexpected end of file in /home4/lss/public_html/trackngo2/application/controllers/Load.php on line 1227
+[21-Dec-2015 03:32:45 America/New_York] PHP Fatal error:  Call to a member function get() on a non-object in /home4/lss/public_html/trackngo2/application/controllers/Load.php on line 817
+[21-Dec-2015 03:33:29 America/New_York] PHP Fatal error:  Call to a member function get() on a non-object in /home4/lss/public_html/trackngo2/application/controllers/Load.php on line 817
+[24-Dec-2015 10:15:23 America/Chicago] PHP Parse error:  syntax error, unexpected end of file in /home4/lss/public_html/trackngo2/application/controllers/Load.php on line 1239
+[24-Dec-2015 10:15:23 America/Chicago] PHP Parse error:  syntax error, unexpected '2', expecting variable (T_VARIABLE) or quoted-string and whitespace (T_ENCAPSED_AND_WHITESPACE) or ${ (T_DOLLAR_OPEN_CURLY_BRACES) or {$ (T_CURLY_OPEN) in /home4/lss/public_html/trackngo2/application/controllers/Load.php on line 1239
+[24-Dec-2015 10:15:23 America/Chicago] PHP Parse error:  syntax error, unexpected ');' in /home4/lss/public_html/trackngo2/application/controllers/Load.php on line 994
+[24-Dec-2015 10:26:56 America/Chicago] PHP Parse error:  syntax error, unexpected end of file in /home4/lss/public_html/trackngo2/application/controllers/Load.php on line 166
+[28-Dec-2015 13:44:40 America/Chicago] PHP Parse error:  syntax error, unexpected end of file in /home4/lss/public_html/trackngo2/application/controllers/Load.php on line 2019
+[30-Dec-2015 07:57:22 America/Chicago] PHP Parse error:  syntax error, unexpected ''' (T_ENCAPSED_AND_WHITESPACE) in /home4/lss/public_html/trackngo2/application/controllers/Load.php on line 460
+[31-Dec-2015 09:41:49 America/Chicago] PHP Parse error:  syntax error, unexpected end of file, expecting ']' in /home4/lss/public_html/trackngo2/application/controllers/Load.php on line 473
+[31-Dec-2015 10:19:43 America/Chicago] PHP Parse error:  syntax error, unexpected 'public' (T_PUBLIC) in /home4/lss/public_html/trackngo2/application/controllers/Load.php on line 1107
+[31-Dec-2015 10:19:46 America/Chicago] PHP Parse error:  syntax error, unexpected 'public' (T_PUBLIC) in /home4/lss/public_html/trackngo2/application/controllers/Load.php on line 1107
+[31-Dec-2015 10:19:56 America/Chicago] PHP Parse error:  syntax error, unexpected 'public' (T_PUBLIC) in /home4/lss/public_html/trackngo2/application/controllers/Load.php on line 1107
+[31-Dec-2015 10:20:06 America/Chicago] PHP Parse error:  syntax error, unexpected 'public' (T_PUBLIC) in /home4/lss/public_html/trackngo2/application/controllers/Load.php on line 1107
+[31-Dec-2015 10:20:17 America/Chicago] PHP Parse error:  syntax error, unexpected 'public' (T_PUBLIC) in /home4/lss/public_html/trackngo2/application/controllers/Load.php on line 1107
+[31-Dec-2015 10:20:26 America/Chicago] PHP Parse error:  syntax error, unexpected 'public' (T_PUBLIC) in /home4/lss/public_html/trackngo2/application/controllers/Load.php on line 1107
+[31-Dec-2015 10:59:08 America/Chicago] PHP Parse error:  syntax error, unexpected end of file in /home4/lss/public_html/trackngo2/application/controllers/Load.php on line 166
+[31-Dec-2015 11:01:16 America/Chicago] PHP Fatal error:  Maximum execution time of 30 seconds exceeded in /home4/lss/public_html/testserver/MPDF53/mpdf.php on line 11615
+[31-Dec-2015 11:01:51 America/Chicago] PHP Fatal error:  Maximum execution time of 30 seconds exceeded in /home4/lss/public_html/testserver/MPDF53/mpdf.php on line 30742
+[31-Dec-2015 11:02:37 America/Chicago] PHP Fatal error:  Maximum execution time of 30 seconds exceeded in /home4/lss/public_html/testserver/MPDF53/includes/functions.php on line 66
+[31-Dec-2015 11:06:17 America/Chicago] PHP Parse error:  syntax error, unexpected end of file, expecting variable (T_VARIABLE) or '$' in /home4/lss/public_html/trackngo2/application/controllers/Load.php on line 2168
+[03-Jan-2016 21:21:32 America/Chicago] PHP Parse error:  syntax error, unexpected end of file in /home4/lss/public_html/trackngo2/application/controllers/Load.php on line 431
+[13-Jan-2016 09:18:58 America/Chicago] PHP Parse error:  syntax error, unexpected end of file in /home4/lss/public_html/trackngo/application/controllers/Load.php on line 2132
+[14-Jan-2016 11:08:26 America/Chicago] PHP Parse error:  syntax error, unexpected end of file, expecting ')' in /home4/lss/public_html/trackngo/application/controllers/Load.php on line 160
+[20-Jan-2016 15:20:42 America/Chicago] PHP Parse error:  syntax error, unexpected end of file, expecting ']' in /home4/lss/public_html/trackngo/application/controllers/Load.php on line 455
+[21-Jan-2016 14:19:05 America/Chicago] PHP Fatal error:  require(): Failed opening required '/home4/lss/public_html/trackngo/application/models/crud_model.php' (include_path='.:/opt/php54/lib/php') in /home4/lss/public_html/trackngo/application/config/config.php on line 15
+[21-Jan-2016 14:19:11 America/Chicago] PHP Fatal error:  require(): Failed opening required '/home4/lss/public_html/trackngo/application/models/crud_model.php' (include_path='.:/opt/php54/lib/php') in /home4/lss/public_html/trackngo/application/config/config.php on line 15
+[21-Jan-2016 14:19:16 America/Chicago] PHP Fatal error:  require(): Failed opening required '/home4/lss/public_html/trackngo/application/models/crud_model.php' (include_path='.:/opt/php54/lib/php') in /home4/lss/public_html/trackngo/application/config/config.php on line 15
+[21-Jan-2016 14:19:16 America/Chicago] PHP Fatal error:  require(): Failed opening required '/home4/lss/public_html/trackngo/application/models/crud_model.php' (include_path='.:/opt/php54/lib/php') in /home4/lss/public_html/trackngo/application/config/config.php on line 15
+[21-Jan-2016 14:19:25 America/Chicago] PHP Fatal error:  require(): Failed opening required '/home4/lss/public_html/trackngo/application/models/crud_model.php' (include_path='.:/opt/php54/lib/php') in /home4/lss/public_html/trackngo/application/config/config.php on line 15
+[25-Feb-2016 13:42:39 America/Chicago] PHP Fatal error:  Cannot redeclare load::__construct() in /home4/lss/public_html/trackngotest/application/controllers/Load.php on line 2762
+[25-Feb-2016 13:42:48 America/Chicago] PHP Fatal error:  Cannot redeclare load::__construct() in /home4/lss/public_html/trackngotest/application/controllers/Load.php on line 2762
+[25-Feb-2016 13:48:53 America/Chicago] PHP Fatal error:  Cannot redeclare load::register() in /home4/lss/public_html/trackngotest/application/controllers/Load.php on line 2817
+[25-Feb-2016 13:48:59 America/Chicago] PHP Fatal error:  Cannot redeclare load::register() in /home4/lss/public_html/trackngotest/application/controllers/Load.php on line 2817
