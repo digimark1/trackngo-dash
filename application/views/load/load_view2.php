@@ -885,7 +885,20 @@
             }
         });
     }
-	
+
+function urlExists(url, callback){
+  $.ajax({
+    type: 'HEAD',
+    url: url,
+    success: function(){
+      callback(true);
+    },
+    error: function() {
+      callback(false);
+    }
+  });
+}	
+
 function initMap() {
     var latlng = new google.maps.LatLng(38.384157, -98.278920);
     var myOptions = {
@@ -896,18 +909,49 @@ function initMap() {
     var map = new google.maps.Map(document.getElementById("new_map"),
             myOptions);
 					<?php
+
 					$k = 1;		
 						foreach ($loads as $load3 => $row3) {
+							if($row3['status'] == 'Delivered'){}else{
 							?>
 					var infowindow<?php echo $k; ?> = new google.maps.InfoWindow({
 					  content:'<p class="tag-map"><?php echo $row3['driver_full_name']; ?></p>',
 					  maxWidth: 300
 					  });
+					  <?php
+						 $ch = curl_init('http://leanstaffing.com/testserver2/drivers/'.$row3['driver_phone'].'.png');    
+							curl_setopt($ch, CURLOPT_NOBODY, true);
+							curl_exec($ch);
+							$code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+						
+							if($code == 200){
+							   $status = true;
+							}else{
+							  $status = false;
+							}
+							curl_close($ch);
+						 if($status == false){
+						?>
+						var image_driver = new google.maps.MarkerImage('http://leanstaffing.com/testserver/map-marker-driver.png',null,null,null,new google.maps.Size(94,48));	 
+						<?php
+							 }else{
+					  ?>
+						var image_driver = new google.maps.MarkerImage(
+								'http://leanstaffing.com/testserver2/drivers/<?php echo $row3['driver_phone']; ?>.png',
+								null, /* size is determined at runtime */
+								null, /* origin is 0,0 */
+								null, /* anchor is bottom center of the scaled image */
+								new google.maps.Size(122, 76)
+							); 
+						<?php
+							 }
+						?>
+					
 				 var marker<?php echo $k; ?> = new google.maps.Marker({
 						//            icon: 'map-marker-driver.png',
 						position: new google.maps.LatLng(<?php echo $row3['driver_latitud']; ?>, <?php echo $row3['driver_longitud']; ?>),
 						map: map,
-						icon: 'http://leanstaffing.com/testserver/map-marker-driver.png',
+						icon: image_driver,
 						title: '<?php echo $row3['driver_full_name']; ?>'
 					});
 
@@ -919,11 +963,13 @@ function initMap() {
                           infowindow<?php echo $k; ?>.open(map, marker<?php echo $k; ?>, html);
 					  });
 			<?php
-				 $k++;}
+				 $k++;
+							}
+				 }
 					?>
 
 }
 //google.maps.event.addDomListener(window, "load", initialize);
 
 </script>
-<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?signed_in=true&callback=initMap"></script>
+<script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?signed_in=true&callback=initMap"></script>
