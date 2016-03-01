@@ -53,7 +53,7 @@
         </div>
         <div id="driver_map" class="accordion">
             <div class="accordion-section active">
-                   <a class="accordion-section-title" href="#">DRIVERS MAP <div style="float: right;"><span style="float:right"></span></div></a>
+                   <a class="accordion-section-title" href="#">LOADS MAP <div style="float: right;"><span style="float:right"></span></div></a>
             </div>
        </div>
        <script>
@@ -64,7 +64,17 @@
 		<div id="new_map">
           Here goes the map
         </div>
-        <div class="table-responsive" style="margin-top:40px;">
+       <div id="load_list_header" class="accordion" style="margin-top:40px;">
+            <div class="accordion-section active">
+                   <a class="accordion-section-title" href="#">LIST OF LOADS <div style="float: right;"><span style="float:right"></span></div></a>
+            </div>
+       </div>
+       <script>
+       	$('#load_list_header').click(function(){
+		    $('#load_list_div').slideToggle();
+		   });
+	   </script>
+        <div id="load_list_div" class="table-responsive" style="margin-top:0px;">
             <table id="list_load" class="table table-hover table-bordered table-striped">
                 <thead>
                     <tr style="background-color: #EBEBEB">
@@ -470,7 +480,7 @@
         padding:15px;
         display:inline-block;
         border-bottom:1px solid #1a1a1a;
-        background:#626262;
+        background:#ed1a3b;
         transition:all linear 0.15s;
         /* Type */
         font-size:1.200em;
@@ -479,7 +489,7 @@
     }
 
     .accordion-section-title.active, .accordion-section-title:hover {
-        background:#4c4c4c;
+        background:#B11029;
         /* Type */
         text-decoration:none;
     }
@@ -958,7 +968,7 @@ function initMap() {
 					//infowindow<?php echo $k; ?>.open(map,marker<?php echo $k; ?>);
 					 
 					 google.maps.event.addListener(marker<?php echo $k; ?>, 'click', function() {
-						 var html = "<p class='tag-map'><b><?php echo $row3['driver_full_name']; ?></b> <br/>ts_driver<?php echo $row3['driver_phone']; ?><br/><a class='view' data-id='<?php echo $row3['idts_load']; ?>'> View </a></p>";
+						 var html = "<p class='tag-map'><b><?php echo $row3['driver_full_name']; ?></b> <br/>Phone :<?php echo $row3['driver_phone']; ?><br/><a class='view' data-id='<?php echo $row3['idts_load']; ?>'> View Load </a></p>";
                           infowindow<?php echo $k; ?>.setContent(html);
                           infowindow<?php echo $k; ?>.open(map, marker<?php echo $k; ?>, html);
 					  });
