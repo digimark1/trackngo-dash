@@ -64,24 +64,15 @@
 	   </script>			
 	   
 	   <?php
+/*	   			$m = 0;
+				foreach ($callchecks_all as $callcheck => $row8[$m]) {
+					   foreach ($row8[$m] as $callcheck1 => $row9[$m]) {
+                            echo '<div>'.$row9[$m]['comment'].'</div>';
+					    }
+						$m++;
+					}
 			echo '<div>echo</div>';
-			echo '<div>';
-			$z = 0;
-                foreach ($loads2 as $load6 => $row6) {
-                    if($row6['status'] == 'Delivered'){}else{
-                            //$loadsall;
-                            $loadsall[$z] = $row6['idts_load'];
-							//echo '<p>'.$row6['idts_load'].'</p>';
-							$z++;
-                    }
-                }
-                foreach ($loadsall as $idload) {
-							echo '<p>'.$idload.'</p>';
-                            //array_push($loadsall);
-                }
-			echo '<p>'.count($loadsall).'</p>';
-			echo '</div>';
-				
+			echo '<div>'.$loadsall1.'</div>';*/
              ?>
 		<div id="new_map">
           Here goes the map
