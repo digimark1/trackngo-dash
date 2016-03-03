@@ -73,6 +73,7 @@
 					}
 			echo '<div>echo</div>';
 			echo '<div>'.$loadsall1.'</div>';*/
+			
              ?>
 		<div id="new_map">
           Here goes the map
@@ -525,6 +526,12 @@
 
 
 <script>
+
+$(document).ready(function(e) {
+    setTimeout(function(){
+		//alert('A test when the document is ready');
+		},1000);
+});
     var ck_load = [];
     $('[data-toggle=popover]').popover({
         trigger: "click",

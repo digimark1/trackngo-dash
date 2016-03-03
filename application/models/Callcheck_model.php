@@ -76,31 +76,14 @@ class callcheck_model extends CRUD_model {
         $this->db->join('ts_load', 'ts_load.idts_load = ts_callcheck.ts_load_idts_load');
         $this->db->join('user', 'user.iduser = ts_callcheck.user_iduser');
         $this->db->join('ts_driver', 'ts_driver.idts_driver = ts_load.ts_driver_idts_driver');
-
         /**
          * @uses $q = $this->db->get('user'); Muestra todos los usuarios
          * @uses element Description
          */
-        if (is_numeric($id)) {
-            $q = $this->db->where($this->_primary_key, $id);
-        }
-
-        if (is_array($id)) {
-            foreach ($id as $key => $value) {
-                $this->db->where($key, $value);
-            }
-        }
-
-        if ($date) {
-            $this->db->where('date >', $date);
-        }
-
+		foreach ($id as $key => $value) {
+			$this->db->where($key, $value);
+		}
         $this->db->order_by('date', 'asc');
-
-
-//        if($limit && $start) {
-//            $this->db->limit($limit, $start);
-//        }
 
         $q = $this->db->get();
         return $q->result_array();
