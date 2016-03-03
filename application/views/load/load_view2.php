@@ -62,7 +62,7 @@
 		   $('#new_map').slideToggle();
 		   });
 	   </script>			
-	   
+	   <div id="test"></div>
 	   <?php
 /*	   			$m = 0;
 				foreach ($callchecks_all as $callcheck => $row8[$m]) {
@@ -528,8 +528,46 @@
 <script>
 
 $(document).ready(function(e) {
+	var load_list = [];
+	var y = 0;
+	<?php
+	  foreach($loadsall as $loadsall){
+		  ?>
+		  load_list[y] = <? echo $loadsall?>;
+		  y++;
+		  <?php
+		  }
+	 ?>
+	 for (cc = 0; cc<load_list.length;cc++){
+	  $('#test').append('<p>'+load_list[cc]+'</p>');
+	 }
     setTimeout(function(){
-		//alert('A test when the document is ready');
+            var url = '<?php echo site_url('load/get_chat_home/') ?>';
+            var postData = {
+                date: $('#last_date').val()
+            };
+            $.post(url, postData, function (o) {
+                var output = '';
+                var name = '';
+                for (var i = 0; i < o.length; i++) {
+                    var msg = o[i];
+                    if (msg.driver_sw == 0) {
+                        var ms_style = '#FFFFFF';
+                        name = msg.user_login;
+                    } else {
+                        var ms_style = '#D8D8D8';
+                        name = msg.driver_name + ' ' + msg.driver_last_name;
+                    }
+
+                    var date = msg.date.split(' ');
+                    var ymd = date[0].split('-');
+                    output += '<tr style="background-color:' + ms_style + '"><td style="text-align: center; width:100px">' + ymd[1] + '/' + ymd[2] + '/' + ymd[0] + '</td><td style="text-align: center; width:100px">' + date[1] + '</td><td style="text-align: center;">' + msg.city + '</td><td style="text-align: center;">' + msg.state + '</td><td style="text-align: center; width:239px"><div class="notes" style="float:left">' + msg.comment + '</div><a class="set-callcheck" data-note="' + msg.comment + '" hidefocus="true" style="outline: medium none;margin: 0px 5px;" data-toggle="modal" data-target="#callcheckViewModal">view</a></td><td style="text-align: center;">' + name + '</td></tr>';
+                }
+                $('#callcheck_table tbody').html('');
+                $('#callcheck_table tbody').append(output);
+                var chat = $('#chat_load');
+                chat.scrollTop();
+            }, 'json');
 		},1000);
 });
     var ck_load = [];

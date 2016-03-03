@@ -81,7 +81,7 @@ class load extends MY_Controller {
 //        $this->output->set_output(json_encode($data['loads']));
 //        return false;
    //----Getting loads-----//
-           /* $z = 0;
+            $z = 0;
 			//$loadsall[];
                 foreach ($data['loads2'] as $load6 => $row6) {
                     if($row6['status'] == 'Delivered'){}else{
@@ -89,10 +89,11 @@ class load extends MY_Controller {
 							$z++;
                     }
                 }
-				$data['loadsall1'] = count($loadsall);
+				//$data['loadsall1'] = count($loadsall);
+				$data['loadsall'] = $loadsall;
 	//---------------------//
-		$data['callchecks2'] = 'Did I get it?';
-        $data['callchecks_all'] = $this->get_chat_home($loadsall);*/
+		//$data['callchecks2'] = 'Did I get it?';
+        //$data['callchecks_all'] = $this->get_chat_home($loadsall);
 		
         $config['num_rows'] = count($data['loads']);
 
@@ -367,11 +368,11 @@ class load extends MY_Controller {
         return $result;
     }
 	
-	public function get_chat_home($id, $sw = null) {
+	public function get_chat_home() {
 		$i = 0;
 		foreach($id as $idx){
 			 $this->load->model('callcheck_model');
-           $result[$i] = $this->callcheck_model->get_chat(['ts_load_idts_load' => $idx]);
+           $result[$i] = $this->callcheck_model->get_chat_all(['ts_load_idts_load' => $idx]);
 		   $i++;
 		}
         if ($sw) {
