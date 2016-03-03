@@ -76,7 +76,7 @@ class load extends MY_Controller {
 
         $data['loads'] = $this->get_load_view('x', 0, 1, 'date_created', 'desc', $config['per_page'], $this->uri->segment(3));
 //      all loads with no page limit //
-//		$data['loads2'] = $this->get_load_view_all('x', 0, 1, 'date_created', 'desc', $this->uri->segment(1));
+		$data['loads2'] = $this->get_load_view_all('x', 0, 1, 'date_created', 'desc', $this->uri->segment(1));
 //        print_r($data['loads']);
 //        $this->output->set_output(json_encode($data['loads']));
 //        return false;
