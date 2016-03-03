@@ -717,12 +717,22 @@
             },
             dataType: "json",
             success: function (o) {
-                var address = o.results[0].formatted_address;
-                var lat = o.results[0].geometry.location.lat;
-                var lng = o.results[0].geometry.location.lng;
-                initMap2(o.trace, lat, lng);
-                $('#driver_loc').html(address);
-                setTraceTable(o.trace);
+				if(o.status == "ZERO_RESULTS"){
+					   //var address = o.results[0].formatted_address;
+						var lat = 26.13750920;
+						var lng = -80.33406490;
+						var trace =[];
+						initMap2(trace, lat, lng, 0);
+						$('#driver_loc').html('No location available for this driver yet.');
+						//setTraceTable(trace);
+					}else{
+					 var address = o.results[0].formatted_address;
+					 var lat = o.results[0].geometry.location.lat;
+					 var lng = o.results[0].geometry.location.lng;
+					 initMap2(o.trace, lat, lng, 1);
+					 $('#driver_loc').html(address);
+					 setTraceTable(o.trace);
+				}
             }
 
         });
@@ -857,7 +867,7 @@ if ($count >= 1) {
         google.maps.event.trigger(map, "resize");
     }
 
-    function initMap2(trace, lat, lng) {
+    function initMap2(trace, lat, lng, zero) {
         console.log('latitud: ' + lat);
 		if (trace.length >= 1){
 				var lat = trace[0].lat;
@@ -888,6 +898,7 @@ if ($count >= 1) {
             }
         } else {
             var url = 'http://leanstaffing.com/testserver/map-marker-driver.png';
+			if(zero == 0){}else{
             var marker = new google.maps.Marker({
                 //            icon: 'map-marker-driver.png',
                 position: new google.maps.LatLng(lat, lng),
@@ -895,6 +906,7 @@ if ($count >= 1) {
                 icon: url,
                 title: 'Current Position'
             })
+			}
         }
         google.maps.event.trigger(map, "resize");
     }

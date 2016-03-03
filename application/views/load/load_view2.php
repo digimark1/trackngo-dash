@@ -1,3 +1,4 @@
+
 <div>
     <div id="dashboard-main">
 <!--        <form id="create_note" class="form-horizontal" method="post" action="<?= site_url('api/create_note') ?>">
@@ -60,7 +61,28 @@
 	   $('#driver_map').click(function(){
 		   $('#new_map').slideToggle();
 		   });
-	   </script>
+	   </script>			
+	   
+	   <?php
+			echo '<div>echo</div>';
+			echo '<div>';
+			$z = 0;
+                foreach ($loads2 as $load6 => $row6) {
+                    if($row6['status'] == 'Delivered'){}else{
+                            //$loadsall;
+                            $loadsall[$z] = $row6['idts_load'];
+							//echo '<p>'.$row6['idts_load'].'</p>';
+							$z++;
+                    }
+                }
+                foreach ($loadsall as $idload) {
+							echo '<p>'.$idload.'</p>';
+                            //array_push($loadsall);
+                }
+			echo '<p>'.count($loadsall).'</p>';
+			echo '</div>';
+				
+             ?>
 		<div id="new_map">
           Here goes the map
         </div>
@@ -109,7 +131,12 @@
                         echo '<td>' . $date_formated . ' ' . $date[1] . '</td>';
                         echo '<td>' . $row['carrier_name'] . '</td>';
                         echo '<td>' . $row['driver_name'] . ' ' . $row['driver_last_name'] . '</td>';
+						//Condition: Start Location.
+						if(($row['driver_latitud']==0)&&($row['driver_longitud']==0)){
+							echo '<td style="width: 250px;">No location available for this driver yet.<span class="map_view" style="cursor:pointer"  data-toggle="modal" data-target="#destinationAddressModal" data-driver_lat="' . $row['driver_latitud'] . '" data-driver_lng="' . $row['driver_longitud'] . '" id="view_destination"><strong></strong></span></td>';
+							}else{
                         echo '<td style="width: 250px;">' . $driver_address[0] . '<br>' . $driver_address[1] . ' <span class="map_view" style="cursor:pointer"  data-toggle="modal" data-target="#destinationAddressModal" data-driver_lat="' . $row['driver_latitud'] . '" data-driver_lng="' . $row['driver_longitud'] . '" id="view_destination"><strong>[map]</strong></span></td>';
+						}
                         echo '<td class="status color"   style="font-weight: 800;color: #666;">' . $row['status'] . '</td>';
                         echo in_array('load/update2', $roles) || in_array('load/trash', $roles) || in_array('load/load_details', $roles) || in_array('load/tender', $roles)  ? '<td>' : '';
 //                        echo in_array('load/update2', $roles) ? '<a class="edit" data-id="' . $row['idts_load'] . '" href="' . site_url('load/update2/' . $row['idts_load']) . '"> Edit </a>' : '';                       
@@ -921,8 +948,9 @@ function initMap() {
 					<?php
 
 					$k = 1;		
-						foreach ($loads as $load3 => $row3) {
+						foreach ($loads2 as $load3 => $row3) {
 							if($row3['status'] == 'Delivered'){}else{
+								if(($row3['driver_latitud']==0)&&($row3['driver_longitud']==0)){}else{
 							?>
 					var infowindow<?php echo $k; ?> = new google.maps.InfoWindow({
 					  content:'<p class="tag-map"><?php echo $row3['driver_full_name']; ?></p>',
@@ -933,7 +961,6 @@ function initMap() {
 							curl_setopt($ch, CURLOPT_NOBODY, true);
 							curl_exec($ch);
 							$code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-						
 							if($code == 200){
 							   $status = true;
 							}else{
@@ -975,6 +1002,7 @@ function initMap() {
 			<?php
 				 $k++;
 							}
+						}
 				 }
 					?>
 

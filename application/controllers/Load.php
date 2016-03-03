@@ -75,6 +75,8 @@ class load extends MY_Controller {
         $data['total_loads'] = $config['total_rows'];
 
         $data['loads'] = $this->get_load_view('x', 0, 1, 'date_created', 'desc', $config['per_page'], $this->uri->segment(3));
+//      all loads with no page limit //
+		$data['loads2'] = $this->get_load_view_all('x', 0, 1, 'date_created', 'desc', $this->uri->segment(3));
 //        print_r($data['loads']);
 //        $this->output->set_output(json_encode($data['loads']));
 //        return false;
@@ -1733,8 +1735,12 @@ class load extends MY_Controller {
 //            $result[$i]['items'] = $this->get_items_by_load_id($result[$i]['idts_load']);
                 $result[$i]['status'] = $this->load_status($result[$i]['idts_load'], $result[$i]['tender']);
                 if ($result[$i]['driver_latitud'] && $result[$i]['driver_longitud']) {
+					if (($result[$i]['driver_latitud']==0)&& ($result[$i]['driver_longitud']==0)){
+						$result[$i]['driver_address'] = 'No location available for this driver yet.';
+						}else{
                     $driver_address = json_decode($this->get_driver_address($result[$i]['driver_latitud'], $result[$i]['driver_longitud']));
                     $result[$i]['driver_address'] = $driver_address->results[0]->formatted_address;
+					}
                 } else {
                     $result[$i]['driver_address'] = 'Driver has not log in the app.';
                 }
@@ -1743,6 +1749,77 @@ class load extends MY_Controller {
             }
         }
 
+        if ($json) {
+            $this->output->set_output(json_encode($result));
+            return false;
+        }
+        return $result;
+    }
+//---------
+// Get all the load id's
+//---------
+	public function get_load_view_all($where = null, $json = null, $sw = null, $order_by = null, $order = null, $start = null, $total = null){
+        $this->_required_login();
+        $this->load->model('item_model');
+
+        // check if request comes from this controller
+        $user_id = 0;
+        $user = $this->get_session_user_data();
+        if ($this->input->post('user_id')) {
+            $user_id = $this->input->post('user_id');
+        } else {
+            $user_id = $user['user_id'];
+        }
+
+        // Check if where and make it array
+        if (!$where) {
+            $where = [];
+            $customer = $this->input->post('search_customer');
+            $carrier = $this->input->post('search_carrier');
+            $load_number = $this->input->post('search_load_number');
+
+            if ($carrier != 0)
+                $where['ts_load.ts_carrier_idts_carrier'] = $carrier;
+
+            if ($load_number != '') {
+                $where['load_number'] = $load_number;
+                $where['ts_driver.full_name'] = $load_number;
+                $where['ts_carrier.name'] = $load_number;
+            }
+        }
+//        print_r($where);
+        //check if user can see brother's loads
+        if ($user['brother']) {
+            // get childs of the current user
+            $childs = $this->recursive($user['parent']);
+            //add current user to the array
+            array_push($childs, $user_id);
+        } else {
+            // get childs of the current user
+            $childs = $this->recursive($user_id);
+            //add current user to the array
+            array_push($childs, $user_id);
+        }
+
+        $result = $this->load_model->get_load_view_all($where, $childs, $sw, $order_by, $order, $start);
+       
+            for ($i = 0; $i < count($result); $i++) {
+//            $result[$i]['items'] = $this->get_items_by_load_id($result[$i]['idts_load']);
+                $result[$i]['status'] = $this->load_status($result[$i]['idts_load'], $result[$i]['tender']);
+                if ($result[$i]['driver_latitud'] && $result[$i]['driver_longitud']) {
+					if (($result[$i]['driver_latitud']==0)&& ($result[$i]['driver_longitud']==0)){
+						$result[$i]['driver_address'] = 'No location available for this driver yet.';
+						}else{
+                    $driver_address = json_decode($this->get_driver_address($result[$i]['driver_latitud'], $result[$i]['driver_longitud']));
+                    $result[$i]['driver_address'] = $driver_address->results[0]->formatted_address;
+					}
+                } else {
+                    $result[$i]['driver_address'] = 'Driver has not log in the app.';
+                }
+
+                $result[$i]['shipments'] = $this->shipments_by_load($result[$i]['idts_load']);
+			}
+			
         if ($json) {
             $this->output->set_output(json_encode($result));
             return false;

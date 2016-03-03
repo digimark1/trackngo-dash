@@ -403,8 +403,10 @@
             var address = $('#mpk_address').val() + ', ' + $('#mpk_zipcode').val();
             var url_address = address.split(' ').join('+');
 
-            if (addr == '' || zip == '') {
-                $('#pickup_form_error').html('address and/or zipcode can not be empty.');
+            //if (addr == '' || zip == '') {
+			if (addr == '') {
+                //$('#pickup_form_error').html('address and/or zipcode can not be empty.');
+				$('#pickup_form_error').html('address field can not be empty.');
                 $('#pickup_form_error').show();
                 return false;
             }
@@ -471,8 +473,10 @@
             var address = $('.mdp_address_' + id).val() + ', ' + $('#mdp_zipcode').val();
             var url_address = address.split(' ').join('+');
 
-            if (addr == '' || zip == '') {
-                $('#drop_form_error').html('address and/or zipcode can not be empty.');
+            //if (addr == '' || zip == '') {
+			if (addr == '') {
+                //$('#drop_form_error').html('address and/or zipcode can not be empty.');
+				$('#drop_form_error').html('address field can not be empty.');
                 $('#drop_form_error').show();
                 return false;
             }
@@ -543,11 +547,19 @@
             var address = $('#mdp_address').val() + ', ' + $('#mdp_zipcode').val();
             var url_address = address.split(' ').join('+');
 
-            if (addr == '' || zip == '') {
+/*            if (addr == '' || zip == '') {
                 $('#drop_form_error').html('address and/or zipcode can not be empty.');
                 $('#drop_form_error').show();
                 return false;
-            }
+            }*/
+			        //if (addr == '' || zip == '') {
+		if (addr == '') {
+            //$('#pickup_form_error').html('address and/or zipcode can not be empty.');
+			$('#drop_form_error').html('address field can not be empty.');
+            $('#drop_form_error').show();
+            return false;
+        }
+
 
             $.ajax({
                 type: "POST",
@@ -1132,8 +1144,10 @@
         var address = $('#mpk_address').val() + ', ' + $('#mpk_zipcode').val();
         var url_address = address.split(' ').join('+');
 
-        if (addr == '' || zip == '') {
-            $('#pickup_form_error').html('address and/or zipcode can not be empty.');
+        //if (addr == '' || zip == '') {
+		if (addr == '') {
+            //$('#pickup_form_error').html('address and/or zipcode can not be empty.');
+			$('#pickup_form_error').html('address field can not be empty.');
             $('#pickup_form_error').show();
             return false;
         }
