@@ -63,6 +63,7 @@
 		   });
 	   </script>			
 	   <div id="test"></div>
+       <div id="test2"></div>
 	   <?php
 /*	   			$m = 0;
 				foreach ($callchecks_all as $callcheck => $row8[$m]) {
@@ -542,11 +543,29 @@ $(document).ready(function(e) {
 	  $('#test').append('<p>'+load_list[cc]+'</p>');
 	 }
     setTimeout(function(){
-            var url = '<?php echo site_url('load/get_chat_home/') ?>';
+            /*var url = '<?php echo site_url('load/get_chat_home/') ?>';
             var postData = {
-                date: $('#last_date').val()
-            };
-            $.post(url, postData, function (o) {
+                //date: $('#last_date').val(),
+				id_list:load_list
+            };*/
+			$('#test2').append('Just enter');
+			$.ajax({
+				type:'POST',
+				data:{id_list:JSON.stringify(load_list)},
+				url:'<?php echo site_url('load/get_chat_home/') ?>',
+				success: function(data){
+					 var chat_all = (JSON.stringify(data));
+					 $('#test2').html(chat_all+JSON.stringify(load_list));
+					 //$('#test2').append(JSON.stringify(load_list));
+					},
+				error: function(data){
+					alert('There was an error');
+					}
+				
+				});
+           /* $.post(url, postData, function (o) {
+				alert('Im in');
+				//$('#test2').append('Just enter');
                 var output = '';
                 var name = '';
                 for (var i = 0; i < o.length; i++) {
@@ -559,15 +578,15 @@ $(document).ready(function(e) {
                         name = msg.driver_name + ' ' + msg.driver_last_name;
                     }
 
-                    var date = msg.date.split(' ');
-                    var ymd = date[0].split('-');
-                    output += '<tr style="background-color:' + ms_style + '"><td style="text-align: center; width:100px">' + ymd[1] + '/' + ymd[2] + '/' + ymd[0] + '</td><td style="text-align: center; width:100px">' + date[1] + '</td><td style="text-align: center;">' + msg.city + '</td><td style="text-align: center;">' + msg.state + '</td><td style="text-align: center; width:239px"><div class="notes" style="float:left">' + msg.comment + '</div><a class="set-callcheck" data-note="' + msg.comment + '" hidefocus="true" style="outline: medium none;margin: 0px 5px;" data-toggle="modal" data-target="#callcheckViewModal">view</a></td><td style="text-align: center;">' + name + '</td></tr>';
+                    //var date = msg.date.split(' ');
+                   // var ymd = date[0].split('-');
+                    output += '<p>'+msg.comment+'</p>';
                 }
-                $('#callcheck_table tbody').html('');
-                $('#callcheck_table tbody').append(output);
-                var chat = $('#chat_load');
-                chat.scrollTop();
-            }, 'json');
+                $('#test2').html('');
+                $('#test2').append('Just enter');
+                //var chat = $('#chat_load');
+                //chat.scrollTop();
+            }, 'json');*/
 		},1000);
 });
     var ck_load = [];

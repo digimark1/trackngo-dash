@@ -369,17 +369,19 @@ class load extends MY_Controller {
     }
 	
 	public function get_chat_home() {
-		$i = 0;
-		foreach($id as $idx){
-			 $this->load->model('callcheck_model');
-           $result[$i] = $this->callcheck_model->get_chat_all(['ts_load_idts_load' => $idx]);
-		   $i++;
-		}
-        if ($sw) {
-            $this->output->set_output(json_encode($result));
-            return false;
-        }
-        return $result;
+		$id = $this->input->post('id_list');
+		//$i = 0;
+		//foreach($id as $idx){
+		$this->load->model('callcheck_model');
+        $result = $this->callcheck_model->get_chat_all($id);
+		 //  $i++;
+		//}
+		$sw = null;
+        //if ($sw) {
+        $this->output->set_output(json_encode($result));
+          //  return false;
+        //}
+        //return $result;
     }
 
     public function app_get_chat($id) {

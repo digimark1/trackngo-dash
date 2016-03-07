@@ -60,13 +60,15 @@ class callcheck_model extends CRUD_model {
         return $q->result_array();
     }
 
-    public function get_chat_all($id, $date = null) {
+    public function get_chat_all($id) {
+		$date = null;
         $this->db->select('ts_callcheck.comment AS comment,'
                 . ' ts_callcheck.driver AS driver_sw ,'
                 . ' ts_callcheck.notify_driver AS notify_driver ,'
                 . ' ts_callcheck.city AS city ,'
                 . ' ts_callcheck.state AS state ,'
                 . ' ts_callcheck.country AS country ,'
+				. ' ts_callcheck.idts_callcheck ,'
                 . ' ts_driver.name AS driver_name,'
                 . ' ts_driver.last_name AS driver_last_name,'
                 . ' user.name AS user_name,'
@@ -80,10 +82,17 @@ class callcheck_model extends CRUD_model {
          * @uses $q = $this->db->get('user'); Muestra todos los usuarios
          * @uses element Description
          */
-		foreach ($id as $key => $value) {
+		/*foreach ($id as $key => $value) {
 			$this->db->where($key, $value);
-		}
-        $this->db->order_by('date', 'asc');
+		}*/
+		//$id = '[103,102,101,100,99,98,97,96,95,92,88]';
+		$id2 = (array)json_decode($id);
+		//foreach ($id2 as $value) {
+		 //  $this->db->where_in('ts_load_idts_load', array('103','102','101','100','99','98','97','96','95','92','88'));
+		 $this->db->where_in('ts_load_idts_load', $id2);
+		//}
+		 //$this->db->where('date >', $date);
+        $this->db->order_by('date', 'desc');
 
         $q = $this->db->get();
         return $q->result_array();
