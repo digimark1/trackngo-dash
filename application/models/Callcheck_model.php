@@ -69,6 +69,7 @@ class callcheck_model extends CRUD_model {
                 . ' ts_callcheck.state AS state ,'
                 . ' ts_callcheck.country AS country ,'
 				. ' ts_callcheck.idts_callcheck ,'
+				. ' ts_callcheck.ts_load_idts_load ,'
                 . ' ts_driver.name AS driver_name,'
                 . ' ts_driver.last_name AS driver_last_name,'
                 . ' user.name AS user_name,'

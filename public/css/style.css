@@ -292,4 +292,34 @@ select, input[type="file"] {
 .pagination > li > a, .pagination > li > span{
     color: #ED1A3B;
 }
+#notification-wrapper{
+	  position: fixed;
+	  bottom: 0;
+	  width: 100%;
+	  z-index: 1;
+	}
+#notifications{
+	float:right;
+	color: white;
+	background: #0070FF;
+	line-height: 2;
+	
+	text-align: center;
+	font-size: 21px;
+	text-shadow: 0 1px 0 #84BAFF;
+	box-shadow: 0 0 15px #00214B;
+	float:right;
+}
+#notification_content{
+   width:260px;
+   
+}
 
+#notification_content div{
+    background-color: #C1D9FF;
+    color: black;
+    font-size: 13px;
+    margin-left: 5px;
+    margin-right: 5px;
+    margin-top: 5px;
+} 

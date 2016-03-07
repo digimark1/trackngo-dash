@@ -357,6 +357,7 @@
     </ul>
 </div>
 
+
 <style>
     .popover{
         left: 272px !important;
@@ -522,7 +523,9 @@
     .accordion-section-content {
         padding:15px;
         /*display:none;*/
-    }    
+    }
+	
+
 </style>
 
 
@@ -540,54 +543,51 @@ $(document).ready(function(e) {
 		  }
 	 ?>
 	 for (cc = 0; cc<load_list.length;cc++){
-	  $('#test').append('<p>'+load_list[cc]+'</p>');
+	  //$('#test').append('<p>'+load_list[cc]+'</p>');
 	 }
-    setTimeout(function(){
+    setInterval(function(){
             /*var url = '<?php echo site_url('load/get_chat_home/') ?>';
             var postData = {
                 //date: $('#last_date').val(),
 				id_list:load_list
             };*/
-			$('#test2').append('Just enter');
+			//$('#test2').append('Just enter');
 			$.ajax({
 				type:'POST',
+				dataType:'json',
 				data:{id_list:JSON.stringify(load_list)},
 				url:'<?php echo site_url('load/get_chat_home/') ?>',
 				success: function(data){
 					 var chat_all = (JSON.stringify(data));
-					 $('#test2').html(chat_all+JSON.stringify(load_list));
+					 //$('#test2').html(chat_all+JSON.stringify(load_list));
 					 //$('#test2').append(JSON.stringify(load_list));
+					 //$('#test').append('--'+data[0].city+'--');
+							if (localStorage.last_callcheck) {
+								if(parseFloat(data[0].idts_callcheck) == parseFloat(localStorage.last_callcheck)){
+									 //$('#test').append('nothing new');
+									}else{
+							$('#notification_content').append('<div>*** New message ***--'+data[0].comment+'--'+parseInt(localStorage.last_callcheck)+'--<a class="" href="<?php echo base_url() ?>load/load_details/'+data[0].ts_load_idts_load+'#callchecks"> View </a></div>');
+							$('#notification_content').css('margin-bottom','5px');
+										var audio = new Audio('<?php echo base_url() ?>public/css/sound.mp3');
+										audio.play();
+												$('#notification_content div').click(function(){
+													$(this).remove();
+												});
+										};
+							} else {
+								localStorage.last_callcheck = data[0].idts_callcheck;
+							}
+							//-----
+							localStorage.last_callcheck = data[0].idts_callcheck;
 					},
 				error: function(data){
-					alert('There was an error');
+					//alert('There was an error');
 					}
 				
 				});
-           /* $.post(url, postData, function (o) {
-				alert('Im in');
-				//$('#test2').append('Just enter');
-                var output = '';
-                var name = '';
-                for (var i = 0; i < o.length; i++) {
-                    var msg = o[i];
-                    if (msg.driver_sw == 0) {
-                        var ms_style = '#FFFFFF';
-                        name = msg.user_login;
-                    } else {
-                        var ms_style = '#D8D8D8';
-                        name = msg.driver_name + ' ' + msg.driver_last_name;
-                    }
+		},10000);
+		
 
-                    //var date = msg.date.split(' ');
-                   // var ymd = date[0].split('-');
-                    output += '<p>'+msg.comment+'</p>';
-                }
-                $('#test2').html('');
-                $('#test2').append('Just enter');
-                //var chat = $('#chat_load');
-                //chat.scrollTop();
-            }, 'json');*/
-		},1000);
 });
     var ck_load = [];
     $('[data-toggle=popover]').popover({

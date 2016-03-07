@@ -86,10 +86,6 @@
             }
 
         </script>
-
-
-
-
         <script>
             $(function () {
                 // Init the class name Application

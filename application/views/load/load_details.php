@@ -47,9 +47,9 @@
             <div class="row">
                 <div class="tabs_framed styled">
                     <ul class="tabs clearfix tab_id2 bookmarks3 active_bookmark1">
-                        <li class="first active"><a href="#about" data-toggle="tab" hidefocus="true" style="outline: none;">SHIPMENTS</a></li>
+                        <li id="shipments_bar" class="first active"><a href="#about" data-toggle="tab" hidefocus="true" style="outline: none;">SHIPMENTS</a></li>
                         <li><a id="createmap" href="#mapdrive" data-toggle="tab" hidefocus="true" style="outline: none;">DRIVER</a></li>
-                        <li><a id="createmap" href="#callcheck_tab" data-toggle="tab" hidefocus="true" style="outline: none;">CALLCHECKS</a></li>
+                        <li id="callchecks_bar"><a id="createmap" href="#callcheck_tab" data-toggle="tab" hidefocus="true" style="outline: none;">CALLCHECKS</a></li>
                     </ul>
 
                     <div class="tab-content boxed clearfix">
@@ -628,6 +628,7 @@
 
 <!----------------------- Map, Distance , Time ------------------------------->
 <script>
+
     var trace_number = 20;
     $('.get_position').popover();
     $('body').on('click', '.get_position', function (evt) {
@@ -1015,6 +1016,21 @@ if ($count >= 1) {
 
     $(function () {
 
+		//---------
+			//$(document).ready(function(e) {
+				//alert('test');
+				 if (window.location.hash){
+				  var hash = window.location.hash.substring(1);
+				  if (hash == "callchecks"){
+					 //alert('Coming from notification');
+					 $('#shipments_bar').removeClass('active');
+					 $('#about').removeClass('active in');
+					 $('#callchecks_bar').addClass('active');
+					 $('#callcheck_tab').addClass('active in');
+					}
+				 }
+				//};
+			//--------
 		
         $('.lc-row-wrapper').on('scroll', function () {
             console.log('Top: ' + $(this).scrollTop() + ', Height: ' + $(this).innerHeight() + ', scroll: ' + $(this)[0].scrollHeight);
@@ -1211,6 +1227,8 @@ if ($count >= 1) {
             if (evt.keyCode == 13) {
                 if ($('input[name="sw_not_driver"]:checked').length > 0) {
                     sendPushNot();
+					$('textarea#styled_message').val('');
+					$('textarea#styled_message').focus();
                 } else {
                     saveNotinDB();
                 }
