@@ -566,7 +566,7 @@ $(document).ready(function(e) {
 								if(parseFloat(data[0].idts_callcheck) == parseFloat(localStorage.last_callcheck)){
 									 //$('#test').append('nothing new');
 									}else{
-							$('#notification_content').append('<div>*** New message ***--'+data[0].comment+'--'+parseInt(localStorage.last_callcheck)+'--<a class="" href="<?php echo base_url() ?>load/load_details/'+data[0].ts_load_idts_load+'#callchecks"> View </a></div>');
+							$('#notification_content').append('<div>New message Load #'+data[0].comment+'--'+parseInt(localStorage.last_callcheck)+'--<a class="" href="<?php echo base_url() ?>load/load_details/'+data[0].ts_load_idts_load+'#callchecks"> View </a></div>');
 							$('#notification_content').css('margin-bottom','5px');
 										var audio = new Audio('<?php echo base_url() ?>public/css/sound.mp3');
 										audio.play();

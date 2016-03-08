@@ -71,6 +71,7 @@ class callcheck_model extends CRUD_model {
 				. ' ts_callcheck.idts_callcheck ,'
 				. ' ts_callcheck.ts_load_idts_load ,'
                 . ' ts_driver.name AS driver_name,'
+				. ' ts_load.load_number AS load_number,'
                 . ' ts_driver.last_name AS driver_last_name,'
                 . ' user.name AS user_name,'
                 . ' user.login AS user_login,'

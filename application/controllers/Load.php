@@ -1717,7 +1717,7 @@ class load extends MY_Controller {
      */
     public function get_load_view($where = null, $json = null, $sw = null, $order_by = null, $order = null, $limit = null, $start = null, $total = null) {
         $this->_required_login();
-        $this->load->model('item_model');
+        //$this->load->model('item_model');
 
         // check if request comes from this controller
         $user_id = 0;
@@ -1789,7 +1789,7 @@ class load extends MY_Controller {
 //---------
 	public function get_load_view_all($where = null, $json = null, $sw = null, $order_by = null, $order = null, $start = null, $total = null){
         $this->_required_login();
-        $this->load->model('item_model');
+        //$this->load->model('item_model');
 
         // check if request comes from this controller
         $user_id = 0;
@@ -1801,7 +1801,7 @@ class load extends MY_Controller {
         }
 
         // Check if where and make it array
-        if (!$where) {
+/*        if (!$where) {
             $where = [];
             $customer = $this->input->post('search_customer');
             $carrier = $this->input->post('search_carrier');
@@ -1815,7 +1815,7 @@ class load extends MY_Controller {
                 $where['ts_driver.full_name'] = $load_number;
                 $where['ts_carrier.name'] = $load_number;
             }
-        }
+        }*/
 //        print_r($where);
         //check if user can see brother's loads
         if ($user['brother']) {
@@ -1835,18 +1835,18 @@ class load extends MY_Controller {
             for ($i = 0; $i < count($result); $i++) {
 //            $result[$i]['items'] = $this->get_items_by_load_id($result[$i]['idts_load']);
                 $result[$i]['status'] = $this->load_status($result[$i]['idts_load'], $result[$i]['tender']);
-                if ($result[$i]['driver_latitud'] && $result[$i]['driver_longitud']) {
+              /*  if ($result[$i]['driver_latitud'] && $result[$i]['driver_longitud']) {
 					if (($result[$i]['driver_latitud']==0)&& ($result[$i]['driver_longitud']==0)){
 						$result[$i]['driver_address'] = 'No location available for this driver yet.';
 						}else{
-                    $driver_address = json_decode($this->get_driver_address($result[$i]['driver_latitud'], $result[$i]['driver_longitud']));
-                    $result[$i]['driver_address'] = $driver_address->results[0]->formatted_address;
+                    //$driver_address = json_decode($this->get_driver_address($result[$i]['driver_latitud'], $result[$i]['driver_longitud']));
+                    //$result[$i]['driver_address'] = $driver_address->results[0]->formatted_address;
 					}
                 } else {
-                    $result[$i]['driver_address'] = 'Driver has not log in the app.';
-                }
+                    $result[$i]['driver_address'] = 'Driver has not logged in the app.';
+                }*/
 
-                $result[$i]['shipments'] = $this->shipments_by_load($result[$i]['idts_load']);
+               // $result[$i]['shipments'] = $this->shipments_by_load($result[$i]['idts_load']);
 			}
 			
         if ($json) {
@@ -1980,7 +1980,7 @@ class load extends MY_Controller {
      * @param type $id
      */
     public function app_get_load_view($id = null, $sw = null) {
-        $this->load->model('item_model');
+        //$this->load->model('item_model');
 
         header('Access-Control-Allow-Origin: *');
         if ($id != null) {
