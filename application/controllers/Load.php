@@ -82,7 +82,7 @@ class load extends MY_Controller {
 //        return false;
    //----Getting loads-----//
             $z = 0;
-			//$loadsall[];
+			//$loadsall = 0;
                 foreach ($data['loads2'] as $load6 => $row6) {
                     if($row6['status'] == 'Delivered'){}else{
                             $loadsall[$z] = $row6['idts_load'];
@@ -90,7 +90,11 @@ class load extends MY_Controller {
                     }
                 }
 				//$data['loadsall1'] = count($loadsall);
-				$data['loadsall'] = $loadsall;
+				//if($loadsall == 0){
+				//   $data['loadsall'] = 0;
+				//}else{
+				   $data['loadsall'] = $loadsall;
+				//}
 	//---------------------//
 		//$data['callchecks2'] = 'Did I get it?';
         //$data['callchecks_all'] = $this->get_chat_home($loadsall);
@@ -1717,7 +1721,7 @@ class load extends MY_Controller {
      */
     public function get_load_view($where = null, $json = null, $sw = null, $order_by = null, $order = null, $limit = null, $start = null, $total = null) {
         $this->_required_login();
-        //$this->load->model('item_model');
+        $this->load->model('item_model');
 
         // check if request comes from this controller
         $user_id = 0;
@@ -1789,7 +1793,7 @@ class load extends MY_Controller {
 //---------
 	public function get_load_view_all($where = null, $json = null, $sw = null, $order_by = null, $order = null, $start = null, $total = null){
         $this->_required_login();
-        //$this->load->model('item_model');
+        $this->load->model('item_model');
 
         // check if request comes from this controller
         $user_id = 0;

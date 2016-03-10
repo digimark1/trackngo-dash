@@ -566,7 +566,7 @@ $(document).ready(function(e) {
 								if(parseFloat(data[0].idts_callcheck) == parseFloat(localStorage.last_callcheck)){
 									 //$('#test').append('nothing new');
 									}else{
-							$('#notification_content').append('<div>New message Load #'+data[0].comment+'--'+parseInt(localStorage.last_callcheck)+'--<a class="" href="<?php echo base_url() ?>load/load_details/'+data[0].ts_load_idts_load+'#callchecks"> View </a></div>');
+							$('#notification_content').append('<div><p class="title_notification">New message Load #'+data[0].load_number+'</p><p>'+data[0].comment+'</p><p><a class="" href="<?php echo base_url() ?>load/load_details/'+data[0].ts_load_idts_load+'#callchecks"> View </a></p></div>');
 							$('#notification_content').css('margin-bottom','5px');
 										var audio = new Audio('<?php echo base_url() ?>public/css/sound.mp3');
 										audio.play();
@@ -585,7 +585,7 @@ $(document).ready(function(e) {
 					}
 				
 				});
-		},10000);
+		},5000);
 		
 
 });
@@ -1012,7 +1012,7 @@ function initMap() {
 					  maxWidth: 300
 					  });
 					  <?php
-						 $ch = curl_init('http://leanstaffing.com/testserver2/drivers/'.$row3['driver_phone'].'.png');    
+						 $ch = curl_init(base_url().'public/css/icons/'.$row3['driver_phone'].'_Unloaded.gif');    
 							curl_setopt($ch, CURLOPT_NOBODY, true);
 							curl_exec($ch);
 							$code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
@@ -1027,15 +1027,30 @@ function initMap() {
 						var image_driver = new google.maps.MarkerImage('http://leanstaffing.com/testserver/map-marker-driver.png',null,null,null,new google.maps.Size(94,48));	 
 						<?php
 							 }else{
+								 if($row3['status']=='To Pickup'){
 					  ?>
-						var image_driver = new google.maps.MarkerImage(
-								'http://leanstaffing.com/testserver2/drivers/<?php echo $row3['driver_phone']; ?>.png',
+						      var image_driver = new google.maps.MarkerImage(
+								/*'http://leanstaffing.com/testserver/map-marker-driver.png',*/
+						        '<?php echo base_url() ?>public/css/icons/<?php echo $row3['driver_phone']; ?>_Unloaded.gif',
+								null, /* size is determined at runtime */
+								null, /* origin is 0,0 */
+								null, /* anchor is bottom center of the scaled image */
+								new google.maps.Size(122, 76)
+							); 
+					<?php
+						}
+						    if($row3['status']=='In transit'){
+							?>
+								var image_driver = new google.maps.MarkerImage(
+							    /*'http://leanstaffing.com/testserver/map-marker-driver.png',*/
+								'<?php echo base_url() ?>public/css/icons/<?php echo $row3['driver_phone']; ?>_Loaded.gif',
 								null, /* size is determined at runtime */
 								null, /* origin is 0,0 */
 								null, /* anchor is bottom center of the scaled image */
 								new google.maps.Size(122, 76)
 							); 
 						<?php
+							 }
 							 }
 						?>
 					

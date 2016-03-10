@@ -301,9 +301,8 @@ select, input[type="file"] {
 #notifications{
 	float:right;
 	color: white;
-	background: #0070FF;
+	background: #ed1a3b;
 	line-height: 2;
-	
 	text-align: center;
 	font-size: 21px;
 	text-shadow: 0 1px 0 #84BAFF;
@@ -316,10 +315,25 @@ select, input[type="file"] {
 }
 
 #notification_content div{
-    background-color: #C1D9FF;
+    background-color: #ffffff;
     color: black;
     font-size: 13px;
     margin-left: 5px;
     margin-right: 5px;
     margin-top: 5px;
+}
+#notification_content .title_notification{
+    line-height: 21px;
+    margin-bottom: 0px;
+    color: #ed1a3b;
+    text-align: left;
+    margin-left: 5px;
+}
+#notification_content p{
+    line-height: 21px;
+    margin-bottom: 0px;
+    color: #000000;
+    text-align: left;
+    margin-left: 5px;
 } 
+
