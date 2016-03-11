@@ -347,7 +347,7 @@
 </div>
 
 <!-- Hidden content -->
-<!--<div style="background-image:url(../../../public/css/driver_notification.png)"></div>-->
+
 <div id="popover_content" style="display: none">
     <ul>
         <li><a data-id="4" class="editLink" title="Edit this Load" href=""><i class="icon-pencil"></i> Edit</a></li>
@@ -566,31 +566,14 @@ $(document).ready(function(e) {
 								if(parseFloat(data[0].idts_callcheck) == parseFloat(localStorage.last_callcheck)){
 									 //$('#test').append('nothing new');
 									}else{
-										if($('#notification_content').html()==''){
-											$('#notification_background').show();
-							$('#notification_content').prepend('<div><div class="driver_image_not"><img src="<?php echo base_url() ?>public/css/driver_notification.png" class="image_driver_size"/></div><div class="driver_message_not"><p class="title_notification">New message Load #'+data[0].load_number+'</p><p>'+data[0].comment+'</p><p><a class="" href="<?php echo base_url() ?>load/load_details/'+data[0].ts_load_idts_load+'#callchecks"> View </a></p></div></div>');
-							//$('#notification_content').css('margin-bottom','0px');
+							$('#notification_content').append('<div><p class="title_notification">New message Load #'+data[0].load_number+'</p><p>'+data[0].comment+'</p><p><a class="" href="<?php echo base_url() ?>load/load_details/'+data[0].ts_load_idts_load+'#callchecks"> View </a></p></div>');
+							$('#notification_content').css('margin-bottom','5px');
 										var audio = new Audio('<?php echo base_url() ?>public/css/sound.mp3');
 										audio.play();
 												$('#notification_content div').click(function(){
 													$(this).remove();
-													if($('#notification_content').html()==''){
-													     $('#notification_background').hide();
-													};
 												});
-										}else{
-											$('#notification_content').prepend('<div><div class="driver_image_not"><img src="<?php echo base_url() ?>public/css/driver_notification_box.png" class="image_driver_size"/></div><div class="driver_message_not"><p class="title_notification">New message Load #'+data[0].load_number+'</p><p>'+data[0].comment+'</p><p><a class="" href="<?php echo base_url() ?>load/load_details/'+data[0].ts_load_idts_load+'#callchecks"> View </a></p></div></div>');
-							//$('#notification_content').css('margin-bottom','0px');
-										var audio = new Audio('<?php echo base_url() ?>public/css/sound.mp3');
-										audio.play();
-												$('#notification_content div').click(function(){
-													$(this).remove();
-													if($('#notification_content').html()==''){
-													     $('#notification_background').hide();
-													}
-												});
-											};
-									}
+										};
 							} else {
 								localStorage.last_callcheck = data[0].idts_callcheck;
 							}
@@ -1044,15 +1027,11 @@ function initMap() {
 						var image_driver = new google.maps.MarkerImage('http://leanstaffing.com/testserver/map-marker-driver.png',null,null,null,new google.maps.Size(94,48));	 
 						<?php
 							 }else{
-								 
+								 if($row3['status']=='To Pickup'){
 					  ?>
 						      var image_driver = new google.maps.MarkerImage(
 								/*'http://leanstaffing.com/testserver/map-marker-driver.png',*/
-								<?php if($row3['status']=='To Pickup'){ ?>
-						           '<?php echo base_url() ?>public/css/icons/<?php echo $row3['driver_phone']; ?>_Unloaded.gif',
-								<?php    } if($row3['status']=='In transit'){?>
-								   '<?php echo base_url() ?>public/css/icons/<?php echo $row3['driver_phone']; ?>_Loaded.gif',
-								<?php } ?>
+						        '<?php echo base_url() ?>public/css/icons/<?php echo $row3['driver_phone']; ?>_Unloaded.gif',
 								null, /* size is determined at runtime */
 								null, /* origin is 0,0 */
 								null, /* anchor is bottom center of the scaled image */
@@ -1060,6 +1039,19 @@ function initMap() {
 							); 
 					<?php
 						}
+						    if($row3['status']=='In transit'){
+							?>
+								var image_driver = new google.maps.MarkerImage(
+							    /*'http://leanstaffing.com/testserver/map-marker-driver.png',*/
+								'<?php echo base_url() ?>public/css/icons/<?php echo $row3['driver_phone']; ?>_Loaded.gif',
+								null, /* size is determined at runtime */
+								null, /* origin is 0,0 */
+								null, /* anchor is bottom center of the scaled image */
+								new google.maps.Size(122, 76)
+							); 
+						<?php
+							 }
+							 }
 						?>
 					
 				 var marker<?php echo $k; ?> = new google.maps.Marker({
@@ -1077,22 +1069,6 @@ function initMap() {
                           infowindow<?php echo $k; ?>.setContent(html);
                           infowindow<?php echo $k; ?>.open(map, marker<?php echo $k; ?>, html);
 					  });
-					  
-					/*  google.maps.event.addListener(map, 'zoom_changed', function() {
-						    var zoom = map.getZoom();
-							if(zoom >= 10){
-								alert(zoom);
-								marker<?php echo $k; ?>.setIcon(
-										new google.maps.Marker(
-											marker<?php echo $k; ?>.getIcon().url, //marker's same icon graphic
-											null,//size
-											null,//origin
-											null, //anchor
-											new google.maps.Size(76, 76) //changes the scale
-										)
-									)
-								}
-						  });*/
 			<?php
 				 $k++;
 							}

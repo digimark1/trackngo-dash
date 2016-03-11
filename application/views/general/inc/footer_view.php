@@ -11,6 +11,7 @@
 </div>
 <div id="notification-wrapper">
       <div id="notifications">
+      <div id="notification_background" hidden><div><img src="<?php echo base_url() ?>public/css/driver_notification.png" class="image_driver_size"/></div></div>
         <div id="notification_content"></div>
       </div>
      </div>

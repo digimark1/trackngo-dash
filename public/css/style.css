@@ -299,28 +299,56 @@ select, input[type="file"] {
 	  z-index: 1;
 	}
 #notifications{
-	float:right;
-	color: white;
-	background: #ed1a3b;
-	line-height: 2;
-	text-align: center;
-	font-size: 21px;
-	text-shadow: 0 1px 0 #84BAFF;
-	box-shadow: 0 0 15px #00214B;
-	float:right;
+    float: right;
+    color: white;
+    /* background: #ed1a3b; */
+    line-height: 2;
+    text-align: center;
+    font-size: 21px;
+    text-shadow: 0 1px 0 #84BAFF;
+    /* box-shadow: 0 0 15px #00214B; */
+    float: right;
+    /* margin-left: 49px; */
+    padding-left: -1px;
 }
 #notification_content{
-   width:260px;
-   
+    margin-bottom: -2px;
+    width:400px;
+    /*background-image: url("http://leanstaffing.com/trackngotest/public/css/driver_notification.png");
+    background-size: 400px 120px;*/
+	position: relative;
+	z-index: 2;
+	right:0;
 }
-
-#notification_content div{
-    background-color: #ffffff;
+#notification_background{
+	margin-bottom: 0px;
+    width:400px;
+    position: absolute;
+	right:0;
+	bottom:0;
+}
+#notification_background div{
+	bottom: 0;
+    /* background-color: #ffffff; */
     color: black;
     font-size: 13px;
     margin-left: 5px;
     margin-right: 5px;
-    margin-top: 5px;
+    margin-top: -2px;
+    margin-left: -54px;
+    height: 120px;
+}
+
+#notification_content div{
+	
+    /* background-color: #ffffff; */
+    color: black;
+    font-size: 13px;
+    margin-left: 5px;
+    margin-right: 5px;
+    margin-top: -2px;
+    margin-left: 131px;
+    height: 120px;
 }
 #notification_content .title_notification{
     line-height: 21px;
@@ -330,10 +358,31 @@ select, input[type="file"] {
     margin-left: 5px;
 }
 #notification_content p{
-    line-height: 21px;
+    line-height: 18px;
     margin-bottom: 0px;
     color: #000000;
     text-align: left;
     margin-left: 5px;
-} 
+}
+
+.driver_image_not {
+	width: 448px;
+	height: 100%;
+	position: absolute;
+	right: 0;
+}
+.driver_message_not {
+    width: 400px;
+	height: 100%;
+	position: absolute;
+	right: 0;
+	padding-left: 141px;
+	padding-top:15px;
+     z-index: 3;
+	 padding-top: 8px;
+	}
+.image_driver_size{
+	width:400px;
+	height:120px
+	}
 
