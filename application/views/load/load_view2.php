@@ -1027,11 +1027,15 @@ function initMap() {
 						var image_driver = new google.maps.MarkerImage('http://leanstaffing.com/testserver/map-marker-driver.png',null,null,null,new google.maps.Size(94,48));	 
 						<?php
 							 }else{
-								 if($row3['status']=='To Pickup'){
+								 
 					  ?>
 						      var image_driver = new google.maps.MarkerImage(
 								/*'http://leanstaffing.com/testserver/map-marker-driver.png',*/
-						        '<?php echo base_url() ?>public/css/icons/<?php echo $row3['driver_phone']; ?>_Unloaded.gif',
+								<?php if($row3['status']=='To Pickup'){ ?>
+						           '<?php echo base_url() ?>public/css/icons/<?php echo $row3['driver_phone']; ?>_Unloaded.gif',
+								<?php    } if($row3['status']=='In transit'){?>
+								   '<?php echo base_url() ?>public/css/icons/<?php echo $row3['driver_phone']; ?>_Loaded.gif',
+								<?php } ?>
 								null, /* size is determined at runtime */
 								null, /* origin is 0,0 */
 								null, /* anchor is bottom center of the scaled image */
@@ -1039,19 +1043,6 @@ function initMap() {
 							); 
 					<?php
 						}
-						    if($row3['status']=='In transit'){
-							?>
-								var image_driver = new google.maps.MarkerImage(
-							    /*'http://leanstaffing.com/testserver/map-marker-driver.png',*/
-								'<?php echo base_url() ?>public/css/icons/<?php echo $row3['driver_phone']; ?>_Loaded.gif',
-								null, /* size is determined at runtime */
-								null, /* origin is 0,0 */
-								null, /* anchor is bottom center of the scaled image */
-								new google.maps.Size(122, 76)
-							); 
-						<?php
-							 }
-							 }
 						?>
 					
 				 var marker<?php echo $k; ?> = new google.maps.Marker({
@@ -1069,6 +1060,22 @@ function initMap() {
                           infowindow<?php echo $k; ?>.setContent(html);
                           infowindow<?php echo $k; ?>.open(map, marker<?php echo $k; ?>, html);
 					  });
+					  
+					  google.maps.event.addListener(map, 'zoom_changed', function() {
+						    var zoom = map.getZoom();
+							if(zoom >= 10){
+								alert(zoom);
+								marker<?php echo $k; ?>.setIcon(
+										new google.maps.Marker(
+											marker<?php echo $k; ?>.getIcon().url, //marker's same icon graphic
+											null,//size
+											null,//origin
+											null, //anchor
+											new google.maps.Size(76, 76) //changes the scale
+										)
+									)
+								}
+						  });
 			<?php
 				 $k++;
 							}
