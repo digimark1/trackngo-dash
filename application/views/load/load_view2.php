@@ -63,15 +63,20 @@
 		   });
 	   </script>			
 	   <div id="test"></div>
-       <div id="test2"></div>
+       <div id="test2">
 	   <?php
+	    $_SESSION['chatusername'] = $user_name;
+        $_SESSION['username'] = $user_id;
                     $i = 1;
                     foreach ($driver_list as $driver => $drvr) {
-						if($i<=10)
-                        echo '<p>' . $drvr['driver_name'] . ' ' . $drvr['driver_last_name'] . '</p>';
+						if($i<=10){
+                        echo '<p><a onclick="javascript:chatWith(' .("'".$drvr['idts_driver']."'") . ',' .("'".$drvr['driver_name']."'") . ')">' . $drvr['driver_name'] . ' ' . $drvr['driver_last_name'] . '</a></p>';
 						$i++;
+						}
                     }
+					echo '<p>'.$user_id.'</p>';
          ?>
+         </div>
 		<div id="new_map">
           Here goes the map
         </div>
@@ -528,6 +533,11 @@
 <script>
 
 $(document).ready(function(e) {
+	// Chat session//
+	
+
+
+	//---------------//
 	var load_list = [];
 	var y = 0;
 	<?php

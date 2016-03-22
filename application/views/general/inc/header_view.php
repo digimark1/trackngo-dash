@@ -19,8 +19,15 @@
         <link rel="stylesheet" href="<?php echo base_url() ?>public/css/css/video-js.css">
         <link rel="stylesheet" href="<?php echo base_url() ?>public/css/css/style.css">            
         <link rel="stylesheet" href="<?php echo base_url() ?>public/css/style.css">
-
+        
+        <!--chat script and styles -->
+        <link type="text/css" rel="stylesheet" media="all" href="<?php echo base_url() ?>css/chat/chat.css" />
+        <link type="text/css" rel="stylesheet" media="all" href="<?php echo base_url() ?>css/chat/screen.css" />
+        <!--<script type="text/javascript" src="<?php echo base_url() ?>js/chat/jquery.js"></script>-->
         <script src="<?php echo base_url() ?>public/third-party/js/jquery.js"></script>
+         <!-- -->
+		<script type="text/javascript" src="<?php echo base_url() ?>js/chat/chat.js"></script>
+         <!-- -->
         <script src="<?php echo base_url() ?>public/third-party/js/bootstrap.js"></script>
         <script src="<?php echo base_url() ?>public/third-party/js/jquery.datetimepicker.js"></script>
         <script src="<?php echo base_url() ?>public/third-party/js/jquery.ajaxfileupload.js"></script>

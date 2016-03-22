@@ -73,6 +73,10 @@ class load extends MY_Controller {
         $data['customers'] = $this->customer_model->get();
         $data['drivers'] = $this->driver_model->get();
         $data['total_loads'] = $config['total_rows'];
+		//userid
+		$data['user_id'] = $this->session->userdata('user_id');
+		//username
+		$data['user_name'] = $this->session->userdata('name');
 
         $data['loads'] = $this->get_load_view('x', 0, 1, 'date_created', 'desc', $config['per_page'], $this->uri->segment(3));
 //      all loads with no page limit //

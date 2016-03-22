@@ -20,6 +20,7 @@ class driver_model extends CRUD_model {
                 . ' ts_driver.name AS driver_name,'
                 . ' ts_driver.last_name AS driver_last_name,'
                 . ' ts_driver.phone AS driver_phone,'
+				. ' ts_driver.idts_driver AS idts_driver,'
                 . ' ts_driver.email AS driver_email,'
                 );
         $this->db->from($this->_table);
