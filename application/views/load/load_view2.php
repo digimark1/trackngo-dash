@@ -65,17 +65,13 @@
 	   <div id="test"></div>
        <div id="test2"></div>
 	   <?php
-/*	   			$m = 0;
-				foreach ($callchecks_all as $callcheck => $row8[$m]) {
-					   foreach ($row8[$m] as $callcheck1 => $row9[$m]) {
-                            echo '<div>'.$row9[$m]['comment'].'</div>';
-					    }
-						$m++;
-					}
-			echo '<div>echo</div>';
-			echo '<div>'.$loadsall1.'</div>';*/
-			
-             ?>
+                    $i = 1;
+                    foreach ($driver_list as $driver => $drvr) {
+						if($i<=10)
+                        echo '<p>' . $drvr['driver_name'] . ' ' . $drvr['driver_last_name'] . '</p>';
+						$i++;
+                    }
+         ?>
 		<div id="new_map">
           Here goes the map
         </div>
@@ -782,7 +778,20 @@ $(document).ready(function(e) {
             $('#tender_load_number').val(load.data('load_number'));
             $('#driver_id').val(load.data('driver_id'));
             $('#email').val(load.data('email'));
-            $('#tender_iframe').attr('src', '<?php echo VIEW_FILE_PATH ?>' + load.data('bol_url'));
+			$.ajax({
+					url:'<?php echo VIEW_FILE_PATH ?>' + load.data('bol_url')+'',
+					async:false,
+					type:'HEAD',
+					error: function()
+					{
+						//alert('No document');
+						//$('#tender_iframe').html('No document here')
+					},
+					success: function()
+					{
+						$('#tender_iframe').attr('src', '<?php echo VIEW_FILE_PATH ?>' + load.data('bol_url'));
+					}
+				});
         });
 
         //tender push not, set in callcheck and send email
