@@ -1,4 +1,5 @@
 .chatbox {
+	z-index: 5;
 	position: fixed;
 	position:expression("absolute");
 	width: 225px;
@@ -6,12 +7,20 @@
 }
 
 .chatboxhead {
-	background-color: #00a0de;
+	background-color: #ed1a3b;
 	padding:7px;
 	color: #ffffff;
 
-	border-right:1px solid #00a0de;
-	border-left:1px solid #00a0de;
+	border-right:1px solid #ed1a3b;
+	border-left:1px solid #ed1a3b;
+}
+
+.chatboxhead_load {
+    background-color: #ed1a3b;
+    padding: 7px;
+    color: #ffffff;
+    border-right: 1px solid #ed1a3b;
+    border-left: 1px solid #ed1a3b;
 }
 
 .chatboxblink {
@@ -25,7 +34,7 @@
 	font-size: 13px;
 	color: #333333;
 	height:200px;
-	width:209px;
+	width:225px;
 	overflow-y:auto;
 	overflow-x:auto;
 	padding:7px;

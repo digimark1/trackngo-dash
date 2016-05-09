@@ -65,8 +65,8 @@
 	   <div id="test"></div>
        <div id="test2">
 	   <?php
-	    $_SESSION['chatusername'] = $user_name;
-        $_SESSION['username'] = $user_id;
+	    /*$_SESSION['chatusername'] = $user_name;
+        $_SESSION['username'] = $user_id;*/
                     $i = 1;
                     foreach ($driver_list as $driver => $drvr) {
 						if($i<=10){
@@ -74,7 +74,8 @@
 						$i++;
 						}
                     }
-					echo '<p>'.$user_id.'</p>';
+					//echo '<p>'.$_SESSION['username'].'</p>';
+					//echo '<p>'.$_SESSION['chatusername'].'</p>';
          ?>
          </div>
 		<div id="new_map">
@@ -532,7 +533,9 @@
 
 <script>
 
-$(document).ready(function(e) {
+
+$(window).load(function(e) {
+	//function temporary_not() {
 	// Chat session//
 	
 
@@ -610,7 +613,7 @@ $(document).ready(function(e) {
 				});
 		},5000);
 		
-
+//	};
 });
     var ck_load = [];
     $('[data-toggle=popover]').popover({
@@ -1082,36 +1085,18 @@ function initMap() {
 						?>
 					
 				 var marker<?php echo $k; ?> = new google.maps.Marker({
-						//            icon: 'map-marker-driver.png',
-						position: new google.maps.LatLng(<?php echo $row3['driver_latitud']; ?>, <?php echo $row3['driver_longitud']; ?>),
+					    position: new google.maps.LatLng(<?php echo $row3['driver_latitud']; ?>, <?php echo $row3['driver_longitud']; ?>),
 						map: map,
 						icon: image_driver,
 						title: '<?php echo $row3['driver_full_name']; ?>'
 					});
-
-					//infowindow<?php echo $k; ?>.open(map,marker<?php echo $k; ?>);
-					 
 					 google.maps.event.addListener(marker<?php echo $k; ?>, 'click', function() {
 						 var html = "<p class='tag-map'><b><?php echo $row3['driver_full_name']; ?></b> <br/>Phone :<?php echo $row3['driver_phone']; ?><br/><a class='view' data-id='<?php echo $row3['idts_load']; ?>'> View Load </a></p>";
                           infowindow<?php echo $k; ?>.setContent(html);
                           infowindow<?php echo $k; ?>.open(map, marker<?php echo $k; ?>, html);
 					  });
 					  
-					/*  google.maps.event.addListener(map, 'zoom_changed', function() {
-						    var zoom = map.getZoom();
-							if(zoom >= 10){
-								alert(zoom);
-								marker<?php echo $k; ?>.setIcon(
-										new google.maps.Marker(
-											marker<?php echo $k; ?>.getIcon().url, //marker's same icon graphic
-											null,//size
-											null,//origin
-											null, //anchor
-											new google.maps.Size(76, 76) //changes the scale
-										)
-									)
-								}
-						  });*/
+	
 			<?php
 				 $k++;
 							}
@@ -1120,7 +1105,6 @@ function initMap() {
 					?>
 
 }
-//google.maps.event.addDomListener(window, "load", initialize);
 
 </script>
 <script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?signed_in=true&callback=initMap"></script>

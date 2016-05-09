@@ -2031,12 +2031,13 @@ class load extends MY_Controller {
      * @param type $id
      */
     public function app_get_load_by_driver($id_driver, $sw = null) {
-        //$this->load->model('item_model');
+        $this->load->model('item_model');
 
         header('Access-Control-Allow-Origin: *');
-		$id_driver = (string)$id_driver;
-		//$id_driver = '3';
-        $result = $this->load_model->get_load_view_app(['ts_driver_idts_driver' => $id_driver], 0, 1, 'date_created', 'desc');
+
+        $result = $this->load_model->get_load_view([
+            'ts_driver_idts_driver' => $id_driver
+                ], 0, 1, 'date_created', 'desc');
 //        if ($result)
 //            $result[0]['items'] = $this->get_items_by_load_id($result[0]['idts_load']);
         if (!$sw) {

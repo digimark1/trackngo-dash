@@ -4,7 +4,7 @@
         <title><?php echo ucfirst($class) ?> - Track'n Go</title>
 
         <link rel="stylesheet" href="<?php echo base_url() ?>public/css/css/bootstrap.css"> 
-        <link rel="stylesheet" href="<?php echo base_url() ?>public/third-party/css/bootstrap.min.css">
+        <!--<link rel="stylesheet" href="<?php echo base_url() ?>public/third-party/css/bootstrap.min.css">-->
         <link rel="stylesheet" href="<?php echo base_url() ?>public/third-party/css/font-awesome/css/font-awesome.min.css">
 
         <link rel="stylesheet" type="text/css" href="<?php echo base_url() ?>public/third-party/css/jquery.datetimepicker.css"/>
@@ -24,7 +24,7 @@
         <link type="text/css" rel="stylesheet" media="all" href="<?php echo base_url() ?>css/chat/chat.css" />
         <link type="text/css" rel="stylesheet" media="all" href="<?php echo base_url() ?>css/chat/screen.css" />
         <!--<script type="text/javascript" src="<?php echo base_url() ?>js/chat/jquery.js"></script>-->
-        <script src="<?php echo base_url() ?>public/third-party/js/jquery.js"></script>
+         <script src="<?php echo base_url() ?>public/third-party/js/jquery.js"></script>
          <!-- -->
 		<script type="text/javascript" src="<?php echo base_url() ?>js/chat/chat.js"></script>
          <!-- -->
@@ -33,7 +33,6 @@
         <script src="<?php echo base_url() ?>public/third-party/js/jquery.ajaxfileupload.js"></script>
         <script src="<?php echo base_url() ?>public/third-party/js/bootbox.min.js"></script>
         <script src="<?php echo base_url() ?>public/third-party/js/jquery.form.js"></script>
-        <!--<script type = "text/javascript" src = "//cdnjs.cloudflare.com/ajax/libs/jquery.form/3.51/jquery.form.js"></script>-->
         <script src="<?php echo base_url() ?>public/js/<?php echo $class ?>/result.js"></script>
         <script src="<?php echo base_url() ?>public/js/<?php echo $class ?>/event.js"></script>
         <script src="<?php echo base_url() ?>public/js/<?php echo $class ?>/template.js"></script>
@@ -41,8 +40,8 @@
 
         <!-- HEADER STYLE -->
 
-        <script language="JavaScript1.2" type="text/javascript">
-
+        <!--<script language="JavaScript1.2" type="text/javascript">-->
+		<script>
             function MM_findObj(n, d) { //v4.01
                 var p, i, x;
                 if (!d)

@@ -190,6 +190,8 @@ class user extends MY_Controller {
             $this->session->set_userdata(['parent' => $result[0]['user_iduser']]);
             $roles = $this->get_roles($result[0]['iduser']);
             $this->session->set_userdata(['roles' => $roles]);
+			$_SESSION['chatusername'] = $result[0]['name'];
+            $_SESSION['username'] = $result[0]['iduser'];
 
             $this->output->set_output(json_encode(['result' => 1]));
             return false;

@@ -143,8 +143,15 @@ class ci_chat{
 		$query = $this->ci->db->get('chat');
 		$items = '';
 		$chatBoxes = array();
+		$counter = 0;
 		foreach ($query->result_array() as $chat) {
 			# code...
+			$counter++;
+		}
+		$count_last = 0;
+		foreach ($query->result_array() as $chat) {
+			# code...
+			$count_last++;
 			$chat['message'] = $this->sanitize($chat['message']);
 
 			$d = array();
@@ -152,7 +159,11 @@ class ci_chat{
 			$d['f'] = "$chat[from]";
 			$d['fname'] = "$chat[from_name]";
 			$d['m'] = "$chat[message]";
-			$items.=json_encode( $d ).',';
+			if($count_last == $counter){
+			    $items.=json_encode( $d );
+			}else{
+				$items.=json_encode( $d ).',';
+			}
 		}
 		header('Content-type: application/json');
 	?>
@@ -260,7 +271,7 @@ class ci_chat{
 			}
 		}
 	}
-        $link = mysqli_connect("localhost", "root", "root", "chat_db");
+        $link = mysqli_connect("localhost", "lss_trackngo", "uai^T*L;F}t0", "lss_trackngo_test");
 		$sql = "update chat set recd = 1 where chat.to = '".mysqli_real_escape_string($link,$_SESSION['username'])."' and recd = 0";
 		$query = mysqli_query($link,$sql);
 

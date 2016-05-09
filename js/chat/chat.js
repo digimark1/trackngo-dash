@@ -152,22 +152,27 @@ function createChatBox(chatboxtitle,chatuserName, minimizeChatBox) {
 	$("#chatbox_"+chatboxtitle).show();
 	itemsfound = 0;
 	//call
+	//alert('history'+chatboxtitle);
 	$.ajax({
-	  url: "chat?action=chathistory",
-	  cache: false,
+	   type: 'GET',
+	  dataType: 'json',
+	  //cache: false,
 	  data: 'to='+chatboxtitle,
-	  dataType: "json",
+	  url: 'http://leanstaffing.com/trackngotest/chat?action=chathistory',
 	  success: function(data) {
-
+        // alert('inside history');
 		$.each(data.items, function(i,item){
 			if (item)	{ // fix strange ie bug
 				if (item.s == 1) {
 					item.f = from_username;
+					//alert('item1');
 				}
 				if (item.s == 2) {
 					$("#chatbox_"+chatboxtitle+" .chatboxcontent").append('<div class="chatboxmessage"><span class="chatboxinfo">'+item.m+'</span></div>');
+					//alert('item22');
 				} else {
 					$("#chatbox_"+chatboxtitle+" .chatboxcontent").append('<div class="chatboxmessage"><span class="chatboxmessagefrom">'+ getTitle( item.fname )+':&nbsp;&nbsp;</span><span class="chatboxmessagecontent">'+item.m+'</span></div>');
+					//alert(getTitle( item.fname )+'-'+item.fname);
 				}
 
 				$("#chatbox_"+chatboxtitle+" .chatboxcontent").scrollTop($("#chatbox_"+chatboxtitle+" .chatboxcontent")[0].scrollHeight);
@@ -175,7 +180,10 @@ function createChatBox(chatboxtitle,chatuserName, minimizeChatBox) {
 			}
 		});
 	
-	}});
+	},
+				error: function(data){
+					alert('There was an error');
+					}});
 
 }
 
@@ -339,7 +347,7 @@ function checkChatBoxInputKey(event,chatboxtextarea,chatboxtitle, boxUserName) {
 		}
 		chatHeartbeatTime = minChatHeartbeat;
 		chatHeartbeatCount = 1;
-
+		//alert(from_username+''+getTitle(from_username))
 		return false;
 	}
 
@@ -364,12 +372,12 @@ function startChatSession(){
 	  cache: false,
 	  dataType: "json",
 	  success: function(data) {
- 
+       //alert('1');
 		username = data.username;
 		from_username = data.from_username;
 		$.each(data.items, function(i,item){
 			if (item)	{ // fix strange ie bug
-
+			//alert('2');
 				chatboxtitle = item.f;
 				chatuserName = item.fname;
 				if ($("#chatbox_"+chatboxtitle).length <= 0) {
@@ -377,10 +385,11 @@ function startChatSession(){
 				}
 				
 				if (item.s == 1) {
+					//alert('3');
 					item.f = from_username;
 					item.fname = from_username;
 				}
-
+				
 				if (item.s == 2) {
 					$("#chatbox_"+chatboxtitle+" .chatboxcontent").append('<div class="chatboxmessage"><span class="chatboxinfo">'+item.m+'</span></div>');
 				} else {
@@ -388,13 +397,13 @@ function startChatSession(){
 				}
 			}
 		});
-		
+		//alert('4');
 		for (i=0;i<chatBoxes.length;i++) {
 			chatboxtitle = chatBoxes[i];
 			$("#chatbox_"+chatboxtitle+" .chatboxcontent").scrollTop($("#chatbox_"+chatboxtitle+" .chatboxcontent")[0].scrollHeight);
 			setTimeout('$("#chatbox_"+chatboxtitle+" .chatboxcontent").scrollTop($("#chatbox_"+chatboxtitle+" .chatboxcontent")[0].scrollHeight);', 100); // yet another strange ie bug
 		}
-	
+	//alert('5');
 	setTimeout('chatHeartbeat();',chatHeartbeatTime);
 		
 	}});
