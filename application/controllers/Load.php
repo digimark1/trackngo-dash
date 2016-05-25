@@ -14,8 +14,8 @@ class load extends MY_Controller {
 
     public function __construct() {
         parent::__construct();
-        @session_start();
         $this->load->model('load_model');
+        $this->load->model('location_request_model');
         $roles = $this->session->userdata('roles');
         $i = 0;
         if ($roles) {
@@ -40,8 +40,7 @@ class load extends MY_Controller {
 
         $this->load->library('pagination');
         $this->load->library('table');
-        $_SESSION['chatusername'] = $_SESSION['chatusername'];
-        $_SESSION['username'] = $_SESSION['username'];
+
         //pagination
         $config['base_url'] = site_url('load/index');
         $config['per_page'] = 5;
@@ -75,47 +74,41 @@ class load extends MY_Controller {
         $data['customers'] = $this->customer_model->get();
         $data['drivers'] = $this->driver_model->get();
         $data['total_loads'] = $config['total_rows'];
-        //userid
-        $data['user_id'] = $this->session->userdata('user_id');
-        //username
-        $data['user_name'] = $this->session->userdata('name');
 
         $data['loads'] = $this->get_load_view('x', 0, 1, 'date_created', 'desc', $config['per_page'], $this->uri->segment(3));
 //      all loads with no page limit //
-        $data['loads2'] = $this->get_load_view_all('x', 0, 1, 'date_created', 'desc', $this->uri->segment(1));
-
-        $data['driver_list'] = $this->driver_model->get_driver(['ts_driver.status' => 1]);
+		$data['loads2'] = $this->get_load_view_all('x', 0, 1, 'date_created', 'desc', $this->uri->segment(1));
 //        print_r($data['loads']);
 //        $this->output->set_output(json_encode($data['loads']));
 //        return false;
-        //----Getting loads-----//
+   //----Getting loads-----//
         $z = 0;
-        //$loadsall = 0;
+	//$loadsall = 0;
         foreach ($data['loads2'] as $load6 => $row6) {
-            if ($row6['status'] == 'Delivered') {
-                
-            } else {
+            if($row6['status'] == 'Delivered'){}else{
                 $loadsall[$z] = $row6['idts_load'];
                 $z++;
             }
         }
         //$data['loadsall1'] = count($loadsall);
         //if($loadsall == 0){
-           //$data['loadsall'] = 0;
-        //}
+        //   $data['loadsall'] = 0;
+        //}else{
+	$zero ='';
+	$data['loadsall'] = ((isset($loadsall))?$loadsall:$zero);
+	//}
+        //
+	//---------------------//
+		//$data['callchecks2'] = 'Did I get it?';
+        //$data['callchecks_all'] = $this->get_chat_home($loadsall);
+		
+        $config['num_rows'] = count($data['loads']);
         
         if (isset($loadsall)){
             $data['loadsall'] = $loadsall;
         } else {
             $data['loadsall'] = "";
         }
-        
-        //}
-        //---------------------//
-        //$data['callchecks2'] = 'Did I get it?';
-        //$data['callchecks_all'] = $this->get_chat_home($loadsall);
-
-        $config['num_rows'] = count($data['loads']);
 
         $this->load->view('general/inc/header_view', $data);
         $this->load->view('load/load_view2');
@@ -268,10 +261,10 @@ class load extends MY_Controller {
             $shipments[$i]['documents'] = $this->get_shipment_documents($shipments[$i]['idshipment']);
             if ($shipments[$i]['pickup_address'] == '') {
                 $shipments[$i]['pickup_format_address'] = '';
-            } else {
+            } else{
                 $pickup_format_address = json_decode($this->get_google_address($shipments[$i]['pickup_address'], $shipments[$i]['pickup_zipcode']));
                 $address_array = explode(',', $pickup_format_address->results[0]->formatted_address);
-
+            
                 $formated_adrress = $address_array[0] . ' - ' . $shipments[$i]['pickup_address2'] . ', ' . $address_array[1] . ', ' . $address_array[2] . ', ' . $address_array[3];
                 $shipments[$i]['pickup_format_address'] = $formated_adrress;
             };
@@ -280,8 +273,8 @@ class load extends MY_Controller {
             } else {
                 $drop_format_address = json_decode($this->get_google_address($shipments[$i]['drop_address'], $shipments[$i]['drop_zipcode']));
                 $address_drop_array = explode(',', $drop_format_address->results[0]->formatted_address);
-
-                $formated_drop_adrress = $address_drop_array[0] . ' - ' . $shipments[$i]['drop_address2'] . ', ' . $address_drop_array[1] . ', ' . $address_drop_array[2] . ', ' . $address_drop_array[3];
+                $blank='';
+                $formated_drop_adrress = ((isset($address_drop_array[0])) ? $address_drop_array[0] :$blank) . ' - ' . $shipments[$i]['drop_address2'] . ', ' . ((isset($address_drop_array[1])) ? $address_drop_array[1] :$blank). ', ' .  ((isset($address_drop_array[2])) ? $address_drop_array[2] :$blank) . ', ' . ((isset($address_drop_array[3])) ? $address_drop_array[3] :$blank);
                 $shipments[$i]['drop_format_address'] = $formated_drop_adrress;
             };
         }
@@ -387,23 +380,25 @@ class load extends MY_Controller {
         }
         return $result;
     }
-
+	
     public function get_chat_home() {
         $id = $this->input->post('id_list');
         //$i = 0;
         //foreach($id as $idx){
         $this->load->model('callcheck_model');
         $result = $this->callcheck_model->get_chat_all($id);
-        //  $i++;
-        //}
+        //$i++;
+        //}        
         $sw = null;
+        
         //if ($sw) {
         $this->output->set_output(json_encode($result));
-        //  return false;
+          //  return false;
         //}
         //return $result;
+        //$this->check_read_msg();
     }
-
+    
     public function app_get_chat($id) {
         $this->load->model('callcheck_model');
         $result = $this->callcheck_model->get_chat([
@@ -423,9 +418,21 @@ class load extends MY_Controller {
             $this->output->set_output(json_encode($result));
             return false;
         }
-
         return $result;
     }
+    
+//    public function get_idts_callcheck($note, $sw = null) {
+//        $this->load->model('callcheck_model');
+//        $result = $this->callcheck_model->get_idts([
+//            'ts_load_idts_load' => $id
+//        ]);
+//
+//        if ($sw) {
+//            $this->output->set_output(json_encode($result));
+//            return false;
+//        }
+//        return $result;
+//    }
 
     public function set_driver_msg() {
         $this->load->model('callcheck_model');
@@ -639,6 +646,15 @@ class load extends MY_Controller {
 //        print_r($shipments);
 //        return false;
         if ($load_id) {
+            //insert in request1
+            $request_number = 0;
+            $reset = 0;
+            $request_id = $this->location_request_model->insert([
+                'request_load' => $load_id,
+                'request_number' => $request_number,
+                'reset' => $reset
+            ]);
+            
             //Insert Shipments
             if (count($shipments) > 0) {
                 $path = CONT_FILE_PATH;
@@ -655,11 +671,9 @@ class load extends MY_Controller {
                 if ($this->upload->do_multi_upload("uploadfile", $load_id, $shipments)) {
 
                     $data['upload_data'] = $this->upload->get_multi_upload_data();
-
                     $pdf_pages_number = [];
                     $n = 0;
                     foreach ($data['upload_data'] as $k => $info) {
-
                         $pdf_pages_number[$n] = $info['pages_number'];
                         $n++;
                     }
@@ -673,33 +687,61 @@ class load extends MY_Controller {
                         echo $error;
                     }
                 }
-                
+
                 //**************** Insert Shipments in Database **************************
 
                 for ($i = 0; $i < count($shipments); $i++) {
-                    $shipment_data = array(
-                        'ts_load_idts_load' => $load_id,
-                        'ts_customer_idts_customer' => $shipments[$i]->customer,
-                        'pickup_address' => $shipments[$i]->pickup,
-                        'pickup_address2' => $shipments[$i]->pickup2,
-                        'pickup_number' => $shipments[$i]->pickup_number,
-                        'pickup_zipcode' => $shipments[$i]->pickup_zipcode,
-                        'pickup_lat' => $shipments[$i]->pickup_lat,
-                        'pickup_lng' => $shipments[$i]->pickup_lng,
-                        'pickup_time' => $shipments[$i]->pk_time,
-                        'drop_address' => $shipments[$i]->drop,
-                        'drop_address2' => $shipments[$i]->drop2,
-                        'drop_number' => $shipments[$i]->drop_number,
-                        'drop_zipcode' => $shipments[$i]->drop_zipcode,
-                        'drop_lat' => $shipments[$i]->drop_lat,
-                        'drop_lng' => $shipments[$i]->drop_lng,
-                        'drop_time' => $shipments[$i]->dp_time,
-                        'bol_number' => $shipments[$i]->bol_number,
-                        'pages_number' => isset($pdf_pages_number) ? (is_array($pdf_pages_number) ? $pdf_pages_number[$i] : 0) : 0,
-                        'url_bol' => $load_id . '_bol_' . $shipments[$i]->bol_number . '.pdf',
-                        'date_created' => date("Y-m-d H:i:s")
-                    );
-                    //if(a == 1){}else{};
+//                    $shipment_data = array(
+//                        'ts_load_idts_load' => $load_id,
+//                        'ts_customer_idts_customer' => $shipments[$i]->customer,
+//                        'pickup_address' => $shipments[$i]->pickup,
+//                        'pickup_address2' => $shipments[$i]->pickup2,
+//                        'pickup_number' => $shipments[$i]->pickup_number,
+//                        'pickup_zipcode' => $shipments[$i]->pickup_zipcode,
+//                        'pickup_lat' => $shipments[$i]->pickup_lat,
+//                        'pickup_lng' => $shipments[$i]->pickup_lng,
+//                        'drop_address' => $shipments[$i]->drop,
+//                        'drop_address2' => $shipments[$i]->drop2,
+//                        'drop_number' => $shipments[$i]->drop_number,
+//                        'drop_zipcode' => $shipments[$i]->drop_zipcode,
+//                        'drop_lat' => $shipments[$i]->drop_lat,
+//                        'drop_lng' => $shipments[$i]->drop_lng,
+//                        'bol_number' => $shipments[$i]->bol_number,
+//                        'pages_number' => isset($pdf_pages_number)?(is_array($pdf_pages_number) ? $pdf_pages_number[$i] : 0): 0,
+//                        'url_bol' => $load_id . '_bol_' . $shipments[$i]->bol_number . '.pdf',
+//                        'date_created' => date("Y-m-d H:i:s")
+//                    );
+//                    
+                        $shipment_data = array(
+                            'ts_load_idts_load' => $load_id,
+                            'ts_customer_idts_customer' => $shipments[$i]->customer,
+                            'pickup_address' => $shipments[$i]->pickup,
+                            'pickup_address2' => $shipments[$i]->pickup2,
+                            'pickup_number' => $shipments[$i]->pickup_number,
+                            'pickup_zipcode' => $shipments[$i]->pickup_zipcode,
+                            'pickup_time' => $shipments[$i]->pickup_time,
+                            'company_name' => $shipments[$i]->pickup_company_name,
+                            'reference' => $shipments[$i]->pickup_reference,
+                            'special_instructions' => $shipments[$i]->pickup_instructions,
+                            'pickup_lat' => $shipments[$i]->pickup_lat,
+                            'pickup_lng' => $shipments[$i]->pickup_lng,
+                            'drop_address' => $shipments[$i]->drop,
+                            'drop_address2' => $shipments[$i]->drop2,
+                            'drop_number' => $shipments[$i]->drop_number,
+                            'drop_zipcode' => $shipments[$i]->drop_zipcode,
+                            'drop_time' => $shipments[$i]->drop_time,
+                            'company_name2' => $shipments[$i]->drop_company_name,
+                            'reference2' => $shipments[$i]->drop_reference,
+                            'special_instructions2' => $shipments[$i]->drop_instructions,
+                            'drop_lat' => $shipments[$i]->drop_lat,
+                            'drop_lng' => $shipments[$i]->drop_lng,
+                            'bol_number' => $shipments[$i]->bol_number,
+                            'pages_number' => isset($pdf_pages_number)?(is_array($pdf_pages_number) ? $pdf_pages_number[$i] : 0): 0,
+                            'url_bol' => $load_id . '_bol_' . $shipments[$i]->bol_number . '.pdf',
+                            'date_created' => date("Y-m-d H:i:s")
+                        );
+					//if(a == 1){}else{};
+
                     //insert shipments in database
                     $shp_id = $this->shipment_model->insert($shipment_data);
 
@@ -805,7 +847,6 @@ class load extends MY_Controller {
             $update_query = $field . ' - 1';
         }
 
-
         $this->load->helper('file');
         $result = unlink(CONT_FILE_PATH . $path);
 
@@ -834,7 +875,6 @@ class load extends MY_Controller {
         $this->db->where('bol_number', $bol_number);
         $this->db->set($field, $update_query, FALSE);
         $this->db->update('shipment');
-
 
         if ($json) {
             if ($result) {
@@ -884,7 +924,6 @@ class load extends MY_Controller {
 //        for ($i = 0; $i < count($_FILES["uploadfile"]["name"]); $i++) {
 //            echo $_FILES["uploadfile"]["name"][$i];
 //        }
-
 
         $this->form_validation->set_rules('carrier', 'Carrier', 'required');
         $this->form_validation->set_rules('driver', 'Driver', 'required');
@@ -1253,6 +1292,46 @@ class load extends MY_Controller {
             'ts_customer_idts_customer' => $customer,
             'status' => 1
                 ], $load_array);
+    }
+    
+    function update_status() {
+        $id_ship = $this->input->post('id_ship');
+        $status = $this->input->post('statu');
+        $text_status = $this->input->post('text_status');
+   
+        $this->load->model('shipment_model');
+        
+        if ($text_status == 'Loaded') {
+            $result = $this->shipment_model->update([
+            'origin_sign' => $status,
+            'origin_sign_date' => date("Y-m-d H:i:s")
+            ], $id_ship);
+
+        
+            if ($result) {            
+                $this->output->set_output(json_encode(['result' => 'Pickup']));
+                return false;
+            }
+
+            $this->output->set_output(json_encode(['result' => 0, 'error' => 'Error updating']));
+        }
+        
+        if ($text_status == 'Unloaded') {
+            $result = $this->shipment_model->update([
+            'destination_sign' => $status,
+            'destination_sign_date' => date("Y-m-d H:i:s")
+            ], $id_ship);
+
+        
+            if ($result) {            
+                $this->output->set_output(json_encode(['result' => 'Delivery']));
+                return false;
+            }
+
+            $this->output->set_output(json_encode(['result' => 0, 'error' => 'Error updating']));
+        }
+        
+        $this->output->set_output(json_encode(['result' => 0, 'error' => 'Error updating']));
     }
 
     function pdf_image($load_number) {
@@ -1783,12 +1862,12 @@ class load extends MY_Controller {
 //            $result[$i]['items'] = $this->get_items_by_load_id($result[$i]['idts_load']);
                 $result[$i]['status'] = $this->load_status($result[$i]['idts_load'], $result[$i]['tender']);
                 if ($result[$i]['driver_latitud'] && $result[$i]['driver_longitud']) {
-                    if (($result[$i]['driver_latitud'] == 0) && ($result[$i]['driver_longitud'] == 0)) {
-                        $result[$i]['driver_address'] = 'No location available for this driver yet.';
-                    } else {
-                        $driver_address = json_decode($this->get_driver_address($result[$i]['driver_latitud'], $result[$i]['driver_longitud']));
-                        $result[$i]['driver_address'] = $driver_address->results[0]->formatted_address;
-                    }
+					if (($result[$i]['driver_latitud']==0)&& ($result[$i]['driver_longitud']==0)){
+						$result[$i]['driver_address'] = 'No location available for this driver yet.';
+						}else{
+                    $driver_address = json_decode($this->get_driver_address($result[$i]['driver_latitud'], $result[$i]['driver_longitud']));
+                    $result[$i]['driver_address'] = $driver_address->results[0]->formatted_address;
+					}
                 } else {
                     $result[$i]['driver_address'] = 'Driver has not log in the app.';
                 }
@@ -1803,11 +1882,10 @@ class load extends MY_Controller {
         }
         return $result;
     }
-
 //---------
 // Get all the load id's
 //---------
-    public function get_load_view_all($where = null, $json = null, $sw = null, $order_by = null, $order = null, $start = null, $total = null) {
+	public function get_load_view_all($where = null, $json = null, $sw = null, $order_by = null, $order = null, $start = null, $total = null){
         $this->_required_login();
         $this->load->model('item_model');
 
@@ -1821,21 +1899,21 @@ class load extends MY_Controller {
         }
 
         // Check if where and make it array
-        /*        if (!$where) {
-          $where = [];
-          $customer = $this->input->post('search_customer');
-          $carrier = $this->input->post('search_carrier');
-          $load_number = $this->input->post('search_load_number');
+/*        if (!$where) {
+            $where = [];
+            $customer = $this->input->post('search_customer');
+            $carrier = $this->input->post('search_carrier');
+            $load_number = $this->input->post('search_load_number');
 
-          if ($carrier != 0)
-          $where['ts_load.ts_carrier_idts_carrier'] = $carrier;
+            if ($carrier != 0)
+                $where['ts_load.ts_carrier_idts_carrier'] = $carrier;
 
-          if ($load_number != '') {
-          $where['load_number'] = $load_number;
-          $where['ts_driver.full_name'] = $load_number;
-          $where['ts_carrier.name'] = $load_number;
-          }
-          } */
+            if ($load_number != '') {
+                $where['load_number'] = $load_number;
+                $where['ts_driver.full_name'] = $load_number;
+                $where['ts_carrier.name'] = $load_number;
+            }
+        }*/
 //        print_r($where);
         //check if user can see brother's loads
         if ($user['brother']) {
@@ -1851,24 +1929,24 @@ class load extends MY_Controller {
         }
 
         $result = $this->load_model->get_load_view_all($where, $childs, $sw, $order_by, $order, $start);
-
-        for ($i = 0; $i < count($result); $i++) {
+       
+            for ($i = 0; $i < count($result); $i++) {
 //            $result[$i]['items'] = $this->get_items_by_load_id($result[$i]['idts_load']);
-            $result[$i]['status'] = $this->load_status($result[$i]['idts_load'], $result[$i]['tender']);
-            /*  if ($result[$i]['driver_latitud'] && $result[$i]['driver_longitud']) {
-              if (($result[$i]['driver_latitud']==0)&& ($result[$i]['driver_longitud']==0)){
-              $result[$i]['driver_address'] = 'No location available for this driver yet.';
-              }else{
-              //$driver_address = json_decode($this->get_driver_address($result[$i]['driver_latitud'], $result[$i]['driver_longitud']));
-              //$result[$i]['driver_address'] = $driver_address->results[0]->formatted_address;
-              }
-              } else {
-              $result[$i]['driver_address'] = 'Driver has not logged in the app.';
-              } */
+                $result[$i]['status'] = $this->load_status($result[$i]['idts_load'], $result[$i]['tender']);
+              /*  if ($result[$i]['driver_latitud'] && $result[$i]['driver_longitud']) {
+					if (($result[$i]['driver_latitud']==0)&& ($result[$i]['driver_longitud']==0)){
+						$result[$i]['driver_address'] = 'No location available for this driver yet.';
+						}else{
+                    //$driver_address = json_decode($this->get_driver_address($result[$i]['driver_latitud'], $result[$i]['driver_longitud']));
+                    //$result[$i]['driver_address'] = $driver_address->results[0]->formatted_address;
+					}
+                } else {
+                    $result[$i]['driver_address'] = 'Driver has not logged in the app.';
+                }*/
 
-            // $result[$i]['shipments'] = $this->shipments_by_load($result[$i]['idts_load']);
-        }
-
+               // $result[$i]['shipments'] = $this->shipments_by_load($result[$i]['idts_load']);
+			}
+			
         if ($json) {
             $this->output->set_output(json_encode($result));
             return false;
@@ -2031,12 +2109,12 @@ class load extends MY_Controller {
      * @param type $id
      */
     public function app_get_load_by_driver($id_driver, $sw = null) {
-        //$this->load->model('item_model');
-
+       // $this->load->model('item_model');
         header('Access-Control-Allow-Origin: *');
-		$id_driver = (string)$id_driver;
-		//$id_driver = '3';
-        $result = $this->load_model->get_load_view_app(['ts_driver_idts_driver' => $id_driver], 0, 1, 'date_created', 'desc');
+
+        $result = $this->load_model->get_load_view_app([
+            'ts_driver_idts_driver' => $id_driver
+                ], 0, 1, 'date_created', 'desc');
 //        if ($result)
 //            $result[0]['items'] = $this->get_items_by_load_id($result[0]['idts_load']);
         if (!$sw) {
@@ -2080,6 +2158,18 @@ class load extends MY_Controller {
 
         $this->output->set_output(json_encode($result));
     }
+    
+    //---- Request location----//
+    public function app_get_requests_by_id($id) {
+           $this->load->model('location_request_model');
+           header('Access-Control-Allow-Origin: *');
+
+           $result = $this->location_request_model->get($id);
+
+           $this->output->set_output(json_encode($result));
+       }
+
+    //---- END OF Request location----//
 
     public function app_get_shipments_by_load($load_id) {
         $this->load->model('shipment_model');
@@ -2180,7 +2270,7 @@ class load extends MY_Controller {
 
     //-------------------- Call Checks ---------------------
 
-    public function save_callcheck($user_id = null, $load_id = null, $type = null, $driver = null, $comment = null, $driver_lat = null, $driver_lng = null, $notify_driver = null, $driver_email = null, $load_number = null, $sw = null) {
+    public function save_callcheck($user_id = null, $load_id = null, $type = null, $driver = null, $comment = null, $driver_lat = null, $driver_lng = null, $notify_driver = null, $driver_email = null, $load_number = null, $idts_driver = null, $sw = null) {
         date_default_timezone_set("America/New_York");
 
         if (!$comment) {
@@ -2203,11 +2293,21 @@ class load extends MY_Controller {
         if (!$load_number) {
             $load_number = $this->input->post('load_number');
         }
+		
+		if (!$idts_driver) {
+		   $idts_driver = $this->input->post('idts_driver');	
+		}
 
         $driver_position = json_decode($this->get_driver_address($driver_lat, $driver_lng));
         $driver_address = $driver_position->results[0]->formatted_address;
         $driver_address = explode(',', $driver_address);
-
+       //----
+	    $this->load->model('driver_model');
+		$this->driver_model->update([
+			'lat' => $driver_lat,
+			'lng' => $driver_lng
+		],$idts_driver);
+		//----
         $this->load->model('callcheck_model');
         $this->callcheck_model->insert([
             'user_iduser' => $user_id,
@@ -2221,6 +2321,7 @@ class load extends MY_Controller {
             'country' => $driver_address[3],
             'date' => date("Y-m-d H:i:s")
         ]);
+		
         $data = $this->get_session_user_data();
 
         $date = explode(' ', date("Y-m-d H:i:s"));
@@ -2248,6 +2349,22 @@ class load extends MY_Controller {
         }
         return $result;
     }
+    
+    public function checked_read() {
+        date_default_timezone_set("America/New_York");
+        
+        $idts = $this->input->post('idts');
+        $read = $this->input->post('read');
+        
+        $this->load->model('callcheck_model');
+        $result = $this->callcheck_model->update(['read' => $read], ['idts_callcheck' => $idts]);
+        
+        if ($result) {
+            $this->output->set_output(json_encode(['result' => 1, 'msg' => 'Callcheck added.']));
+            return false;
+        }
+        $this->output->set_output(json_encode(['result' => 0, 'error' => 'Callcheck not added']));
+    }
 
     public function email_callcheck_view() {
         $this->load->view('load/callcheck_email_view');
@@ -2265,8 +2382,8 @@ class load extends MY_Controller {
         $msg = $this->load->view('load/callcheck_email_view', $data, true);
         $this->email->from('service@smith-cargo.com', 'Smith Transportation');
         $this->email->to($data['email']);
-//        $this->email->cc('another@another-example.com');
-//        $this->email->bcc('them@their-example.com');
+        //$this->email->cc('another@another-example.com');
+        //$this->email->bcc('them@their-example.com');
 
         $this->email->subject('Callcheck in Load #' . $data['load_number']);
         $this->email->message($msg);
@@ -2314,7 +2431,6 @@ class load extends MY_Controller {
             if ($apns_number) {
                 $result['result'] = $this->send_apple_not($apns_number, $load_number, $apple_msg);
             }
-
             //Android notification
             if ($app_id) {
                 $result['result'] = json_decode($this->send_android_not($registatoin_ids, $title, $message));
@@ -2382,6 +2498,88 @@ class load extends MY_Controller {
     }
 
     public function push_not_custom_msg_load($load_number = null, $msg = null, $android_title = null, $tender = null, $email = null, $load_id = null, $driver_id = null) {
+        $msg_request = $this->input->post('msg');
+        $load_num = $this->input->post('load_number');
+        
+        if ($msg_request == 'Location request #'.$load_num) {
+            $load_num = $this->input->post('load_number');
+            if (!$load_number) {
+                $load_number = $this->input->post('load_number');
+            }
+
+            if (!$load_id) {
+                $load_id = $this->input->post('load_id');
+            }
+
+            if (!$driver_id) {
+                $driver_id = $this->input->post('driver_id');
+            }
+
+            if (!$msg) {
+                $msg = $msg_request;
+            }
+
+            $android_msg = $msg;
+            $apple_msg = $msg;
+
+            if (!$android_title) {
+                $android_title = $this->input->post('android_title');
+            }
+
+            if (!$tender) {
+                $tender = $this->input->post('tender');
+            }
+
+            if ($tender) {
+                $android_msg = 'New load #' . $load_number . ' - ' . $msg;
+                $apple_msg = 'New load #' . $load_number . ' - ' . $msg;
+            }
+
+            if (!$email) {
+                $email = $this->input->post('email');
+            }
+
+            $this->load->model('driver_model');
+            $drivers = $this->driver_model->get($driver_id);
+            $driver = $drivers[0];
+            $apns_number = $driver['apns_number'];
+            $app_id = $driver['app_id'];
+            $driver_phone = $driver['phone'];
+            $email = $driver['email'];
+
+            $registatoin_ids[0] = $app_id;
+
+            //if ($apns_number || $app_id) {
+                //Apple notification
+                if ($apns_number) {
+                    $result = $this->send_apple_not($apns_number, $load_number, $apple_msg);
+    //                $this->output->set_output(json_encode(['apple msg' => $apple_msg]));
+                }
+
+                //Android notification
+                if ($app_id) {
+                    $result = $this->send_android_not($registatoin_ids, $android_title, $android_msg);
+                }
+
+                //if tender
+                if ($tender) {
+                    $this->tender($load_number, 1, 1, $email);
+                    //change load status              
+                }
+
+                $data = $msg;
+                $msg_split = substr($data, strpos($data, "-") + 1);
+                //$ck = $this->save_callcheck($this->session->userdata('user_id'), $load_id, 1, 0, $msg_split, 26.13778000, -80.33429800, 1, $email, $load_number, 1);
+                //$result = array("status" => "1", "dbresult" => $ck);
+                $result = array("status" => "1");
+                $this->output->set_output(json_encode($result));
+           /* } else {
+                return $this->output->set_output(json_encode(['status' => 0, 'msg' => 'Driver has not login or install the application. Contact driver phone: ' . $driver_phone]));
+            }*/
+            
+            return $result;
+        }
+        
         if (!$load_number) {
             $load_number = $this->input->post('load_number');
         }
@@ -2418,7 +2616,6 @@ class load extends MY_Controller {
             $email = $this->input->post('email');
         }
 
-
         $this->load->model('driver_model');
         $drivers = $this->driver_model->get($driver_id);
         $driver = $drivers[0];
@@ -2429,7 +2626,7 @@ class load extends MY_Controller {
 
         $registatoin_ids[0] = $app_id;
 
-        if ($apns_number || $app_id) {
+       // if ($apns_number || $app_id) {
             //Apple notification
             if ($apns_number) {
                 $result = $this->send_apple_not($apns_number, $load_number, $apple_msg);
@@ -2452,11 +2649,169 @@ class load extends MY_Controller {
             $ck = $this->save_callcheck($this->session->userdata('user_id'), $load_id, 1, 0, $msg_split, 26.13778000, -80.33429800, 1, $email, $load_number, 1);
             $result = array("status" => "1", "dbresult" => $ck);
             $this->output->set_output(json_encode($result));
-        } else {
+        /*} else {
             return $this->output->set_output(json_encode(['status' => 0, 'msg' => 'Driver has not login or install the application. Contact driver phone: ' . $driver_phone]));
-        }
+        }*/
         return $result;
     }
+	
+	//-----Send sms function when more than 5 requests....
+	public function send_sms($sms) {
+			$url = 'https://rest.nexmo.com/sms/json?' . http_build_query(
+					[
+					  'api_key' =>  'bcbcfe01',
+					  'api_secret' => '91ff88641f7ce89d',
+					  'to' => '573008379290',
+					  'from' => 'NEXMO',
+					  'text' => 'https://lean-staffing.com/trackngo2/load/sms/'.$sms
+					]
+				);
+				
+				$ch = curl_init($url);
+				curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+				$response = curl_exec($ch);
+				
+				return $response;
+		}
+	//-----
+	
+	public function sms($loadid){
+		 $data['loadid'] = $loadid;
+		 $this->load->view('load/sms', $data);
+	}
+    
+	//--- Insert trace load sms ----//
+	public function insert_trace($loadid){
+		
+        date_default_timezone_set("America/New_York");
+		
+		$driver_latitude = $this->input->post('driver_latitude');
+        $driver_longitude = $this->input->post('driver_longitude');
+        $driver_date = $this->input->post('driver_date');
+		
+		//--- insert callcheck through ---//
+        
+		$driver_position = json_decode($this->get_driver_address($driver_latitude, $driver_longitude));
+        $driver_address = $driver_position->results[0]->formatted_address;
+        $driver_address = explode(',', $driver_address);
+		
+       //---- end of -- insert callcheck ----//
+	   //----- Get Load ID ---- //
+	    $this->load->model('load_model');
+		$result = $this->load_model->get_load_by_id([
+			
+		],$loadid);
+	   //------ ------//
+	    $this->load->model('driver_model');
+		$this->driver_model->update([
+			'lat' => $driver_lat,
+			'lng' => $driver_lng
+		],$idts_driver);
+		//----
+        $this->load->model('callcheck_model');
+        $this->callcheck_model->insert([
+            'user_iduser' => $user_id,
+            'ts_load_idts_load' => $load_id,
+            'type' => $type,
+            'notify_driver' => $notify_driver,
+            'driver' => $driver,
+            'comment' => $comment,
+            'city' => $driver_address[1],
+            'state' => $driver_address[2],
+            'country' => $driver_address[3],
+            'date' => date("Y-m-d H:i:s")
+        ]);
+		
+        $data = $this->get_session_user_data();
+
+        $date = explode(' ', date("Y-m-d H:i:s"));
+        $date_formated_temp = explode('-', $date[0]);
+        $date_formated = $date_formated_temp[1] . '/' . $date_formated_temp[0] . '/' . $date_formated_temp[2];
+
+        $result = [
+            'date' => $date_formated,
+            'time' => $date[1],
+            'city' => $driver_address[1],
+            'state' => $driver_address[2],
+            'country' => $driver_address[3],
+            'comment' => $comment,
+            'entered_by' => $data['login']
+        ];
+
+        $param['load_number'] = $load_number;
+        $param['email'] = $driver_email;
+        $param['comment'] = $comment;
+        $this->send_callcheck_mail($param);
+
+        if (!$sw) {
+            $this->output->set_output(json_encode($result));
+            return false;
+        }
+        return $result;
+		//--------//
+		$this->load->model('load_trace_model');
+        $this->load->model('callcheck_model');
+
+       
+
+        $result = $this->load_trace_model->insert([
+			'ts_load_idts_load' => $loadid,
+            'lat' => $driver_latitude,
+            'lng' => $driver_longitude,
+            'date' => $driver_date
+            //'date' => now()
+        ]);
+
+        if ($result) {
+            $this->output->set_output(json_encode(['result' => 1, 'msg' => 'result added.']));
+            return false;
+        }else{
+			 $this->output->set_output(json_encode(['result' => 0, 'msg' => 'not added.']));
+            return false;
+			}
+      
+    
+		}
+	//--------//
+	
+    public function control_req() {
+        
+        $id_load = $this->input->post('load_id');
+        
+        $resultado = $this->location_request_model->get_max_request_number($id_load);
+                
+        //$this->output->set_output(json_encode($max_req_number));
+        $resu = $resultado[0];
+        $id_req = $resu['id_request'];
+        $req_load = $resu['request_load'];
+        $req_num = $resu['request_number'];
+        $reset = $resu['reset'];
+        $secuencia = $req_num + 1;
+
+        //$this->output->set_output(json_encode(['id_request' => $id_req, 'request_load' => $req_load, 'request_number' => $req_num, 'reset' => $reset, 'secuencia' => $secuencia]));
+        
+        if ($secuencia <= 5) {
+            //$this->output->set_output('kmsdglkdnfokgnk');
+            $re = $this->location_request_model->update([
+                'request_number' => $secuencia
+            ], ['id_request' => $id_req]);
+            if ($re){
+                $result= ['secuencia' => $secuencia];
+                return $this->output->set_output(json_encode($result));
+            }
+        } else {
+			//----test for SMS messagess-----
+			$sms_result = $this->send_sms($req_load);
+			//-------------------------------
+            $re = $this->location_request_model->update([
+                'request_number' => 0
+            ], ['id_request' => $id_req]);
+			
+			return $sms_result;
+        }
+    }
+	
+
 
     public function push_not_new_load($load_number, $app_id, $apns_number) {
 
@@ -2799,11 +3154,11 @@ class load extends MY_Controller {
         $fields = array(
             'registration_ids' => $registatoin_ids,
             "data" => array(
-                "title" => $title,
-                "message" => $message,
-                'msgcnt' => count($message),
-//                'notid'=> 
-                'timestamp' => date('Y-m-d h:i:s'),
+            "title" => $title,
+            "message" => $message,
+            'msgcnt' => count($message),
+//                 'notid'=> 
+            'timestamp' => date('Y-m-d h:i:s'),
             ),
         );
 
@@ -2879,9 +3234,9 @@ class load extends MY_Controller {
             $this->output->set_output(json_encode(['status' => 0, 'msg' => 'Load status could not be updated.']));
         }
     }
-
 //THIS ARE DRIVER AND CARRIER CLASSESS
 //-------------------------
 //-------------------------
 //-------------------------
+
 }

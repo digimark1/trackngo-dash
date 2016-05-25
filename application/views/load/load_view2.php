@@ -18,13 +18,23 @@
         </div>
 
         <div id="category-actions">
-            <div class="loads-title" id="category-title"><img src="<?php echo base_url() ?>/public/img/images/loads-title.png" width="100" height="70" alt="Loads Category"></div>
-            <div id="category-button"><a style="outline: medium none;" hidefocus="true" href="<?php echo site_url('load/'); ?>"><img src="<?php echo base_url() ?>/public/img/images/loads-list-bt-45w.png" width="45" height="70" alt="View All Loads"></a></div>
+            <div class="loads-title" id="category-title">
+                <img src="<?php echo base_url() ?>/public/img/images/loads-title.png" width="100" height="70" alt="Loads Category">
+            </div>
+            <div id="category-button">
+                <a style="outline: medium none;" hidefocus="true" href="<?php echo site_url('load/'); ?>">
+                    <img src="<?php echo base_url() ?>/public/img/images/loads-list-bt-45w.png" width="45" height="70" alt="View All Loads">
+                </a>
+            </div>
 
             <?php
             if (in_array("load/add", $roles)) {
                 ?>
-                <div id="category-button"><a style="outline: medium none;" hidefocus="true" href="<?php echo site_url('load/add'); ?>"><img src="<?php echo base_url() ?>/public/img/images/loads-add-bt-45w.png" width="45" height="70" title="Add a Load"></a></div>
+                <div id="category-button">
+                    <a style="outline: medium none;" hidefocus="true" href="<?php echo site_url('load/add'); ?>">
+                        <img src="<?php echo base_url() ?>/public/img/images/loads-add-bt-45w.png" width="45" height="70" title="Add a Load">
+                    </a>
+                </div>
             <?php } ?>            
             <div id="category-button"></div>
             <!--            <div id="category-search" class="search-customer">
@@ -63,34 +73,36 @@
 		   });
 	   </script>			
 	   <div id="test"></div>
-       <div id="test2">
+       <div id="test2"></div>
 	   <?php
-	    /*$_SESSION['chatusername'] = $user_name;
-        $_SESSION['username'] = $user_id;*/
-                    $i = 1;
-                    foreach ($driver_list as $driver => $drvr) {
-						if($i<=10){
-                        echo '<p><a onclick="javascript:chatWith(' .("'".$drvr['idts_driver']."'") . ',' .("'".$drvr['driver_name']."'") . ')">' . $drvr['driver_name'] . ' ' . $drvr['driver_last_name'] . '</a></p>';
-						$i++;
-						}
-                    }
-					//echo '<p>'.$_SESSION['username'].'</p>';
-					//echo '<p>'.$_SESSION['chatusername'].'</p>';
-         ?>
-         </div>
-		<div id="new_map">
-          Here goes the map
+/*	   			$m = 0;
+				foreach ($callchecks_all as $callcheck => $row8[$m]) {
+					   foreach ($row8[$m] as $callcheck1 => $row9[$m]) {
+                            echo '<div>'.$row9[$m]['comment'].'</div>';
+					    }
+						$m++;
+					}
+			echo '<div>echo</div>';
+			echo '<div>'.$loadsall1.'</div>';*/
+			
+             ?>
+        <div id="new_map">
+            Here goes the map <?php echo count($loadsall);?>
         </div>
        <div id="load_list_header" class="accordion" style="margin-top:40px;">
             <div class="accordion-section active">
-                   <a class="accordion-section-title" href="#">LIST OF LOADS <div style="float: right;"><span style="float:right"></span></div></a>
+                <a class="accordion-section-title" href="#">LIST OF LOADS 
+                    <div style="float: right;">
+                        <span style="float:right"></span>
+                    </div>
+                </a>
             </div>
        </div>
        <script>
-       	$('#load_list_header').click(function(){
-		    $('#load_list_div').slideToggle();
-		   });
-	   </script>
+            $('#load_list_header').click(function(){
+                $('#load_list_div').slideToggle();
+            });
+	</script>
         <div id="load_list_div" class="table-responsive" style="margin-top:0px;">
             <table id="list_load" class="table table-hover table-bordered table-striped">
                 <thead>
@@ -145,9 +157,7 @@
                     }
                     ?>
                 </tbody>
-
             </table>
-
             <div class="row">
                 <div class="col-md-12 text-center">
                     <?php echo $this->pagination->create_links() ?>
@@ -169,13 +179,13 @@
                 <tbody>
                     <?php
                     $i = 1;
-					//$load3 = array_unique($loads);
+                    //$load3 = array_unique($loads);
                     foreach ($loads as $load4 => $row4) {
                         echo '<tr>';
                         echo '<td>' . $row4['driver_full_name'] . '</td>';
                         echo '<td>' . $row4['idts_load'] . '</td>';
                         echo '<td>' . $row4['driver_latitud'].'</td>';
-						echo '<td>' . $row4['driver_longitud'] . '</td>';
+			echo '<td>' . $row4['driver_longitud'] . '</td>';
 //                        echo '<td>' . $row['login'] . '</td>';
                         echo '</tr>';
                     }
@@ -225,12 +235,10 @@
                     </div>
                     <div class="modal-body">
                         <fieldset>
-
                             <!-- Form Name -->
                             <legend>Check Address in Map</legend>
 
                             <div id="map-canvas2"></div>
-
                         </fieldset>
                     </div>
                     <div class="modal-footer">
@@ -241,7 +249,6 @@
         </div>
 
         <!-- Edit Load Modal -->
-
         <div class="modal fade" id="editLoadModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
@@ -251,7 +258,6 @@
                     </div>
                     <div class="modal-body">
                         <fieldset>
-
                             <!-- Form Name -->
                             <legend>Change values to loads you selected</legend>
                             <input type="hidden" name="loads" id="loads" class="input-xlarge" value=""/>
@@ -291,8 +297,7 @@
 
                                     </select>
                                 </div>
-                            </div>  
-
+                            </div>
                         </fieldset>
                     </div>
                     <div class="modal-footer">
@@ -304,7 +309,6 @@
         </div>
 
         <!-- Tender Modal -->
-
         <div class="modal fade" id="tenderModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
@@ -329,22 +333,27 @@
                                     <td colspan="2">Special Instructions</td>
                                 </tr>
                                 <tr>
-                                    <td colspan="2"><textarea id="msg"></textarea></td>
+                                    <td colspan="2">
+                                        <textarea id="msg"></textarea>
+                                    </td>
                                 </tr>
                                 <tr>
-                                    <td colspan="2"><iframe id="tender_iframe" width="100%" height="600" id="if_bol" style="margin-top:15px"></iframe></td>
+                                    <td colspan="2">
+                                        <iframe id="tender_iframe" width="100%" height="600" id="if_bol" style="margin-top:15px"></iframe>
+                                    </td>
                                 </tr>
                             </table>
                         </fieldset>
                     </div>
                     <div class="modal-footer">
-                        <button id="tender-load" class="btn btn-red btn-small" hidefocus="true" name="submit" style="outline: medium none;"><span class="gradient">Tender</span></button>
+                        <button id="tender-load" class="btn btn-red btn-small" hidefocus="true" name="submit" style="outline: medium none;">
+                            <span class="gradient">Tender</span>
+                        </button>
                         <button data-dismiss="modal" style="border-radius: 16%; height: 25px;">Close</button>
                     </div>
                 </div>
             </div>
-        </div>        
-
+        </div>
     </div>
 </div>
 
@@ -352,39 +361,48 @@
 <!--<div style="background-image:url(../../../public/css/driver_notification.png)"></div>-->
 <div id="popover_content" style="display: none">
     <ul>
-        <li><a data-id="4" class="editLink" title="Edit this Load" href=""><i class="icon-pencil"></i> Edit</a></li>
-        <li><a data-id="4" class="editLink" title="Send message to driver" href=""><i class="icon-user"></i> Send Message</a></li>
-        <li><a data-id="4" class="viewLink" title="View Load" href=""><i class="icon-eye-open"></i> View Load</a></li>
+        <li>
+            <a data-id="4" class="editLink" title="Edit this Load" href=""><i class="icon-pencil"></i> Edit</a>
+        </li>
+        <li>
+            <a data-id="4" class="editLink" title="Send message to driver" href=""><i class="icon-user"></i> Send Message</a>
+        </li>
+        <li>
+            <a data-id="4" class="viewLink" title="View Load" href=""><i class="icon-eye-open"></i> View Load</a>
+        </li>
         <li></li>
     </ul>
 </div>
-
 
 <style>
     .popover{
         left: 272px !important;
     }
+    
     .popover-title {
         font-size: 15px;
     }
+    
     .popover-content {
         width: 150px;
     }
-    /* 
+    /*
     #map-canvas,  #map-canvas2{
         height: 300px;
         width: 520px;
         margin: 0;
         padding: 0;
     }
+    */
+    /*
     .modal{
         width: 610px;
-    }    */
-
+    }    
+    */
     .sele{
         width: 70px;
     }
-
+    
     .container2{
         width: 500px;
     }
@@ -392,6 +410,7 @@
     .origin{
         float: left;
     }
+    
     .destination{
 
         float: left;
@@ -408,7 +427,7 @@
         padding: 0;
     }
 	
-	#new_map{
+    #new_map{
         height:350px;
         width:100%;
         padding:0;
@@ -420,6 +439,7 @@
     .item_input{
         width: 60px;
     }
+    
     th{
         text-align: center;
         font-weight: 700;
@@ -532,89 +552,136 @@
 
 
 <script>
-
-
-$(window).load(function(e) {
-	//function temporary_not() {
-	// Chat session//
-	
-
-
-	//---------------//
+    $(document).ready(function(e) {
 	var load_list = [];
 	var y = 0;
 	<?php
-	  foreach($loadsall as $loadsall){
-		  ?>
-		  load_list[y] = <? echo $loadsall?>;
-		  y++;
-		  <?php
-		  }
-	 ?>
-	 for (cc = 0; cc<load_list.length;cc++){
-	  //$('#test').append('<p>'+load_list[cc]+'</p>');
-	 }
-    setInterval(function(){
+        if (count($loadsall) > 1) {
+            foreach ($loadsall as $loadsall) {
+            ?>
+                load_list[y] = <?php echo $loadsall ?> ;
+                y++;
+            <?php
+            }
+        }
+        ?>
+	for (cc = 0; cc<load_list.length;cc++){
+            //$('#test').append('<p>'+load_list[cc]+'</p>');
+	}
+        
+        setInterval(function(){
             /*var url = '<?php echo site_url('load/get_chat_home/') ?>';
             var postData = {
-                //date: $('#last_date').val(),
-				id_list:load_list
+                //date: $('#last_date').val(), 
+                id_list:load_list
             };*/
-			//$('#test2').append('Just enter');
-			$.ajax({
-				type:'POST',
-				dataType:'json',
-				data:{id_list:JSON.stringify(load_list)},
-				url:'<?php echo site_url('load/get_chat_home/') ?>',
-				success: function(data){
-					 var chat_all = (JSON.stringify(data));
-					 //$('#test2').html(chat_all+JSON.stringify(load_list));
-					 //$('#test2').append(JSON.stringify(load_list));
-					 //$('#test').append('--'+data[0].city+'--');
-							if (localStorage.last_callcheck) {
-								if(parseFloat(data[0].idts_callcheck) == parseFloat(localStorage.last_callcheck)){
-									 //$('#test').append('nothing new');
-									}else{
-										if($('#notification_content').html()==''){
-											$('#notification_background').show();
-							$('#notification_content').prepend('<div><div class="driver_image_not"><img src="<?php echo base_url() ?>public/css/driver_notification.png" class="image_driver_size"/></div><div class="driver_message_not"><p class="title_notification">New message Load #'+data[0].load_number+'</p><p>'+data[0].comment+'</p><p><a class="" href="<?php echo base_url() ?>load/load_details/'+data[0].ts_load_idts_load+'#callchecks"> View </a></p></div></div>');
-							//$('#notification_content').css('margin-bottom','0px');
-										var audio = new Audio('<?php echo base_url() ?>public/css/sound.mp3');
-										audio.play();
-												$('#notification_content div').click(function(){
-													$(this).remove();
-													if($('#notification_content').html()==''){
-													     $('#notification_background').hide();
-													};
-												});
-										}else{
-											$('#notification_content').prepend('<div><div class="driver_image_not"><img src="<?php echo base_url() ?>public/css/driver_notification_box.png" class="image_driver_size"/></div><div class="driver_message_not"><p class="title_notification">New message Load #'+data[0].load_number+'</p><p>'+data[0].comment+'</p><p><a class="" href="<?php echo base_url() ?>load/load_details/'+data[0].ts_load_idts_load+'#callchecks"> View </a></p></div></div>');
-							//$('#notification_content').css('margin-bottom','0px');
-										var audio = new Audio('<?php echo base_url() ?>public/css/sound.mp3');
-										audio.play();
-												$('#notification_content div').click(function(){
-													$(this).remove();
-													if($('#notification_content').html()==''){
-													     $('#notification_background').hide();
-													}
-												});
-											};
-									}
-							} else {
-								localStorage.last_callcheck = data[0].idts_callcheck;
-							}
-							//-----
-							localStorage.last_callcheck = data[0].idts_callcheck;
-					},
-				error: function(data){
-					//alert('There was an error');
-					}
-				
-				});
-		},5000);
-		
-//	};
-});
+            //$('#test2').append('Just enter');
+            $.ajax({
+                type:'POST',
+                dataType:'json',
+                data:{id_list:JSON.stringify(load_list)},
+                url:'<?php echo site_url('load/get_chat_home/') ?>',
+                success: function(data){
+                    var chat_all = (JSON.stringify(data));
+                    //var estado = 1;
+                    //$('#test2').html(chat_all+JSON.stringify(load_list));
+                    //$('#test2').append(JSON.stringify(load_list));
+                    //$('#test').append('--'+data[0].city+'--');
+                    if (data[0].read == 1) {
+                        
+                    } else {
+                        if (localStorage.last_callcheck) {
+                            if(parseFloat(data[0].idts_callcheck) == parseFloat(localStorage.last_callcheck)){
+                                //$('#test').append('nothing new');
+                            }else{
+                                if($('#notification_content').html()==''){
+                                    $('#notification_background').show();
+                                    $('#notification_content').prepend(
+                                        '<div>\n\
+                                            <div class="driver_image_not">\n\
+                                                <img src="<?php echo base_url() ?>public/css/driver_notification.png" class="image_driver_size"/>\n\
+                                            </div>\n\
+                                            <div class="driver_message_not" >\n\
+                                                <p class="title_notification">New message Load #'+data[0].load_number+'</p>\n\
+                                                <p>'+data[0].comment+'</p>\n\
+                                                <p><a class="" href="<?php echo base_url() ?>load/load_details/'+data[0].ts_load_idts_load+'#callchecks" onclick="checked_read();"> View </a></p>\n\
+                                            </div>\n\
+                                        </div>'
+                                    );
+                                    //$('#notification_content').css('margin-bottom','0px');
+                                    var audio = new Audio('<?php echo base_url() ?>public/css/sound.mp3');
+                                    audio.play();
+                                    $('#notification_content div').click(function(){
+                                        $(this).remove();
+                                        if($('#notification_content').html()==''){
+                                             $('#notification_background').hide();
+                                        };
+                                    });
+                                }else{
+                                    $('#notification_content').prepend(
+                                        '<div>\n\
+                                            <div class="driver_image_not">\n\
+                                                <img src="<?php echo base_url() ?>public/css/driver_notification_box.png" class="image_driver_size"/>\n\
+                                            </div>\n\
+                                            <div class="driver_message_not">\n\
+                                                <p class="title_notification">New message Load #'+data[0].load_number+'</p>\n\
+                                                <p>'+data[0].comment+'</p>\n\
+                                                <p><a class="" href="<?php echo base_url() ?>load/load_details/'+data[0].ts_load_idts_load+'#callchecks" onclick="checked_read();"> View </a></p>\n\
+                                            </div>\n\
+                                        </div>');
+                                    //$('#notification_content').css('margin-bottom','0px');
+                                    var audio = new Audio('<?php echo base_url() ?>public/css/sound.mp3');
+                                    audio.play();
+                                    $('#notification_content div').click(function(){
+                                        $(this).remove();
+                                        if($('#notification_content').html()==''){
+                                             $('#notification_background').hide();
+                                        }
+                                    });
+                                };
+                            }
+                        } else {
+                            localStorage.last_callcheck = data[0].idts_callcheck;
+                        }
+                        //-----
+                        localStorage.last_callcheck = data[0].idts_callcheck;
+                    }                    
+                },
+                error: function(data){
+                    //alert('There was an error');
+                }
+            });
+        },5000);        
+    });
+    
+//    function checked_read () {        
+//        alert ('alert click');
+//        var url = '<?php echo site_url('load/get_chat/' . $load['idts_load'] . '/1') ?>';
+//        var postData = {
+//            date: $('#last_date').val()
+//        };
+//        $.post(url, postData, function (o) {            
+//            for (var i = 0; i < o.length; i++) {
+//                var msg = o[i];
+//                //alert (msg.idts);
+//                var read = 1;
+//                $.ajax({
+//                    type: "POST",
+//                    url: '<?php echo site_url('load/checked_read') ?>',
+//                    async: true,
+//                    data: {
+//                        idts: msg.idts,
+//                        read: read
+//                    },
+//                    dataType: "json",
+//                    success: function () {
+//                        //alert (o);
+//                    }
+//                });
+//            }
+//        }, 'json');
+//    }
+    
     var ck_load = [];
     $('[data-toggle=popover]').popover({
         trigger: "click",
@@ -791,20 +858,7 @@ $(window).load(function(e) {
             $('#tender_load_number').val(load.data('load_number'));
             $('#driver_id').val(load.data('driver_id'));
             $('#email').val(load.data('email'));
-			$.ajax({
-					url:'<?php echo VIEW_FILE_PATH ?>' + load.data('bol_url')+'',
-					async:false,
-					type:'HEAD',
-					error: function()
-					{
-						//alert('No document');
-						//$('#tender_iframe').html('No document here')
-					},
-					success: function()
-					{
-						$('#tender_iframe').attr('src', '<?php echo VIEW_FILE_PATH ?>' + load.data('bol_url'));
-					}
-				});
+            $('#tender_iframe').attr('src', '<?php echo VIEW_FILE_PATH ?>' + load.data('bol_url'));
         });
 
         //tender push not, set in callcheck and send email
@@ -946,11 +1000,8 @@ $(window).load(function(e) {
                     $('#driver').append(output);
 
                 }, 'json');
-
             }
-
         });
-
     });
 
     function editLoads() {
@@ -1037,74 +1088,97 @@ function initMap() {
         center: latlng,
         mapTypeId: google.maps.MapTypeId.ROADMAP
     };
-    var map = new google.maps.Map(document.getElementById("new_map"),
-            myOptions);
-					<?php
+    var map = new google.maps.Map(document.getElementById("new_map"), myOptions);
+    
+    <?php
+    $k = 1;		
+    foreach ($loads2 as $load3 => $row3) {
+        if($row3['status'] == 'Delivered'){}else{
+            if(($row3['driver_latitud']==0)&&($row3['driver_longitud']==0)){
+                
+            }else{
+            ?>
+                var infowindow<?php echo $k; ?> = new google.maps.InfoWindow({
+                    content:'<p class="tag-map"><?php echo $row3['driver_full_name']; ?></p>',
+                    maxWidth: 300
+                });        
+                <?php
+                $ch = curl_init(base_url().'public/css/icons/'.$row3['driver_phone'].'_Unloaded.gif');    
+                curl_setopt($ch, CURLOPT_NOBODY, true);
+                curl_exec($ch);
+                $code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+                if($code == 200){
+                    $status = true;
+                }else{
+                    $status = false;
+                }
+                curl_close($ch);
+                if($status == false){
+                ?>
+                    var image_driver = new google.maps.MarkerImage('http://leanstaffing.com/testserver/map-marker-driver.png',null,null,null,new google.maps.Size(94,48));	 
+                <?php
+                }else{
+                ?>
+                    var image_driver = new google.maps.MarkerImage(
+                        /*'http://leanstaffing.com/testserver/map-marker-driver.png',*/
+                        <?php 
+                        if($row3['status']=='To Pickup'){
+                        ?>
+                            '<?php echo base_url() ?>public/css/icons/<?php echo $row3['driver_phone']; ?>_Unloaded.gif',
+                        <?php                    
+                        } if($row3['status']=='In transit'){
+                        ?>
+                            '<?php echo base_url() ?>public/css/icons/<?php echo $row3['driver_phone']; ?>_Loaded.gif',
+                        <?php                    
+                        }
+                        ?>
+                        null, /* size is determined at runtime */
+                        null, /* origin is 0,0 */
+                        null, /* anchor is bottom center of the scaled image */
+                        new google.maps.Size(122, 76)
+                    ); 
+                <?php
+                }
+                ?>
+                var marker<?php echo $k; ?> = new google.maps.Marker({
+                    //icon: 'map-marker-driver.png',
+                    position: new google.maps.LatLng(<?php echo $row3['driver_latitud']; ?>, <?php echo $row3['driver_longitud']; ?>),
+                    map: map,
+                    icon: image_driver,
+                    title: '<?php echo $row3['driver_full_name']; ?>'
+                });
 
-					$k = 1;		
-						foreach ($loads2 as $load3 => $row3) {
-							if($row3['status'] == 'Delivered'){}else{
-								if(($row3['driver_latitud']==0)&&($row3['driver_longitud']==0)){}else{
-							?>
-					var infowindow<?php echo $k; ?> = new google.maps.InfoWindow({
-					  content:'<p class="tag-map"><?php echo $row3['driver_full_name']; ?></p>',
-					  maxWidth: 300
-					  });
-					  <?php
-						 $ch = curl_init(base_url().'public/css/icons/'.$row3['driver_phone'].'_Unloaded.gif');    
-							curl_setopt($ch, CURLOPT_NOBODY, true);
-							curl_exec($ch);
-							$code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-							if($code == 200){
-							   $status = true;
-							}else{
-							  $status = false;
-							}
-							curl_close($ch);
-						 if($status == false){
-						?>
-						var image_driver = new google.maps.MarkerImage('http://leanstaffing.com/testserver/map-marker-driver.png',null,null,null,new google.maps.Size(94,48));	 
-						<?php
-							 }else{
-								 
-					  ?>
-						      var image_driver = new google.maps.MarkerImage(
-								/*'http://leanstaffing.com/testserver/map-marker-driver.png',*/
-								<?php if($row3['status']=='To Pickup'){ ?>
-						           '<?php echo base_url() ?>public/css/icons/<?php echo $row3['driver_phone']; ?>_Unloaded.gif',
-								<?php    } if($row3['status']=='In transit'){?>
-								   '<?php echo base_url() ?>public/css/icons/<?php echo $row3['driver_phone']; ?>_Loaded.gif',
-								<?php } ?>
-								null, /* size is determined at runtime */
-								null, /* origin is 0,0 */
-								null, /* anchor is bottom center of the scaled image */
-								new google.maps.Size(122, 76)
-							); 
-					<?php
-						}
-						?>
-					
-				 var marker<?php echo $k; ?> = new google.maps.Marker({
-					    position: new google.maps.LatLng(<?php echo $row3['driver_latitud']; ?>, <?php echo $row3['driver_longitud']; ?>),
-						map: map,
-						icon: image_driver,
-						title: '<?php echo $row3['driver_full_name']; ?>'
-					});
-					 google.maps.event.addListener(marker<?php echo $k; ?>, 'click', function() {
-						 var html = "<p class='tag-map'><b><?php echo $row3['driver_full_name']; ?></b> <br/>Phone :<?php echo $row3['driver_phone']; ?><br/><a class='view' data-id='<?php echo $row3['idts_load']; ?>'> View Load </a></p>";
-                          infowindow<?php echo $k; ?>.setContent(html);
-                          infowindow<?php echo $k; ?>.open(map, marker<?php echo $k; ?>, html);
-					  });
-					  
-	
-			<?php
-				 $k++;
-							}
-						}
-				 }
-					?>
+                //infowindow<?php echo $k; ?>.open(map,marker<?php echo $k; ?>);
 
+                google.maps.event.addListener(marker<?php echo $k; ?>, 'click', function() {
+                    var html = "<p class='tag-map'><b><?php echo $row3['driver_full_name']; ?></b> <br/>Phone :<?php echo $row3['driver_phone']; ?><br/><a class='view' data-id='<?php echo $row3['idts_load']; ?>'> View Load </a></p>";
+                    infowindow<?php echo $k; ?>.setContent(html);
+                    infowindow<?php echo $k; ?>.open(map, marker<?php echo $k; ?>, html);
+                });
+
+                /*google.maps.event.addListener(map, 'zoom_changed', function() {
+                    var zoom = map.getZoom();
+                    if(zoom >= 10){
+                        alert(zoom);
+                        marker<?php echo $k; ?>.setIcon(
+                            new google.maps.Marker(
+                                marker<?php echo $k; ?>.getIcon().url, //marker's same icon graphic
+                                null,//size
+                                null,//origin
+                                null, //anchor
+                                new google.maps.Size(76, 76) //changes the scale
+                            )
+                        )
+                    }
+                });*/
+            <?php
+            $k++;
+            }
+        }
+    }
+    ?>
 }
+//google.maps.event.addDomListener(window, "load", initialize);
 
 </script>
 <script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?signed_in=true&callback=initMap"></script>

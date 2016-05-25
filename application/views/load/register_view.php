@@ -13,223 +13,299 @@
                 <div id="register_form_error" class="alert alert-error" style="display:none"><!-- Dynamic --></div>
                 <div id="register_form_success" class="success alert-success" style="display:none"><!-- Dynamic --></div>
                 <?php echo form_open_multipart('load/do_upload', $attributes); ?>
-                <input type="hidden" name="load_number" value="<?php echo $last_load['load_number'] + 1 ?>" />       
-
-                <div>
-                    <div class="control-group">
-                        <label class="control-label">Carrier</label>
-                        <div class="controls">
-                            <select class="selectpicker" name="carrier" id="carrier">
-                                <option value="0" selected="selected">-Select-</option>
-                                <?php
-                                foreach ($carriers as $carrier => $row) {
-                                    echo '<option value="' . $row['idts_carrier'] . '">' . $row['name'] . '</option>';
-                                }
-                                ?>
-                            </select>
-                        </div>
-                    </div>
-                    <script>
-                        $(document).ready(function(){
-                            setTimeout(function(){
-                                $('#carrier').val('1');
-                                $("#carrier").change();
-                            },500);
-                        });
-                    </script>
-
-                    <div class="control-group">
-                        <label class="control-label">Driver</label>
-                        <div class="controls">
-                            <select class="selectpicker" name="driver" id="driver">
-                                <option value="select" selected="selected">-Select-</option>
-                                <input type="hidden" id="shipments" name="shipments">
-                                <input type="hidden" id="status" name="status">
-                            </select>
-                        </div>
-                    </div>
-                </div>
-                <div class="loading" style="display:none">
-                    <div class="loading-bg"></div>
-                    <!--<div class="loading-msg">Saving...</div>-->
-                </div>
-
-                <div id="customer_list"></div>
-                <!--                <div id="set_shp">set Shipment</div>-->
-
-                <table id="bol-table" class="table table-hover table-striped">
-                    <tbody>
-                        <tr class="shp_1">
-                            <td colspan="5" style="background-color: #EBEBEB; font-size: 14px;font-weight: bolder;">BOL #<span class="txt-bol-number"></span></td>
-                        </tr>
-                        <tr class="shp_1">
-                            <td class="bol_header">Customer</td>
-                            <td class="bol_header">Pickup address</td>
-                            <td class="bol_header">Pickup #</td>
-                            <td class="bol_header">Drop address</td>
-                            <td class="bol_header">Drop #</td>
-<!--                            <td class="bol_header" style="width:120px">BOL #</td>
-                            <td class="bol_header">BOL file</td>-->
-                        </tr>                        
-                        <tr id="shp_1" class="shp_1">
-                            <td>
-                                <select data-shp ="1" class="select-customer" name="customer">
+                    <input type="hidden" name="load_number" value="<?php echo $last_load['load_number'] + 1 ?>" />
+                    <div>
+                        <div class="control-group">
+                            <label class="control-label">Carrier</label>
+                            <div class="controls">
+                                <select class="selectpicker" name="carrier" id="carrier">
+                                    <option value="0" selected="selected">-Select-</option>
                                     <?php
-                                    foreach ($customers as $customer => $row) {
-                                        echo '<option data-id="1" value="' . $row['idts_customer'] . '">' . $row['name'] . '</option>';
+                                    foreach ($carriers as $carrier => $row) {
+                                        echo '<option value="' . $row['idts_carrier'] . '">' . $row['name'] . '</option>';
                                     }
                                     ?>
                                 </select>
-                            </td>
-                            <td>
-                                <input type="text" class="pk" id="pk_1" name="pickup" readonly="readonly" style="width:235px"/>
-                                <input type="hidden" class="pk2" id="pk2_1" name="pickup" style="width:235px"/>
-                                <button type="button" class="btn btn-red btn-small" data-shp_id="1" hidefocus="true" style="outline: medium none; margin: 0px 5px;" data-toggle="modal" data-target="#originAddressModal" id="set-model-pickup">
-                                    <span class="gradient">+</span>
-                                </button>
-                            </td>
-                            <td>
-                                <input type="text" class="pk_number" id="pk_number_1" name="pickup_number" style="width:50px;"/>
-                                <input type="hidden" class="pk_zipcode" name="pk_zipcode_1" id="pk_zipcode_1">
-                                <input type="hidden" class="pk_lat" name="pk_lat_1" id="pk_lat_1">
-                                <input type="hidden" class="pk_lng" name="pk_lng_1" id="pk_lng_1">
-                            </td>
-                            <td>
-                                <input type="text" class="dp" id="dp_1" name="drop" readonly="readonly" style="width:235px">
-                                <input type="hidden" class="dp2" id="dp2_1" name="drop">
-                                <button type="button" class="btn btn-red btn-small" data-shp_id="1" hidefocus="true" style="outline: medium none;margin: 0px 5px;" data-toggle="modal" data-target="#destinationAddressModal" id="set-model-drop">
-                                    <span class="gradient">+</span>
-                                </button>
-                            </td>
-                            <td>
-                                <input type="text" class="dp_number" id="dp_number_1" name="drop_number" style="width:50px;"/>
-                                <input type="hidden" class="dp_zipcode" name="dp_zipcode_1" id="dp_zipcode_1">
-                                <input type="hidden" class="dp_lat" name="dp_lat_1" id="dp_lat_1">
-                                <input type="hidden" class="dp_lng" name="dp_lng_1" id="dp_lng_1">
-                                <input type="hidden" class="bol-num" name="bol-num" id="bol_num_1" class="bol-num">
-                            </td>                    
-                        </tr>
-                        <tr class="shp_1">
-                            <td colspan="2">BOL #: <input type="text" id="bn_1" class="bol-number" name="bol_number"/></td>
-                            <td colspan="3">BOL file <input type="file" id="shp_file_1" multiple = "multiple" accept = "application/pdf" class = "" name="uploadfile[]" size="20" /></td>
-                        </tr>
-                        <tr class="shp_1">
-                            <td colspan="5">Contacts:
-                                <span id="shp_contact_1">
-                                    <?php
-                                    $customer_id = 0;
-                                    foreach ($first_customer_contacts as $first_customer_contact => $row) {
-                                        if ($row['default'] == 1) {
-                                            echo $row['name'] . ', ';
+                            </div>
+                        </div>
+                        <script>
+                            $(document).ready(function(){
+                                setTimeout(function(){
+                                    $('#carrier').val('1');
+                                    $("#carrier").change();
+                                },500);
+                            });
+                        </script>
+
+                        <div class="control-group">
+                            <label class="control-label">Driver</label>
+                            <div class="controls">
+                                <select class="selectpicker" name="driver" id="driver">
+                                    <option value="select" selected="selected">-Select-</option>
+                                    <input type="hidden" id="shipments" name="shipments">
+                                    <input type="hidden" id="status" name="status">
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="loading" style="display:none">
+                        <div class="loading-bg"></div>
+                        <!--<div class="loading-msg">Saving...</div>-->
+                    </div>
+
+                    <div id="customer_list"></div>
+                    <!--                <div id="set_shp">set Shipment</div>-->
+
+                    <table id="bol-table" class="table table-hover table-striped">
+                        <tbody>
+                            <tr class="shp_1">
+                                <td colspan="5" style="background-color: #EBEBEB; font-size: 14px;font-weight: bolder;">BOL #<span class="txt-bol-number"></span></td>
+                            </tr>
+                            <tr class="shp_1">
+                                <td class="bol_header">Customer</td>
+                                <td class="bol_header">Pickup address</td>
+                                <td class="bol_header">Pickup #</td>
+                                <td class="bol_header">Drop address</td>
+                                <td class="bol_header">Drop #</td>
+    <!--                            <td class="bol_header" style="width:120px">BOL #</td>
+                                <td class="bol_header">BOL file</td>-->
+                            </tr>                        
+                            <tr id="shp_1" class="shp_1">
+                                <td>
+                                    <select data-shp ="1" class="select-customer" name="customer">
+                                        <?php
+                                        foreach ($customers as $customer => $row) {
+                                            echo '<option data-id="1" value="' . $row['idts_customer'] . '">' . $row['name'] . '</option>';
                                         }
-                                        $customer_id = $row['ts_customer_idts_customer'];
-                                    }
-                                    ?>                                    
-                                </span>                                
-                                <a href="#" title="Set Shipment Contacts" id="shp_contact_chg_1" data-ship="1" class="pop" data-placement="right" data-content="Content" data-id_customer="<?php echo $customer_id ?>">Change</a>
-                                <input type="hidden" name="ship_contacts_1" id="ship_contacts_1" value="[]"/>                                 
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
+                                        ?>
+                                    </select>
+                                </td>
+                                <td>
+                                    <input type="text" class="pk" id="pk_1" name="pickup" readonly="readonly" style="width:235px"/>
+                                    <input type="hidden" class="pk2" id="pk2_1" name="pickup" style="width:235px"/>
+                                    <button type="button" class="btn btn-red btn-small" data-shp_id="1" hidefocus="true" style="outline: medium none; margin: 0px 5px;" data-toggle="modal" data-target="#originAddressModal" id="set-model-pickup">
+                                        <span class="gradient">+</span>
+                                    </button>
+                                </td>
+                                <td>
+                                    <input type="text" class="pk_number" id="pk_number_1" name="pickup_number" style="width:50px;"/>
+                                    <input type="hidden" class="pk_zipcode" name="pk_zipcode_1" id="pk_zipcode_1">
+                                    <input type="hidden" class="pk_lat" name="pk_lat_1" id="pk_lat_1">
+                                    <input type="hidden" class="pk_lng" name="pk_lng_1" id="pk_lng_1">
+                                    <input type="hidden" class="pk_time" name="pk_time_1" id="pk_time_1">
+                                    <input type="hidden" class="pk_company_name" name="pk_company_name_1" id="pk_company_name_1">
+                                    <input type="hidden" class="pk_reference" name="pk_reference_1" id="pk_reference_1">
+                                    <input type="hidden" class="pk_instructions" name="pk_instructions_1" id="pk_instructions_1">
+                                </td>
+                                <td>
+                                    <input type="text" class="dp" id="dp_1" name="drop" readonly="readonly" style="width:235px">
+                                    <input type="hidden" class="dp2" id="dp2_1" name="drop">
+                                    <button type="button" class="btn btn-red btn-small" data-shp_id="1" hidefocus="true" style="outline: medium none;margin: 0px 5px;" data-toggle="modal" data-target="#destinationAddressModal" id="set-model-drop">
+                                        <span class="gradient">+</span>
+                                    </button>
+                                </td>
+                                <td>
+                                    <input type="text" class="dp_number" id="dp_number_1" name="drop_number" style="width:50px;"/>
+                                    <input type="hidden" class="dp_zipcode" name="dp_zipcode_1" id="dp_zipcode_1">
+                                    <input type="hidden" class="dp_lat" name="dp_lat_1" id="dp_lat_1">
+                                    <input type="hidden" class="dp_lng" name="dp_lng_1" id="dp_lng_1">
+                                    <input type="hidden" class="bol-num" name="bol-num" id="bol_num_1" class="bol-num">
+                                    <input type="hidden" class="dp_time" name="dp_time_1" id="dp_time_1">
+                                    <input type="hidden" class="dp_company_name" name="dp_company_name_1" id="dp_company_name_1">
+                                    <input type="hidden" class="dp_reference" name="dp_reference_1" id="dp_reference_1">
+                                    <input type="hidden" class="dp_instructions" name="dp_instructions_1" id="dp_instructions_1">
+                                </td>                    
+                            </tr>
+                            <tr class="shp_1">
+                                <td colspan="2">BOL #: <input type="text" id="bn_1" class="bol-number" name="bol_number"/></td>
+                                <td colspan="3">BOL file <input type="file" id="shp_file_1" multiple = "multiple" accept = "application/pdf" class = "" name="uploadfile[]" size="20" /></td>
+                            </tr>
+                            <tr class="shp_1">
+                                <td colspan="5">Contacts:
+                                    <span id="shp_contact_1">
+                                        <?php
+                                        $customer_id = 0;
+                                        foreach ($first_customer_contacts as $first_customer_contact => $row) {
+                                            if ($row['default'] == 1) {
+                                                echo $row['name'] . ', ';
+                                            }
+                                            $customer_id = $row['ts_customer_idts_customer'];
+                                        }
+                                        ?>                                    
+                                    </span>                                
+                                    <a href="#" title="Set Shipment Contacts" id="shp_contact_chg_1" data-ship="1" class="pop" data-placement="right" data-content="Content" data-id_customer="<?php echo $customer_id ?>">Change</a>
+                                    <input type="hidden" name="ship_contacts_1" id="ship_contacts_1" value="[]"/>                                 
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
 
-                <!-- Pick up modal -->
-
-                <div class="modal fade" id="originAddressModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-                    <div class="modal-dialog" role="document">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                                <h4 class="modal-title" id="myModalLabel">Pickup Address</h4>
-                            </div>
-                            <div class="modal-body">
-                                <fieldset>
-
-                                    <!-- Form Name -->
-                                    <legend style="margin:10px 0px">Check Address</legend>
-                                    <div id="pickup_form_error" class="alert alert-error" style="display:none"><!-- Dynamic --></div>
-                                    <table id="tbl-shp-view">
-                                        <tr>
-                                            <td>Address:</td>
-                                            <td><input type="text" id="mpk_address" name="drop_number" style="width:250px;"/></td>
-                                        </tr>
-                                        <tr>
-                                            <td>Address 2:</td>
-                                            <td><input type="text" id="mpk_address2" name="address2" style="width:250px;"/></td>
-                                        </tr>
-                                        <tr>
-                                            <td>Zipcode:</td>
-                                            <td><input type="text" id="mpk_zipcode" name="drop_number" style="width:250px;"/></td>
-                                        </tr>
-                                        <tr>
-                                            <td colspan="6"><button id="view_pickup" class="btn btn-red btn-small" hidefocus="true" name="submit" style="outline: medium none;"><span class="gradient">View in map</span></button></td>
-                                        </tr>
-                                    </table>
-                                    <div id="map_pickup">
-                                        <div id="map-canvas"></div>                                    
-                                    </div>
-                                </fieldset>
-                            </div>
-                            <div class="modal-footer">
-                                <!--<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>-->
-                                <!--<button type="button" id="confirm_origin" class="btn btn-primary">Ok</button>-->
-                                <button data-dismiss="modal" style="border-radius: 16%; height: 25px;">Close</button>
-                                <button id="set_pickup" class="btn btn-red btn-small" hidefocus="true" name="submit" style="outline: medium none;"><span class="gradient">Set</span></button>
+                    <!-- Pick up modal -->
+                    <div class="modal fade" id="originAddressModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                    <h4 class="modal-title" id="myModalLabel">Pickup Address</h4>
+                                </div>
+                                <div class="modal-body">
+                                    <fieldset>
+                                        <!-- Form Name -->
+                                        <legend style="margin:10px 0px">Check Address in Map</legend>
+                                        <div id="pickup_form_error" class="alert alert-error" style="display:none"><!-- Dynamic --></div>
+                                        <table id="tbl-shp-view">
+                                            <tr>
+                                                <td>Address:</td>
+                                                <td colspan="2">
+                                                    <input type="text" id="mpk_address" name="drop_number" style="width:250px;"/>
+                                                    <button id="view_pickup" class="btn btn-red btn-small" hidefocus="true" name="submit" style="outline: medium none;">
+                                                        <span class="gradient">View in map</span>
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>Address 2:</td>
+                                                <td>
+                                                    <input type="text" id="mpk_address2" name="address2" style="width:250px;"/>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>Zipcode:</td>
+                                                <td>
+                                                    <input type="text" id="mpk_zipcode" name="drop_number" style="width:250px;"/>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>Pickup Time:</td>
+                                                <td>
+                                                    <input type="text" id="mpk_op_time" name="drop_number" style="width:250px;"/>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>Company Name:</td>
+                                                <td>
+                                                    <input type="text" id="mpk_com_name" name="drop_number" style="width:250px;"/>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>Reference:</td>
+                                                <td>
+                                                    <input type="text" id="mpk_reference" name="drop_number" style="width:250px;"/>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>Special Instructions:</td>
+                                                <td>
+                                                    <!--<input type="text" id="mpk_sp_instru" name="drop_number" style="width:250px;"/>-->
+                                                    <textarea id="mpk_sp_instru" name="drop_number"></textarea>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                        <div id="map_pickup">
+                                            <div id="map-canvas"></div>                                    
+                                        </div>
+                                    </fieldset>
+                                </div>
+                                <div class="modal-footer">
+                                    <!--<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>-->
+                                    <!--<button type="button" id="confirm_origin" class="btn btn-primary">Ok</button>-->
+                                    <button data-dismiss="modal" style="border-radius: 16%; height: 25px;">Close</button>
+                                    <button id="set_pickup" class="btn btn-red btn-small" hidefocus="true" name="submit" style="outline: medium none;">
+                                        <span class="gradient">Save</span>
+                                    </button>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
 
-                <!-- Drop address Modal -->
+                    <!-- Drop address Modal -->
 
-                <div class="modal fade" id="destinationAddressModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-                    <div class="modal-dialog" role="document">
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                                <h4 class="modal-title" id="myModalLabel">Drop  Address</h4>
-                            </div>
-                            <div class="modal-body">
-                                <fieldset>
-                                    <legend style="margin:10px 0px">Check Address in Map</legend>
-                                    <div id="drop_form_error" class="alert alert-error" style="display:none"><!-- Dynamic --></div>
-                                    <table id="tbl-csn-view">
-                                        <tr>
-                                            <td>Address:</td>
-                                            <td><input type="text" id="mdp_address" class="mdp_address" name="drop_number" style="width:250px;"></td>
-                                        </tr>
-                                        <tr>
-                                            <td>Address2:</td>
-                                            <td><input type="text" id="mdp_address2" class="mdp_address2" name="drop_number" style="width:250px;"></td>
-                                        </tr>
-                                        <tr>
-                                            <td>Zipcode:</td>
-                                            <td><input type="text" id="mdp_zipcode" class="mdp_zipcode" name="drop_number" style="width:250px;"></td>
-                                        </tr>
-                                        <tr>
-                                            <td colspan="6"><button id="view_drop" class="btn btn-red btn-small" hidefocus="true" name="submit" style="outline: medium none;"><span class="gradient">View in map</span></button></td>
-                                        </tr>
-                                    </table>
-                                    <div id="map_drop">
-                                        <div id="map-canvas2"></div>
-                                    </div>
-                                </fieldset>
-                            </div>
-                            <div class="modal-footer">
-                                <!--<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>-->
-                                <button data-dismiss="modal" style="border-radius: 16%; height: 25px;">Close</button>
-                                <button id="set_drop" class="btn btn-red btn-small" hidefocus="true" name="submit" style="outline: medium none;"><span class="gradient">Set</span></button>
+                    <div class="modal fade" id="destinationAddressModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                    <h4 class="modal-title" id="myModalLabel">Drop  Address</h4>
+                                </div>
+                                <div class="modal-body">
+                                    <fieldset>
+                                        <legend style="margin:10px 0px">Check Address in Map</legend>
+                                        <div id="drop_form_error" class="alert alert-error" style="display:none"><!-- Dynamic --></div>
+                                        <table id="tbl-csn-view">
+                                            <tr>
+                                                <td>Address:</td>
+                                                <td colspan="2">
+                                                    <input type="text" id="mdp_address" class="mdp_address" name="drop_number" style="width:250px;">
+                                                    <button id="view_drop" class="btn btn-red btn-small" hidefocus="true" name="submit" style="outline: medium none;">
+                                                        <span class="gradient">View in map</span>
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>Address2:</td>
+                                                <td>
+                                                    <input type="text" id="mdp_address2" class="mdp_address2" name="drop_number" style="width:250px;">
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>Zipcode:</td>
+                                                <td>
+                                                    <input type="text" id="mdp_zipcode" class="mdp_zipcode" name="drop_number" style="width:250px;">
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>Delivey Time:</td>
+                                                <td>
+                                                    <input type="text" id="mdp_op_time" class="mdp_op_time" name="drop_number" style="width:250px;"/>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>Company Name:</td>
+                                                <td>
+                                                    <input type="text" id="mdp_com_name" class="mdp_com_name" name="drop_number" style="width:250px;"/>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>Reference:</td>
+                                                <td>
+                                                    <input type="text" id="mdp_reference" class="mdp_reference" name="drop_number" style="width:250px;"/>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>Special Instructions:</td>
+                                                <td>
+                                                    <!--<input type="text" id="mdp_sp_instru" class="mdp_sp_instru" name="drop_number" style="width:250px;"/>-->
+                                                    <textarea id="mdp_sp_instru" class="mdp_sp_instru" name="drop_number"></textarea>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                        <div id="map_drop">
+                                            <div id="map-canvas2"></div>
+                                        </div>
+                                    </fieldset>
+                                </div>
+                                <div class="modal-footer">
+                                    <!--<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>-->
+                                    <button data-dismiss="modal" style="border-radius: 16%; height: 25px;">Close</button>
+                                    <button id="set_drop" class="btn btn-red btn-small" hidefocus="true" name="submit" style="outline: medium none;">
+                                        <span class="gradient">Save</span>
+                                    </button>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
 
-                <button id="add_shp" class="btn btn-red btn-small" hidefocus="true" name="submit" style="outline: medium none;"><span class="gradient">Add Shipment</span></button>
-
-                <br /><br />
-                <button type="submit" id="save_btn" class="btn btn-red btn-small" hidefocus="true" name="submit" style="outline: medium none;"><span class="gradient">Save</span></button>
-                <button type="submit" id="savensend_btn" class="btn btn-red btn-small" hidefocus="true" name="submit" style="outline: medium none;"><span class="gradient">Save and send</span></button>
-                <button id="btn_cancel" style="border-radius: 16%; height: 25px;">Cancel</button>
+                    <button id="add_shp" class="btn btn-red btn-small" hidefocus="true" name="submit" style="outline: medium none;">
+                        <span class="gradient">Add Shipment</span>
+                    </button>
+                    <br /><br />
+                    <button type="submit" id="save_btn" class="btn btn-red btn-small" hidefocus="true" name="submit" style="outline: medium none;">
+                        <span class="gradient">Save</span>
+                    </button>
+                    <button type="submit" id="savensend_btn" class="btn btn-red btn-small" hidefocus="true" name="submit" style="outline: medium none;">
+                        <span class="gradient">Save and send</span>
+                    </button>
+                    <button id="btn_cancel" style="border-radius: 16%; height: 25px;">Cancel</button>
                 </form>
             </div>
         </div>
@@ -297,17 +373,27 @@
     .modal{
         width: 620px;
         overflow: auto;
-        height: 490px;
+        //height: 490px;
+        height: 635px;
     }
 
     .modal-body{
         height: auto;
         min-height: 305px;
-        max-height: 525px;
+        max-height: 680px;
     } 
 
     .modal.fade.in{
         top: 5%;
+    }
+    
+    #map_pickup, #map_drop {
+        margin-top: 10px;
+        margin-right: 10px;
+    }
+    
+    #mpk_sp_instru, #mdp_sp_instru {
+        height: 80px;
     }
 </style>
 <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAp8XadZn74QX4NLDphnzehQ0AN7q6NCwg"></script>
@@ -354,11 +440,29 @@
             $("#mpk_zipcode").attr('class', 'mpk_zipcode_' + pickup.data('shp_id'));
             $('#view_pickup').attr('data-shp_id', pickup.data('shp_id'));
             $('#set_pickup').attr('data-shp_id', pickup.data('shp_id'));
-            $('#mpk_address').val('');
-            $('#mpk_address2').val('');
-            $('#mpk_zipcode').val('');
+            $('#mpk_op_time').attr('class', 'mpk_op_time_' + pickup.data('shp_id'));
+            $('#mpk_com_name').attr('class', 'mpk_com_name_' + pickup.data('shp_id'));
+            $('#mpk_sp_instru').attr('class', 'mpk_sp_instru_' + pickup.data('shp_id'));
+            $('#mpk_reference').attr('class', 'mpk_reference_' + pickup.data('shp_id'));
+//            $('#mpk_address').val('');
+//            $('#mpk_address2').val('');
+//            $('#mpk_zipcode').val('');
+//            $('#mpk_op_time').val('');
+//            $('#mpk_com_name').val('');
+//            $('#mpk_sp_instru').val('');
+//            $('#mpk_reference').val('');            
+            $('#mpk_address').val($('#pk_' + pickup.data('shp_id')).val());
+            $('#mpk_address2').val($('#pk2_' + pickup.data('shp_id')).val());
+            $('#mpk_zipcode').val($('#pk_zipcode_' + pickup.data('shp_id')).val());
+
+            $('#mpk_op_time').val($('#pk_time_' + pickup.data('shp_id')).val());
+            $('#mpk_com_name').val($('#pk_company_name_' + pickup.data('shp_id')).val());
+            $('#mpk_sp_instru').val($('#pk_instructions_' + pickup.data('shp_id')).val());
+            $('#mpk_reference').val($('#pk_reference_' + pickup.data('shp_id')).val())
+            
             $("#map_pickup").html("");
-            $('.modal').css('height', '490px');
+            //$('.modal').css('height', '490px');
+            $('.modal').css('height', '635px');
             $('#pickup_form_error').hide();
         });
 
@@ -371,13 +475,31 @@
             $("#mdp_zipcode").attr('class', 'mdp_zipcode_' + drop.data('shp_id'));
             $('#view_drop').attr('data-shp_id', drop.data('shp_id'));
             $('#set_drop').attr('data-shp_id', drop.data('shp_id'));
-            $('#mdp_address').val('');
-            $('#mdp_address2').val('');
-            $('#mdp_zipcode').val('');
-            $("#map_drop").html("");
-            $('.modal').css('height', '490px')
-            $('#drop_form_error').hide();
+            $('#mdp_op_time').attr('class', 'mdp_op_time_' + drop.data('shp_id'));
+            $('#mdp_com_name').attr('class', 'mdp_com_name_' + drop.data('shp_id'));
+            $('#mdp_sp_instru').attr('class', 'mdp_sp_instru_' + drop.data('shp_id'));
+            $('#mdp_reference').attr('class', 'mdp_reference_' + drop.data('shp_id'));
+//            $('#mdp_address').val('');
+//            $('#mdp_address2').val('');
+//            $('#mdp_zipcode').val('');
+//            $('#mdp_op_time').val('');
+//            $('#mdp_com_name').val('');
+//            $('#mdp_sp_instru').val('');
+//            $('#mdp_reference').val('');
+            
+            $('#mdp_address').val($('#dp_' + drop.data('shp_id')).val());
+            $('#mdp_address2').val($('#dp2_' + drop.data('shp_id')).val());
+            $('#mdp_zipcode').val($('#dp_zipcode_' + drop.data('shp_id')).val());
 
+            $('#mdp_op_time').val($('#dp_time_' + drop.data('shp_id')).val());
+            $('#mdp_com_name').val($('#dp_company_name_' + drop.data('shp_id')).val());
+            $('#mdp_sp_instru').val($('#dp_instructions_' + drop.data('shp_id')).val());
+            $('#mdp_reference').val($('#dp_reference_' + drop.data('shp_id')).val())
+            
+            $("#map_drop").html("");
+            //$('.modal').css('height', '490px');
+            $('.modal').css('height', '635px')
+            $('#drop_form_error').hide();
         });
 
         //view pickup address
@@ -436,14 +558,24 @@
                         city = data.results[0].address_components[2].long_name;
                     }
 
-                    if (data.results[0].address_components[4].short_name) {
-                        state = data.results[0].address_components[4].short_name;
-                    }
+                   if(data.results[0].address_components[4]){
+						////////
+						if (data.results[0].address_components[4].short_name) {
+							state = data.results[0].address_components[4].short_name;
+						}
+						//////
+					}
+                    
+                    //alert($('.mpk_sp_instru_' + id).val());
 
                     $('#pk_' + id).val($('#mpk_address').val());
                     $('#pk2_' + id).val($('#mpk_address2').val());
                     $('#pk_' + id).removeAttr("readonly");
                     $('#pk_zipcode_' + id).val($('.mpk_zipcode_' + id).val());
+                    $('#pk_time_' + id).val($('.mpk_op_time_' + id).val());
+                    $('#pk_company_name_' + id).val($('.mpk_com_name_' + id).val());
+                    $('#pk_reference_' + id).val($('.mpk_reference_' + id).val());
+                    $('#pk_instructions_' + id).val($('.mpk_sp_instru_' + id).val());
                     $('#pk_lat_' + id).val(lat);
                     $('#pk_lng_' + id).val(lng);
 
@@ -506,15 +638,22 @@
                     if (data.results[0].address_components[2].long_name) {
                         city = data.results[0].address_components[2].long_name;
                     }
-
-                    if (data.results[0].address_components[4].short_name) {
-                        state = data.results[0].address_components[4].short_name;
-                    }
+					if(data.results[0].address_components[4]){
+						////////
+						if (data.results[0].address_components[4].short_name) {
+							state = data.results[0].address_components[4].short_name;
+						}
+						//////
+					}
 
                     $('#dp_' + id).val($('.mdp_address_' + id).val());
                     $('#dp_' + id).removeAttr("readonly");
                     $('#dp2_' + id).val($('#mdp_address2').val());
                     $('#dp_zipcode_' + id).val($('.mdp_zipcode_' + id).val());
+                    $('#dp_time_' + id).val($('.mdp_op_time_' + id).val());
+                    $('#dp_company_name_' + id).val($('.mdp_com_name_' + id).val());
+                    $('#dp_reference_' + id).val($('.mdp_reference_' + id).val());
+                    $('#dp_instructions_' + id).val($('.mdp_sp_instru_' + id).val());
                     $('#dp_lat_' + id).val(lat);
                     $('#dp_lng_' + id).val(lng);
 
@@ -597,7 +736,6 @@
                 }
             });
         });
-
 
         function initialize2(lng, lat, canvas) {
 //            console.log('long and lat: ' + lng + ', ' + lat);
@@ -937,10 +1075,41 @@
         // First row Content
         tRow = $('<tr id="shp_' + shp_number + '" class="shp_' + shp_number + '">');
         customer = $('<td>').html($('#customer_list').html());
-        pickup = $('<td>').html('<input type="text" class="pk" id="pk_' + shp_number + '" name="pickup" style="width:235px" readonly/><input type="hidden" class="pk2" id="pk2_' + shp_number + '" name="pickup" style="width:235px"/><button type="button" class="btn btn-red btn-small" data-shp_id="' + shp_number + '" hidefocus="true" style="outline: medium none; margin: 0px 5px;" data-toggle="modal" data-target="#originAddressModal" id="set-model-pickup"><span class="gradient">+</span></button>');
-        pickupNumber = $('<td>').html('<input type="text" class="pk_number" id="pk_number_' + shp_number + '" name="pickup" style="width:50px;" /><input type="hidden" class="pk_zipcode" name="pk_zipcode_' + shp_number + '" id="pk_zipcode_' + shp_number + '"><input type="hidden" class="pk_lat" name="pk_lat_' + shp_number + '" id="pk_lat_' + shp_number + '"><input type="hidden" class="pk_lng" name="pk_lng_' + shp_number + '" id="pk_lng_' + shp_number + '">');
-        drop = $('<td>').html('<input type="text" class="dp" id="dp_' + shp_number + '" name="drop" style="width:242px" readonly/><input type="hidden" class="dp2" id="dp2_' + shp_number + '" name="drop"><button type="button" class="btn btn-red btn-small" data-shp_id="' + shp_number + '" hidefocus="true" style="outline: medium none;margin: 0px 5px;" data-toggle="modal" data-target="#destinationAddressModal" id="set-model-drop"><span class="gradient">+</span></button>');
-        dropNumber = $('<td>').html('<input type="text" class="dp_number" id="dp_number_' + shp_number + '" name="drop" style="width:50px;" /><input type="hidden" class="dp_zipcode" name="dp_zipcode_' + shp_number + '" id="dp_zipcode_' + shp_number + '"><input type="hidden" class="dp_lat" name="dp_lat_' + shp_number + '" id="dp_lat_' + shp_number + '"><input type="hidden" class="dp_lng" name="dp_lng_' + shp_number + '" id="dp_lng_' + shp_number + '"><input type="hidden" class="bol-num" name="bol_num_' + shp_number + '" id="bol-num_' + shp_number + '" class="bol-num">');
+        pickup = $('<td>').html(
+            '<input type="text" class="pk" id="pk_' + shp_number + '" name="pickup" style="width:235px" readonly/>\n\
+            <input type="hidden" class="pk2" id="pk2_' + shp_number + '" name="pickup" style="width:235px"/>\n\
+            <button type="button" class="btn btn-red btn-small" data-shp_id="' + shp_number + '" hidefocus="true" style="outline: medium none; margin: 0px 5px;" data-toggle="modal" data-target="#originAddressModal" id="set-model-pickup">\n\
+                <span class="gradient">+</span>\n\
+            </button>'
+        );
+        pickupNumber = $('<td>').html( 
+            '<input type="text" class="pk_number" id="pk_number_' + shp_number + '" name="pickup" style="width:50px;" />\n\
+            <input type="hidden" class="pk_zipcode" name="pk_zipcode_' + shp_number + '" id="pk_zipcode_' + shp_number + '">\n\
+            <input type="hidden" class="pk_time" name="pk_time_' + shp_number + '" id="pk_time_' + shp_number + '">\n\
+            <input type="hidden" class="pk_company_name" name="pk_company_name_' + shp_number + '" id="pk_company_name_' + shp_number + '">\n\
+            <input type="hidden" class="pk_reference" name="pk_reference_' + shp_number + '" id="pk_reference_' + shp_number + '">\n\
+            <input type="hidden" class="pk_instructions" name="pk_instructions_' + shp_number + '" id="pk_instructions_' + shp_number + '">\n\
+            <input type="hidden" class="pk_lat" name="pk_lat_' + shp_number + '" id="pk_lat_' + shp_number + '">\n\
+            <input type="hidden" class="pk_lng" name="pk_lng_' + shp_number + '" id="pk_lng_' + shp_number + '">'
+        );
+        drop = $('<td>').html(
+            '<input type="text" class="dp" id="dp_' + shp_number + '" name="drop" style="width:242px" readonly/>\n\
+            <input type="hidden" class="dp2" id="dp2_' + shp_number + '" name="drop">\n\
+            <button type="button" class="btn btn-red btn-small" data-shp_id="' + shp_number + '" hidefocus="true" style="outline: medium none;margin: 0px 5px;" data-toggle="modal" data-target="#destinationAddressModal" id="set-model-drop">\n\
+                <span class="gradient">+</span>\n\
+            </button>'
+        );
+        dropNumber = $('<td>').html(
+            '<input type="text" class="dp_number" id="dp_number_' + shp_number + '" name="drop" style="width:50px;" />\n\
+            <input type="hidden" class="dp_zipcode" name="dp_zipcode_' + shp_number + '" id="dp_zipcode_' + shp_number + '">\n\
+            <input type="hidden" class="dp_time" name="dp_time_' + shp_number + '" id="dp_time_' + shp_number + '">\n\
+            <input type="hidden" class="dp_company_name" name="dp_company_name_' + shp_number + '" id="dp_company_name_' + shp_number + '">\n\
+            <input type="hidden" class="dp_reference" name="dp_reference_' + shp_number + '" id="dp_reference_' + shp_number + '">\n\
+            <input type="hidden" class="dp_instructions" name="dp_instructions_' + shp_number + '" id="dp_instructions_' + shp_number + '">\n\
+            <input type="hidden" class="dp_lat" name="dp_lat_' + shp_number + '" id="dp_lat_' + shp_number + '">\n\
+            <input type="hidden" class="dp_lng" name="dp_lng_' + shp_number + '" id="dp_lng_' + shp_number + '">\n\
+            <input type="hidden" class="bol-num" name="bol_num_' + shp_number + '" id="bol-num_' + shp_number + '" class="bol-num">'
+        );
 
         tRow.append(customer);
         tRow.append(pickup);
@@ -952,8 +1121,12 @@
 
         //second row header and content
         tRowContent = $('<tr id="shp_' + shp_number + '" class="shp_' + shp_number + '">');
-        bolNumber = $('<td colspan="2" style="width:125px">').html('BOL #<input type="text" id="bn_' + shp_number + '" class="bol-number" name="bol_number"/>');
-        bolFile = $('<td colspan="3">').html('BOL file<input type="file" id="shp_file_' + shp_number + '" multiple = "multiple" accept = "application/pdf" class = "" name="uploadfile[]" size="20" />');
+        bolNumber = $('<td colspan="2" style="width:125px">').html(
+            'BOL #<input type="text" id="bn_' + shp_number + '" class="bol-number" name="bol_number"/>'
+        );
+        bolFile = $('<td colspan="3">').html(
+            'BOL file<input type="file" id="shp_file_' + shp_number + '" multiple = "multiple" accept = "application/pdf" class = "" name="uploadfile[]" size="20" />'
+        );
 
         tRowContent.append(bolNumber);
         tRowContent.append(bolFile);
@@ -965,12 +1138,15 @@
 
         //Contacts
         tRowContact = $('<tr class="shp_' + shp_number + '">');
-        contact = $('<td colspan = "6">').html('Contacts: <span id="shp_contact_' + shp_number + '">' + first_cust_contacts + '</span><a href="#" title="Set Shipment Contacts" id="shp_contact_chg_' + shp_number + '" data-ship="' + shp_number + '" data-id_customer="' + first_cust_contact_id + '" class="pop" data-placement="right" data-content="Content">Change</a><input type="hidden" value="[]" name="ship_contacts_' + shp_number + '" id="ship_contacts_' + shp_number + '" />  ');
+        contact = $('<td colspan = "6">').html(
+            'Contacts: <span id="shp_contact_' + shp_number + '">' + first_cust_contacts + '</span>\n\
+            <a href="#" title="Set Shipment Contacts" id="shp_contact_chg_' + shp_number + '" data-ship="' + shp_number + '" data-id_customer="' + first_cust_contact_id + '" class="pop" data-placement="right" data-content="Content">Change</a>\n\
+            <input type="hidden" value="[]" name="ship_contacts_' + shp_number + '" id="ship_contacts_' + shp_number + '" /> '
+        );
         tRowContact.append(contact);
         $('#bol-table tbody').append(tRowContact);
 
         $('#ship_contacts_' + shp_number).val(new_first_contacts_json);
-
     }
 
     function getShipmentData() {
@@ -988,12 +1164,20 @@
                     pickup2: tr.find('.pk2').val(),
                     pickup_number: tr.find('.pk_number').val(),
                     pickup_zipcode: tr.find('.pk_zipcode').val(),
+                    pickup_time: tr.find('.pk_time').val(),
+                    pickup_company_name: tr.find('.pk_company_name').val(),
+                    pickup_reference: tr.find('.pk_reference').val(),
+                    pickup_instructions: tr.find('.pk_instructions').val(),
                     pickup_lat: tr.find('.pk_lat').val(),
                     pickup_lng: tr.find('.pk_lng').val(),
                     drop: tr.find('.dp').val(),
                     drop2: tr.find('.dp2').val(),
                     drop_number: tr.find('.dp_number').val(),
                     drop_zipcode: tr.find('.dp_zipcode').val(),
+                    drop_time: tr.find('.dp_time').val(),
+                    drop_company_name: tr.find('.dp_company_name').val(),
+                    drop_reference: tr.find('.dp_reference').val(),
+                    drop_instructions: tr.find('.dp_instructions').val(),
                     drop_lat: tr.find('.dp_lat').val(),
                     drop_lng: tr.find('.dp_lng').val(),
                     bol_number: tr.find('.bol-num').val()
@@ -1147,7 +1331,7 @@
         //if (addr == '' || zip == '') {
 		if (addr == '') {
             //$('#pickup_form_error').html('address and/or zipcode can not be empty.');
-			$('#pickup_form_error').html('address field can not be empty.');
+            $('#pickup_form_error').html('address field can not be empty.');
             $('#pickup_form_error').show();
             return false;
         }
@@ -1179,7 +1363,6 @@
                     $('.modal').animate({
                         height: "664px"
                     });
-
 
 //                  console.log('state: ' + state + ', lat: ' + lat + ', lng: ' + lng + ', zipcode: ' + zipcode);
 //                $('#result_destination').show();

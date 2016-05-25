@@ -14,6 +14,14 @@ class load_model extends CRUD_model {
         parent::__construct();
     }
 
+	public function get_load_by_id($where = null){
+			$this->db->select('*');
+			$this->db->from($this->_table);
+			$q = $this->db->where($this->_primary_key, $where);
+			$q = $this->db->get();
+            return $q->result_array();
+		}
+		
     public function get_load_view($where = null, $where_in = null, $sw = null, $order_by = null, $order = null, $limit = null, $start = null) {
         $this->db->select('* ,'
                 . ' ts_driver.name AS driver_name,'

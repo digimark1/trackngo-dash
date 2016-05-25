@@ -19,9 +19,7 @@
 </style>
 
 <div>
-
     <script src="<?php echo site_url('public/third-party') ?>/js/jSignature.min.noconflict.js"></script>
-
     <?php
     $driver = $driver[0];
     $load = $load[0];
@@ -30,37 +28,59 @@
         <span class="ajax-loader-gray"></span>
     </div>
     <div id="category-actions">
-        <div class="loads-title" id="category-title"><img src="<?php echo base_url() ?>/public/img/images/loads-title.png" width="100" height="70" alt="Loads Category"></div>
-        <div id="category-button"><a style="outline: medium none;" hidefocus="true" href="<?php echo site_url('load/'); ?>"><img src="<?php echo base_url() ?>/public/img/images/loads-list-bt-45w.png" width="45" height="70" alt="View All Loads"></a></div>
+        <div class="loads-title" id="category-title">
+            <img src="<?php echo base_url() ?>/public/img/images/loads-title.png" width="100" height="70" alt="Loads Category">
+        </div>
+        <div id="category-button">
+            <a style="outline: medium none;" hidefocus="true" href="<?php echo site_url('load/'); ?>">
+                <img src="<?php echo base_url() ?>/public/img/images/loads-list-bt-45w.png" width="45" height="70" alt="View All Loads">
+            </a>
+        </div>
         <?php
         if (in_array("load/add", $roles)) {
-            ?>
-            <div id="category-button"><a style="outline: medium none;" hidefocus="true" href="<?php echo site_url('load/add'); ?>"><img src="<?php echo base_url() ?>/public/img/images/loads-add-bt-45w.png" width="45" height="70" alt="Add a Load"></a></div>
-        <?php } ?>    
+        ?>
+            <div id="category-button">
+                <a style="outline: medium none;" hidefocus="true" href="<?php echo site_url('load/add'); ?>">
+                    <img src="<?php echo base_url() ?>/public/img/images/loads-add-bt-45w.png" width="45" height="70" alt="Add a Load">
+                </a>
+            </div>
+        <?php        
+        } ?>    
     </div>    
     <!--<div class="text-left"><h1>Load Details #<?php echo $load['load_number'] ?></h1></div>-->
     <h2>Details Load #<?php echo $load['load_number'] ?></h2>
 
     <div class="container container-wide">
-
         <div class="content" role="main" style="padding:0px">
             <div class="row">
                 <div class="tabs_framed styled">
                     <ul class="tabs clearfix tab_id2 bookmarks3 active_bookmark1">
-                        <li id="shipments_bar" class="first active"><a href="#about" data-toggle="tab" hidefocus="true" style="outline: none;">SHIPMENTS</a></li>
-                        <li><a id="createmap" href="#mapdrive" data-toggle="tab" hidefocus="true" style="outline: none;">DRIVER</a></li>
-                        <li id="callchecks_bar"><a id="createmap" href="#callcheck_tab" data-toggle="tab" hidefocus="true" style="outline: none;">CALLCHECKS</a></li>
+                        <li id="shipments_bar" class="first active">
+                            <a href="#about" data-toggle="tab" hidefocus="true" style="outline: none;">SHIPMENTS</a>
+                        </li>
+                        <li>
+                            <a id="createmap" href="#mapdrive" data-toggle="tab" hidefocus="true" style="outline: none;">DRIVER</a>
+                        </li>
+                        <li id="callchecks_bar">
+                            <a id="createmap" href="#callcheck_tab" data-toggle="tab" hidefocus="true" style="outline: none;">CALLCHECKS</a>
+                        </li>
                     </ul>
 
                     <div class="tab-content boxed clearfix">
                         <div class="tab-pane fade active in" id="about">
                             <div class="inner clearfix">
-
-<!--                                <a style="width:200px;" href="../../../tkgo_files/<?php echo $load['load_number'] ?>.pdf" class="btn" download="w3logo" hidefocus="true"><span class="gradient">DOWNLOAD</span></a>
+                            <!--<a style="width:200px;" href="../../../tkgo_files/<?php echo $load['load_number'] ?>.pdf" class="btn" download="w3logo" hidefocus="true"><span class="gradient">DOWNLOAD</span></a>
                                 <a class="btn" href="#" hidefocus="true"><span class="gradient" data-toggle="modal" data-target="#destinationAddressModal">Send by e-mail</span></a>
                                 <a class="btn" href="#" onclick="reloadBol()" hidefocus="true"><span class="gradient">Refresh BOL</span></a>
                                 <iframe width="100%" height="600" id="if_bol" style="margin-top:15px" src="../../../tkgo_files/<?php echo $load['load_number'] ?>.pdf"></iframe>-->
-                                <div style="margin-bottom: 10px;">[<span><a class="expd" style="cursor:pointer">Expand</a></span>/<span><a class="cpse" style="cursor:pointer">Collapse</a></span>]<div style="float: right; position: relative; bottom: 2px;"><button id="refresh" onclick="location.reload();" class="btn btn-red btn-small" hidefocus="true" name="submit" style="outline: medium none;float: left;position: relative;bottom: 3px;right: 5px;"><span class="gradient">Refresh</span></button></div></div>
+                                <div style="margin-bottom: 10px;">
+                                    [<span><a class="expd" style="cursor:pointer">Expand</a></span>/<span><a class="cpse" style="cursor:pointer">Collapse</a></span>]
+                                    <div style="float: right; position: relative; bottom: 2px;">
+                                        <button id="refresh" onclick="location.reload();" class="btn btn-red btn-small" hidefocus="true" name="submit" style="outline: medium none;float: left;position: relative;bottom: 3px;right: 5px;">
+                                            <span class="gradient">Refresh</span>
+                                        </button>
+                                    </div>
+                                 </div>
                                 <div class="accordion">
                                     <?php
                                     $file_path = VIEW_FILE_PATH;
@@ -68,7 +88,11 @@
                                     foreach ($shipments as $shipment => $row) {
                                         ?>
                                         <div class="accordion-section">
-                                            <a class="accordion-section-title" href="#accordion-<?php echo $i ?>">BOL #<?php echo $row['bol_number'] ?> <div style="float: right;"><span style="float:right" >S<?php echo $i ?></span></div></a>
+                                            <a class="accordion-section-title" href="#accordion-<?php echo $i ?>">BOL #<?php echo $row['bol_number'] ?> 
+                                                <div style="float: right;">
+                                                    <span style="float:right" >S<?php echo $i ?></span>
+                                                </div>
+                                            </a>
                                             <div id="accordion-<?php echo $i ?>" class="accordion-section-content open">
                                                 <table id="bol-table" class="table table-hover table-striped">
                                                     <tbody>
@@ -82,31 +106,42 @@
                                                             <td class="bol_header">Documents</td>
                                                         </tr>
                                                         <?php
-                                                        $shp = $row['origin_sign'] == 1 ? '<div class="shp_document"><a id="sp_pop_' . $row['bol_number'] . '" href="' . VIEW_FILE_PATH . $load['idts_load'] . '_bol_' . $row['bol_number'] . '_sp.pdf" class="pop" data-load_id="' . $load['idts_load'] . '" data-bol_number="' . $row['bol_number'] . '" data-doc_type="sp" data-pages_number="' . $row['pickup_doc_pages'] . '" target="_blank">' . $row['pickup_doc'] . '</a></div>' : '';
+                                                        $shp = $row['pickup_doc_pages'] >= 1 ? '<div class="shp_document"><a id="sp_pop_' . $row['bol_number'] . '" href="' . VIEW_FILE_PATH . $load['idts_load'] . '_bol_' . $row['bol_number'] . '_sp.pdf" class="pop" data-load_id="' . $load['idts_load'] . '" data-bol_number="' . $row['bol_number'] . '" data-doc_type="sp" data-pages_number="' . $row['pickup_doc_pages'] . '" target="_blank">' . $row['pickup_doc'] . '</a></div>' : '';
                                                         $pod = $row['destination_sign'] == 1 ? '<div class="csn_document"><a id="cs_pop_' . $row['bol_number'] . '" href="' . VIEW_FILE_PATH . $load['idts_load'] . '_bol_' . $row['bol_number'] . '_cs.pdf" class="pop_cs" data-load_id="' . $load['idts_load'] . '" data-bol_number="' . $row['bol_number'] . '" data-doc_type="cs" data-pages_number="' . $row['drop_doc_pages'] . '" target="_blank">' . $row['drop_doc'] . '</a></div>' : '';
                                                         $status = 'test';
                                                         if ($load['tender'] == 0) {
                                                             $status = 'Not tendered';
-                                                        } else if (($shp == '') && ($pod == '')) {
+                                                        //} else if (($shp == '') && ($pod == '')) {
+                                                        } else if (($row['origin_sign']==0) && ($pod == '')) {
                                                             $status = 'To Pickup';
-                                                        } else if (($shp != '') && ($pod == '')) {
+                                                        //} else if (($shp != '') && ($pod == '')) {
+                                                        } else if (($row['origin_sign']==1) && ($pod == '')) {
                                                             $status = 'In transit';
                                                         } else {
                                                             $status = 'Delivered';
                                                         }
                                                         
                                                         echo'<tr data-status="' . $status . '">'
-                                                        . '<td style="text-align: center; width:14%">' . $row['customer_name'] . '</td>'
-                                                        . '<td style="text-align: center; width:20%">' . $row['pickup_format_address'] . '</td>'
-                                                        . '<td style="text-align: center; width:7%">' . $row['pickup_number'] . '</td>'
-                                                        . '<td style="text-align: center; width:20%">' . $row['drop_format_address'] . '</td>'
-                                                        . '<td style="text-align: center; width:7%">' . $row['drop_number'] . '</td>'
-                                                        . '<td class="status color" style="text-align: center;width:12%"">' . $status . '</td>'
-                                                        . '<td style="text-align: center;">'
-                                                        . '<div class="or_document"><a id="or_pop_' . $row['bol_number'] . '" href="' . VIEW_FILE_PATH . $row['url_bol'] . '" class="pop_or" data-load_id="' . $load['idts_load'] . '" data-bol_number="' . $row['bol_number'] . '"  target="_blank">Original Document</a></div>'
-                                                        . $shp
-                                                        . $pod
-                                                        . ' </td>'
+                                                            . '<td style="text-align: center; width:14%">' . $row['customer_name'] . '</td>'
+                                                            . '<td style="text-align: center; width:20%">' . $row['company_name'] . ' <br> ' . $row['pickup_format_address'] . '</td>'
+                                                            . '<td style="text-align: center; width:7%">' . $row['pickup_number'] . '</td>'
+                                                            . '<td style="text-align: center; width:20%">' . $row['company_name2'] . ' <br> ' . $row['drop_format_address'] . '</td>'
+                                                            . '<td style="text-align: center; width:7%">' . $row['drop_number'] . '</td>'
+                                                            . '<td class="status color" style="text-align: center;width:12%"">' . $status . '</td>'
+                                                            . '<td style="text-align: center;">'
+                                                            . '<div class="or_document">'
+                                                                . '<a id="or_pop_' . $row['bol_number'] . '" href="' . VIEW_FILE_PATH . $row['url_bol'] . '" class="pop_or" data-load_id="' . $load['idts_load'] . '" data-bol_number="' . $row['bol_number'] . '"  target="_blank">'
+                                                                    . 'Original Document'
+                                                                . '</a>'
+                                                            . '</div>'
+                                                            . $shp
+                                                            . $pod
+                                                            . ' </td>'
+                                                        . '</tr>';
+                                                        
+                                                        echo'<tr data-status="' . $status . '">'
+                                                            . '<td colspan="3" style="text-align: left; width:14%"><strong>Reference: </strong>' . $row['reference'] . '<br> <strong>Pickup Time: </strong>' . $row['pickup_time'] . '  <br> <strong>Special Instructions: </strong>' . $row['special_instructions'] . '</td>'
+                                                            . '<td colspan="3" style="text-align: left; width:14%"><strong>Reference: </strong>' . $row['reference2'] . '<br> <strong>Delivery Time: </strong>' . $row['drop_time'] . ' <br> <strong>Special Instructions: </strong>' . $row['special_instructions2'] . ' </td>'
                                                         . '</tr>';
 
                                                         echo'<tr>';
@@ -141,7 +176,6 @@
                                     ?>
                                 </div><!--end .accordion-->                                
                             </div>
-
                         </div>
 
                         <div class="tab-pane fade" id="mapdrive">
@@ -156,15 +190,21 @@
                                 </div>
 
                                 <div class="widget-container widget_categories boxed">
-                                    <h4 class="widget-title">CURRENT DRIVER LOCATION<span class="refresh-driver" style="float:right; cursor:pointer"><img src="<?php echo base_url() ?>/public/img/ic_refresh_white_24dp_1x.png" style="width:22px;" alt="Loads Category"></span></h4>
+                                    <h4 class="widget-title">CURRENT DRIVER LOCATION
+                                        <span class="refresh-driver" style="float:right; cursor:pointer">
+                                            <img src="<?php echo base_url() ?>/public/img/ic_refresh_white_24dp_1x.png" style="width:22px;" alt="Loads Category">
+                                        </span>
+                                    </h4>
                                     <div style="padding-top: 5px; padding-bottom: 5px; padding-left: 5px">
                                         <div id="driver_loc"></div>
                                     </div>  
                                 </div>
-
-
                                 <div class="widget-container widget_categories boxed">
-                                    <h4 class="widget-title">MAP<span class="refresh-driver" style="float:right; cursor:pointer"><img src="<?php echo base_url() ?>/public/img/ic_refresh_white_24dp_1x.png" style="width:22px;" alt="Loads Category"></span></h4>
+                                    <h4 class="widget-title">MAP
+                                        <span class="refresh-driver" style="float:right; cursor:pointer">
+                                            <img src="<?php echo base_url() ?>/public/img/ic_refresh_white_24dp_1x.png" style="width:22px;" alt="Loads Category">
+                                        </span>
+                                    </h4>
                                     <div id="map_wrapper">
                                         <div class="widget-container widget_categories boxed">
                                             <div id="map"></div>
@@ -215,7 +255,18 @@
                                             </div>
                                         </div>
                                         <div class="loading-bar" style="display:none"></div>
-                                    </div>                                
+                                    </div>
+                                </div>
+                                <div class="rowSubmit clearfix" style="padding:0px 0px; float: left;">
+                                    <div class="input_styled checklist">
+                                        <div class="rowCheckbox checkbox-filled"><!--<div class="custom-checkbox"><input name="save" type="checkbox" checked="" id="save" value="save" hidefocus="true" style="outline: none;"><label for="save" class="checked">&nbsp;</label></div>--></div>
+                                    </div>                                    
+                                    <span class="btn">
+                                        <input type="button" id="request_loc" value="Request location" hidefocus="true" class="request_loc" style="outline: none;">
+                                    </span>
+                                    <span style="float:right; visibility: hidden">
+                                        <input type="checkbox" name="sw_not_driver_1" id="sw_not_driver_1" value="" checked=""> Notify
+                                    </span>
                                 </div>
                             </div>
                         </div>
@@ -242,10 +293,9 @@
                                                     <input type="text" name="subject" id="subject" value="Load #<?php echo $load['load_number'] ?>" placeholder="You can add a subject" class="inputtext input_middle required" hidefocus="true" style="outline: none;">
                                                 </div>
                                                 <!--style="width:100%;height: 150px;overflow-y: auto;border: 1px solid #ccc; margin-bottom: 15px;"-->
-                                                <!--                                                    <div id="chat_load" >-->
+                                                <!--<div id="chat_load" >-->
 
                                                 <!--</div>-->
-
                                                 <div class="grid">
                                                     <div class="grid-canvas">
                                                         <div class="header-wrapper">
@@ -258,6 +308,7 @@
                                                                         <td>State</td>
                                                                         <td style="width:239px">Notes</td>
                                                                         <td>User</td>
+                                                                        <td hidden=""></td>
                                                                     </tr>
                                                                 </tbody>
                                                             </table>
@@ -268,6 +319,7 @@
                                                                     <?php
                                                                     $last_date = '';
                                                                     foreach ($callchecks as $callcheck => $row) {
+                                                                        //$idt_callcheck = $row['idts_callcheck'];
                                                                         if ($row['driver_sw'] == 1) {
                                                                             $sub = $row['driver_name'] . ' ' . $row['driver_last_name'];
                                                                             $ms_style = '#D8D8D8';
@@ -281,13 +333,17 @@
 
                                                                         if ($row['date']) {
                                                                             echo'<tr style="background-color: ' . $ms_style . '">'
-                                                                            . '<td style="text-align: center; width:100px">' . $date_formated . '</td>'
-                                                                            . '<td style="text-align: center; width:100px">' . $date[1] . '</td>'
-                                                                            . '<td style="text-align: center;">' . $row['city'] . '</td>'
-                                                                            . '<td style="text-align: center;">' . $row['state'] . '</td>'
-//                                                                            . '<td style="text-align: center;width:239px"><div class="notes" style="float:left">' . $row['comment'] . '</div><a class="exp-call" data-comment="' . $row['comment'] . '" style="float:left;">exp</a></td>'
-                                                                            . '<td style="text-align: center;width:239px"><div class="notes" style="float:left">' . $row['comment'] . '</div><a class="set-callcheck" data-note="' . $row['comment'] . '" hidefocus="true" style="outline: medium none;margin: 0px 5px;" data-toggle="modal" data-target="#callcheckViewModal">view</a></td>'
-                                                                            . '<td style="text-align: center;">' . $sub . '</td>'
+                                                                                . '<td style="text-align: center; width:100px">' . $date_formated . '</td>'
+                                                                                . '<td style="text-align: center; width:100px">' . $date[1] . '</td>'
+                                                                                . '<td style="text-align: center;">' . $row['city'] . '</td>'
+                                                                                . '<td style="text-align: center;">' . $row['state'] . '</td>'
+    //                                                                            . '<td style="text-align: center;width:239px"><div class="notes" style="float:left">' . $row['comment'] . '</div><a class="exp-call" data-comment="' . $row['comment'] . '" style="float:left;">exp</a></td>'
+                                                                                . '<td style="text-align: center;width:239px">'
+                                                                                        . '<div class="notes" style="float:left">' . $row['comment'] . '</div>'
+                                                                                        . '<a class="set-callcheck" data-idts="' . $row['idts'] . '" data-note="' . $row['comment'] . '" hidefocus="true" style="outline: medium none;margin: 0px 5px;" data-toggle="modal" data-target="#callcheckViewModal">view</a>'
+                                                                                . '</td>'
+                                                                                . '<td style="text-align: center;">' . $sub . '</td>'
+                                                                                . '<td style="text-align: center;" hidden="">' . $row['idts'] . '</td>'
                                                                             . '</tr>';
                                                                             $last_date = $row['date'];
                                                                         }
@@ -308,6 +364,9 @@
                                                     <div id="register_form_error" class="alert alert-error" style="display:none"><!-- Dynamic --></div>
                                                     <label for="styled_message" class="label_title">Message</label>
                                                     <textarea cols="30" rows="10" name="styled_message" id="styled_message" placeholder="Leave your message here" class="textarea textarea_middle required" hidefocus="true" style="outline: none;height:70px;"></textarea>
+                                                    <button type="button" class="btn btn-red btn-small" data-shp_id="1" hidefocus="true" style="outline: medium none; margin: 0px 5px;" data-toggle="modal" data-target="#originAddressModal" id="set-model">
+                                                        <span class="gradient">+</span>
+                                                    </button>
                                                 </div>
                                                 <div class="clear"></div>
                                             </div>
@@ -316,8 +375,12 @@
                                                 <div class="input_styled checklist">
                                                     <div class="rowCheckbox checkbox-filled"><!--<div class="custom-checkbox"><input name="save" type="checkbox" checked="" id="save" value="save" hidefocus="true" style="outline: none;"><label for="save" class="checked">&nbsp;</label></div>--></div>
                                                 </div>
-                                                <span style="float:left; padding-left: 15px; visibility: hidden"><input type="checkbox" name="sw_not_driver" id="ntfy_driver" value="" checked=""> Notify Driver</span>
-                                                <span class="btn"><input type="submit" id="send" value="Send Message" hidefocus="true" class="gradient" style="outline: none;"></span>
+                                                <span style="float:left; padding-left: 15px; visibility: hidden">
+                                                    <input type="checkbox" name="sw_not_driver" id="ntfy_driver" value="" checked=""> Notify Driver
+                                                </span>
+                                                <span class="btn">
+                                                    <input type="submit" id="send" value="Send Message" hidefocus="true" class="gradient" style="outline: none;">
+                                                </span>                                                
                                             </div>
                                         </form>
                                     </div>
@@ -327,6 +390,73 @@
                     </div>
                 </div>
             </div> <!-- END OF ROW -->
+            
+            <div class="modal fade" id="originAddressModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                            <h4 class="modal-title" id="myModalLabel">Callcheck</h4>
+                        </div>
+                        <div class="modal-body">
+                            <fieldset>
+                                <!-- Form Name -->
+                                <legend style="margin:10px 0px">Check Address in Map</legend>
+                                <div id="pickup_form_error" class="alert alert-error" style="display:none"><!-- Dynamic --></div>
+                                <div id="pickup_form_success" class="alert alert-success" style="display:none"><!-- Dynamic --></div>
+                                <table id="tbl-shp-view">
+                                    <tr>
+                                        <td>Address:</td>
+                                        <td colspan="2">
+                                            <input type="text" id="mpk_address" name="mpk_address" class="mpk_address" style="width:250px;"/>
+                                            <button id="view_map" class="btn btn-red btn-small" hidefocus="true" name="submit" style="outline: medium none;">
+                                                <span class="gradient">View in map</span>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Status:</td>
+                                        <td colspan="2">
+                                            <select id="mpk_state" name="mpk_state" style="width: 140px;">
+                                                <option value="0" selected="selected">Change Status</option>
+                                                <option value="1">Loaded</option>
+                                                <option value="1">Unloaded</option>
+                                            </select>
+                                            <select id="mpk_bol_number" name="mpk_bol_number" style="width: 200px;" required="">
+                                                <?php
+                                                foreach ($shipments as $shipment => $row) {
+                                                    echo '<option value="0">Please choose shipment</option>';
+                                                    echo '<option data-id="1" value="' . $row['idshipment'] . '">BOL #' . $row['bol_number'] . '</option>';
+                                                }
+                                                ?>
+                                            </select>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>Message: &nbsp;&nbsp;&nbsp;&nbsp;</td>
+                                        <td>
+                                            <!--<input type="text" id="mpk_sp_instru" name="drop_number" style="width:250px;"/>-->
+                                            <textarea id="mpk_msg" name="mpk_msg" class="mpk_msg" style="width: 345px;"></textarea>
+                                        </td>
+                                    </tr>
+                                </table>
+                                <div id="map_pickup">
+                                    <div id="map-canvas"></div>                                    
+                                </div>
+                            </fieldset>
+                        </div>
+                        <div class="modal-footer">
+                            <!--<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>-->
+                            <!--<button type="button" id="confirm_origin" class="btn btn-primary">Ok</button>-->
+                            <button data-dismiss="modal" style="border-radius: 16%; height: 25px;" id="close_modal" >Close</button>
+                            <button id="set_pickup" class="btn btn-red btn-small" hidefocus="true" name="submit" style="outline: medium none;">
+                                <span class="gradient">Send</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
             <div class="modal fade" id="destinationAddressModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
@@ -347,7 +477,9 @@
                         <div class="modal-footer">
                             <!--<button type="button" class="btn btn-primary" id="btn_send_bol" data-dismiss="modal">Send</button>-->
                             <button data-dismiss="modal" style="border-radius: 16%; height: 25px;float: none;">Close</button>&nbsp;
-                            <button id="btn_send_bol" class="btn btn-red btn-small" hidefocus="true" data-dismiss="modal" name="submit" style="outline: medium none;"><span class="gradient">Send</span></button>
+                            <button id="btn_send_bol" class="btn btn-red btn-small" hidefocus="true" data-dismiss="modal" name="submit" style="outline: medium none;">
+                                <span class="gradient">Send</span>
+                            </button>
                             <!--<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>-->
                         </div>
                     </div>
@@ -381,15 +513,9 @@
 
         </div>
         <div class="row">
-
-            <div class="col-sm-6">
-
-            </div>
-            <div class="col-sm-6">
-
-            </div>                    
+            <div class="col-sm-6"></div>
+            <div class="col-sm-6"></div>                    
         </div>
-
     </div>
 </div>
 
@@ -561,7 +687,6 @@
         font-size: large;
     }
 
-
     #callcheck_table .popover-title{
         font-size: 18px!important;
     }
@@ -619,16 +744,39 @@
         background-repeat: no-repeat;
         margin-left: 46%;
         margin: 20px 46%;      
-    }    
+    }
+    
+    .modal{
+        width: 620px;
+        overflow: auto;
+        //height: 490px;
+        height: 635px;
+    }
 
+    .modal-body{
+        height: auto;
+        min-height: 305px;
+        max-height: 680px;
+    } 
+
+    .modal.fade.in{
+        top: 5%;
+    }
+    
+    #satate_change {
+        width: 120px;
+    }
+    
+    #map_pickup {
+        margin-top: 10px;
+        margin-right: 10px;
+    }
 
 </style>
 <!-- Hidden content -->
 
-
 <!----------------------- Map, Distance , Time ------------------------------->
 <script>
-
     var trace_number = 20;
     $('.get_position').popover();
     $('body').on('click', '.get_position', function (evt) {
@@ -638,8 +786,8 @@
         $('.popover-title').html('<span>Driver address</span>');
         $('.popover-content').css({'background': 'url(' + '<?php echo base_url() ?>' + '/public/img/images/ajax-loader.gif)', 'background-repeat': 'no-repeat', 'background-position': 'center'});
         console.log('this is latitud: ' + geo.data('lat'));
-        //        $('[data-toggle=popover]').not(this).popover('hide');
-        //        $('.popover-title').html('<span>Driver address</span>');
+        //$('[data-toggle=popover]').not(this).popover('hide');
+        //$('.popover-title').html('<span>Driver address</span>');
         $.ajax({
             type: "POST",
             url: '<?php echo site_url('load/get_driver_address') ?>/' + geo.data('lat') + '/' + geo.data('lng') + '/1/' + geo.data('id') + '/1',
@@ -650,7 +798,6 @@
             },
             dataType: "json",
             success: function (o) {
-
                 var addrress = o.results[0].formatted_address;
                 geo.parent().html(addrress);
                 $('.popover-content').html('<ul><li>' + addrress + '</li></ul>');
@@ -660,11 +807,368 @@
             }
         });
     });
+    
+    $(document).ready(function() {         
+        if (window.location.hash){
+            var hash = window.location.hash.substring(1);
+            if (hash === 'callchecks') {
+                //alert ('conditions if');
+                setTimeout(function(){
+                    $('#callchecks_bar').trigger('click');
+                },10);
+            }
+        }
+        $('#mpk_bol_number').hide();
+    });
+    
+    $('#mpk_state').change(function() {
+        //alert( "Handler for .change() called." );
+        
+        if ($('#mpk_state').val() != '0') {
+            $('#mpk_bol_number').show();
+        }
+        
+        if ($('#mpk_state').val() == '0') {
+            $('#mpk_bol_number').hide();
+        }
+//        if ($('#mpk_state').val == '0') {
+//            $('#mpk_bol_number').hide();
+//        }
+    });
+    
+    $('body').on('click', '#view_map', function (evt) {
+        //alert ('knsl;kdfnvsdfnnijbnisbdf');
+        evt.preventDefault();
+//        var pickup = $(this);
+//        alert (pickup);
+//        console.log('get from pickup: ' + pickup.data('shp_id'));
+        getPickupMap();
+        
+    });
+    
+    $('body').on('click', '#close_modal', function (evt) {
+        $('#mpk_address').val('');
+        $('#mpk_msg').val('');
+        $('#mpk_state').val('0');
+        $('#map_pickup').html('');
+        $('#pickup_form_error').html('');
+        $('#pickup_form_error').hide();
+        $('#pickup_form_success').html('');
+        $('#pickup_form_success').show();
+        $('#mpk_bol_number').hide();
+    });
+    
+    function getPickupMap() {
+        //alert ('alert');
+//        var id = pickup.data('shp_id');
+//        alert (id);
+
+        var addr = $('#mpk_address').val();
+//        var zip = $('#mpk_zipcode').val();
+//        var address = $('#mpk_address').val() + ', ' + $('#mpk_zipcode').val();
+        var address = $('#mpk_address').val();
+        var url_address = address.split(' ').join('+');
+        //alert (url_address);
+
+        //if (addr == '' || zip == '') {
+        if (addr == '') {
+            //$('#pickup_form_error').html('address and/or zipcode can not be empty.');
+            $('#pickup_form_error').html('address field can not be empty.');
+            $('#pickup_form_error').show();
+            return false;
+        }
+
+        $.ajax({
+            type: "POST",
+            url: 'https://maps.googleapis.com/maps/api/geocode/json?address=' + url_address + '&key=AIzaSyAp8XadZn74QX4NLDphnzehQ0AN7q6NCwg',
+            async: true,
+            dataType: "json",
+            beforeSend: function () {
+                $('#result_destination').html('Loading...');
+                $('#result_destination').show();
+            },
+            success: function (data) {
+                //alert(data);
+                if (data.status == 'ZERO_RESULTS') {
+                    $('#pickup_form_error').html('Address not found, Please check.');
+                    $('#pickup_form_error').show();
+                    return false;
+                } else {
+                    var lat = data.results[0].geometry.location.lat;
+                    var lng = data.results[0].geometry.location.lng;
+					localStorage.lat = lat;
+					localStorage.lng = lng;
+					
+					var address = data.results[0].formatted_address;
+					var address_cc = address.split(',');
+					
+					var city_cc = address_cc[0]+' '+address_cc[1];
+					localStorage.city_cc = city_cc;
+					var state_cc = address_cc[2];
+					localStorage.state_cc = state_cc;
+					//var state = 0;
+					
+                    initialize(lat, lng, 'map-canvas');
+                    $('#pickup_form_error').hide();
+                    $('#map-canvas').css('display', 'block');
+                    $('.modal').animate({
+                        height: "664px"
+                    });
+
+//                  console.log('state: ' + state + ', lat: ' + lat + ', lng: ' + lng + ', zipcode: ' + zipcode);
+//                $('#result_destination').show();
+                }
+            }
+        });
+    }
+    
+    function initialize(lng, lat, canvas) {
+//            console.log('long and lat: ' + lng + ', ' + lat);
+        $("#map_pickup").html("<div id='map-canvas'></div>");
+        var myLatlng = new google.maps.LatLng(lng, lat);
+        var mapOptions = {
+            zoom: 13,
+            center: myLatlng
+        }
+
+        var map = new google.maps.Map(document.getElementById(canvas), mapOptions);
+        google.maps.event.trigger(map, "resize");
+        var marker = new google.maps.Marker({
+//            icon: 'map-marker-driver.png',
+            position: new google.maps.LatLng(lng, lat),
+            map: map
+        });
+    }
+    
+    $('#set-model').on('click', function() {        
+        $('#mpk_address').on('keyup', function (evt) {            
+            evt.preventDefault();
+            var bol = $(this);
+            //var tr = bol.parent().parent().prop('class');
+            $('#mpk_msg').val(bol.val());
+        });
+    });
+    
+    $('body').on('click', '#set_pickup', function (evt) {
+        evt.preventDefault();
+        
+        var addr = $('#mpk_address').val();
+        var statu = $('#mpk_state').val();
+        var text_status = $('#mpk_state option:selected').text();
+        var id_ship = $('#mpk_bol_number').val();
+        var value_bol_number = $('#mpk_bol_number').val();
+        var msg = $('#mpk_msg').val();
+        var address = $('#mpk_address').val();
+        var url_address = address.split(' ').join('+');
+
+        //if (addr == '' || zip == '') {
+        
+        if (statu != '0') {
+            if (addr == '') {
+                //$('#pickup_form_error').html('address and/or zipcode can not be empty.');
+                $('#pickup_form_error').html('address field can not be empty.');
+                $('#pickup_form_error').show();
+                return false;
+            }
+
+            if (msg == '') {
+                $('#pickup_form_error').html('message field can not be empty.');
+                $('#pickup_form_error').show();
+                return false;
+            }
+
+            if (value_bol_number == '0') {
+                $('#pickup_form_error').html('please choose shipment.');
+                $('#pickup_form_error').show();
+                return false;
+            }
+
+            $.ajax({
+                type: "POST",
+                url: 'https://maps.googleapis.com/maps/api/geocode/json?address=' + url_address + '&key=AIzaSyAp8XadZn74QX4NLDphnzehQ0AN7q6NCwg',
+                async: true,
+                dataType: "json",
+                beforeSend: function () {
+                    $('#result_destination').html('Loading...');
+                    $('#result_destination').show();
+                },
+                success: function (data) {
+
+                    if (data.status == 'ZERO_RESULTS') {
+                        $('#pickup_form_error').html('Address not found, Please check.');
+                        $('#pickup_form_error').show();
+                        return false;
+                    }
+
+//                  alert (text_status);
+
+                    update_status(statu, id_ship, text_status, msg);
+                    //$('#originAddressModal').modal('toggle');
+                }
+            });
+            
+        } else {
+        
+            if (addr == '') {
+                //$('#pickup_form_error').html('address and/or zipcode can not be empty.');
+                $('#pickup_form_error').html('address field can not be empty.');
+                $('#pickup_form_error').show();
+                return false;
+            }
+
+            if (msg == '') {
+                $('#pickup_form_error').html('message field can not be empty.');
+                $('#pickup_form_error').show();
+                return false;
+            }
+            
+            $.ajax({
+                type: "POST",
+                url: 'https://maps.googleapis.com/maps/api/geocode/json?address=' + url_address + '&key=AIzaSyAp8XadZn74QX4NLDphnzehQ0AN7q6NCwg',
+                async: true,
+                dataType: "json",
+                beforeSend: function () {
+                    $('#result_destination').html('Loading...');
+                    $('#result_destination').show();
+                },
+                success: function (data) {
+
+                    if (data.status == 'ZERO_RESULTS') {
+                        $('#pickup_form_error').html('Address not found, Please check.');
+                        $('#pickup_form_error').show();
+                        return false;
+                    }
+
+//                  alert (text_status);
+
+                    saveNotinDB2(msg,1);
+                    //$('#originAddressModal').modal('toggle');
+                }
+            });
+        }
+    });
+    
+    function update_status(statu, id_ship, text_status, msg) {
+        //alert ('function update_status');
+        $.ajax({
+            type: "POST",
+            url: '<?php echo site_url('load/update_status') ?>',
+            async: true,
+            data: {
+                id_ship: id_ship,
+                statu: statu,
+                text_status: text_status
+				//lat_driver: localStorage.lat,
+				//lng_driver: localStorage.lng
+            },
+            dataType: "json",
+            success: function (o) {
+//                alert (o);                
+                saveNotinDB2(msg,1);
+            }
+        });
+    }
+    
+    function saveNotinDB2(msg,cc) {
+        //alert(cc);
+        var user_id = '<?php echo $user_id; ?>';
+        var load_id = '<?php echo $load['idts_load']; ?>';
+        var type = '1';
+        var driver = '0';
+        var notify_driver = '0';
+		var a = (cc == 1 ? localStorage.lat : '<?php echo $load['driver_latitud']; ?>');
+        //alert(a);       
+        $.ajax({
+            type: "POST",
+            url: '<?php echo site_url('load/save_callcheck') ?>/' + user_id + '/' + load_id + '/1/0',
+            async: true,
+            data: {
+                comment: msg,
+                driver_latitud: (cc == 1 ? localStorage.lat : '<?php echo $load['driver_latitud']; ?>'),//,
+                driver_loingitude: (cc == 1 ? localStorage.lng : '<?php echo $load['driver_longitud']; ?>'),//
+                notify_driver: notify_driver,
+                driver_email: '<?php echo $driver['email']; ?>',
+                load_number: '<?php echo $load['load_number']; ?>',
+				idts_driver: '<?php echo $driver['idts_driver'] ?>'
+            },
+            dataType: "json",
+            success: function (o) {
+                //$("#saletbl tr:last-child").focus()
+                saveMsg(o.date, o.time, o.city, o.state, o.comment, o.entered_by);
+                $('#mpk_address').val('');
+                $('#mpk_msg').val('');
+                $('#mpk_state').val('0');
+                $('#map_pickup').html('');
+                $('#mpk_bol_number').hide();
+                $('#pickup_form_error').html('');
+                $('#pickup_form_error').hide();
+                $('#pickup_form_success').html('Successful notification');
+                $('#pickup_form_success').show();
+				$('#close_modal').click();
+            }
+        });
+    }
+    
     $('body').on('click', '.set-callcheck', function (evt) {
         evt.preventDefault();
         var callcheck = $(this);
         $("#callcheck_note").html(callcheck.data('note'));
+        //alert (callcheck.data('idts'));
+//        var read = 1;
+//        
+//        $.ajax({
+//            type: "POST",
+//            url: '<?php echo site_url('load/checked_read') ?>',
+//            async: true,
+//            data: {
+//                idts: callcheck.data('idts'),
+//                read: read
+//            },
+//            dataType: "json",
+//            success: function (o) {
+//                alert (o);
+//            }
+//        });
+        
     });
+    
+    $('#callchecks_bar').on('click', function() {
+        //alert ('click por trigger');
+        var url = '<?php echo site_url('load/get_chat/' . $load['idts_load'] . '/1') ?>';
+        var postData = {
+            date: $('#last_date').val()
+        };
+        $.post(url, postData, function (o) {            
+            for (var i = 0; i < o.length; i++) {
+                var msg = o[i];
+                //alert (msg.idts);
+                var read = 1;
+                $.ajax({
+                    type: "POST",
+                    url: '<?php echo site_url('load/checked_read') ?>',
+                    async: true,
+                    data: {
+                        idts: msg.idts,
+                        read: read
+                    },
+                    dataType: "json",
+                    success: function () {
+                        //alert (o);
+                    }
+                });
+            }
+        }, 'json');
+    });
+    
+    $('#request_loc').on('click', function (evt) {
+        //alert ('aqui');
+        evt.preventDefault();
+        if ($('input[name="sw_not_driver_1"]:checked').length > 0) {
+            //alert ('entre al si');
+            sendPushNot1();
+        }
+    });
+    
     $('body').on('click', '.send_email', function (evt) {
         evt.preventDefault();
         var pdf = $(this);
@@ -690,7 +1194,6 @@
                     console.log('PDF not created');
                 }
             }
-
         });
     });
 
@@ -699,7 +1202,9 @@
     });
 
     $('#createmap').click(function () {
-        $("#div1").animate({scrollTop: $(".grid").height()}, 1000);
+        $("#div1").animate({
+            scrollTop: $(".grid").height()
+        }, 1000);
         $("#map").html('');
         //        setTimeout(function () {
         //
@@ -718,28 +1223,26 @@
             },
             dataType: "json",
             success: function (o) {
-				if(o.status == "ZERO_RESULTS"){
-					   //var address = o.results[0].formatted_address;
-						var lat = 26.13750920;
-						var lng = -80.33406490;
-						var trace =[];
-						initMap2(trace, lat, lng, 0);
-						$('#driver_loc').html('No location available for this driver yet.');
-						//setTraceTable(trace);
-					}else{
-					 var address = o.results[0].formatted_address;
-					 var lat = o.results[0].geometry.location.lat;
-					 var lng = o.results[0].geometry.location.lng;
-					 initMap2(o.trace, lat, lng, 1);
-					 $('#driver_loc').html(address);
-					 setTraceTable(o.trace);
-				}
+                if(o.status == "ZERO_RESULTS"){
+                    //var address = o.results[0].formatted_address;
+                    var lat = 26.13750920;
+                    var lng = -80.33406490;
+                    var trace =[];
+                    initMap2(trace, lat, lng, 0);
+                    $('#driver_loc').html('No location available for this driver yet.');
+                    //setTraceTable(trace);
+                }else{
+                    var address = o.results[0].formatted_address;
+                    var lat = o.results[0].geometry.location.lat;
+                    var lng = o.results[0].geometry.location.lng;
+                    initMap2(o.trace, lat, lng, 1);
+                    $('#driver_loc').html(address);
+                    setTraceTable(o.trace);
+                }
             }
-
         });
     }
-
-
+    
     function setTraceTable(trace) {
         var output = '';
         for (var i = 0; i < trace.length; i++) {
@@ -1016,21 +1519,21 @@ if ($count >= 1) {
 
     $(function () {
 
-		//---------
-			//$(document).ready(function(e) {
-				//alert('test');
-				 if (window.location.hash){
-				  var hash = window.location.hash.substring(1);
-				  if (hash == "callchecks"){
-					 //alert('Coming from notification');
-					 $('#shipments_bar').removeClass('active');
-					 $('#about').removeClass('active in');
-					 $('#callchecks_bar').addClass('active');
-					 $('#callcheck_tab').addClass('active in');
-					}
-				 }
-				//};
-			//--------
+    //---------
+        //$(document).ready(function(e) {
+        //alert('test');
+        if (window.location.hash){
+            var hash = window.location.hash.substring(1);
+            if (hash == "callchecks"){
+                //alert('Coming from notification');
+                $('#shipments_bar').removeClass('active');
+                $('#about').removeClass('active in');
+                $('#callchecks_bar').addClass('active');
+                $('#callcheck_tab').addClass('active in');
+            }
+        }
+        //};
+    //--------
 		
         $('.lc-row-wrapper').on('scroll', function () {
             console.log('Top: ' + $(this).scrollTop() + ', Height: ' + $(this).innerHeight() + ', scroll: ' + $(this)[0].scrollHeight);
@@ -1163,7 +1666,6 @@ if ($count >= 1) {
                             alert(o.msg);
                         }
                     }
-
                 });
             }
         });
@@ -1194,6 +1696,7 @@ if ($count >= 1) {
 
             });
         });
+        
         $('#commentForm').submit(function (evt) {
             evt.preventDefault();
             if ($('input[name="sw_not_driver"]:checked').length > 0) {
@@ -1201,7 +1704,8 @@ if ($count >= 1) {
             } else {
                 saveNotinDB();
             }
-        });
+        });        
+        
         //------------- send the BOL by email --------------------------------
 
         $('body').on('click', '#btn_send_bol', function (evt) {
@@ -1227,8 +1731,8 @@ if ($count >= 1) {
             if (evt.keyCode == 13) {
                 if ($('input[name="sw_not_driver"]:checked').length > 0) {
                     sendPushNot();
-					$('textarea#styled_message').val('');
-					$('textarea#styled_message').focus();
+                    $('textarea#styled_message').val('');
+                    $('textarea#styled_message').focus();
                 } else {
                     saveNotinDB();
                 }
@@ -1237,6 +1741,7 @@ if ($count >= 1) {
         });
         setInterval(getChat, 10000);
         function getChat() {
+            //alert ('function getChat()');
             var url = '<?php echo site_url('load/get_chat/' . $load['idts_load'] . '/1') ?>';
             var postData = {
                 date: $('#last_date').val()
@@ -1256,7 +1761,19 @@ if ($count >= 1) {
 
                     var date = msg.date.split(' ');
                     var ymd = date[0].split('-');
-                    output += '<tr style="background-color:' + ms_style + '"><td style="text-align: center; width:100px">' + ymd[1] + '/' + ymd[2] + '/' + ymd[0] + '</td><td style="text-align: center; width:100px">' + date[1] + '</td><td style="text-align: center;">' + msg.city + '</td><td style="text-align: center;">' + msg.state + '</td><td style="text-align: center; width:239px"><div class="notes" style="float:left">' + msg.comment + '</div><a class="set-callcheck" data-note="' + msg.comment + '" hidefocus="true" style="outline: medium none;margin: 0px 5px;" data-toggle="modal" data-target="#callcheckViewModal">view</a></td><td style="text-align: center;">' + name + '</td></tr>';
+                    output += '<tr style="background-color:' + ms_style + '">\n\
+                        <td style="text-align: center; width:100px">' + ymd[1] + '/' + ymd[2] + '/' + ymd[0] + '</td>\n\
+                        <td style="text-align: center; width:100px">' + date[1] + '</td>\n\
+                        <td style="text-align: center;">' + msg.city + '</td>\n\
+                        <td style="text-align: center;">' + msg.state + '</td>\n\
+                        <td style="text-align: center; width:239px">\n\
+                            <div class="notes" style="float:left">' + msg.comment + '</div>\n\
+                            <a class="set-callcheck" data-idts="' + msg.idts + '" data-note="' + msg.comment + '" hidefocus="true" style="outline: medium none;margin: 0px 5px;" data-toggle="modal" data-target="#callcheckViewModal">view</a>\n\
+                        </td>\n\
+                        <td style="text-align: center;">' + name + '</td>\n\
+                        <td style="text-align: center;" hidden="">' + msg.idts + '</td>\n\
+                    </tr>';
+                    
                 }
                 $('#callcheck_table tbody').html('');
                 $('#callcheck_table tbody').append(output);
@@ -1292,6 +1809,7 @@ if ($count >= 1) {
             $(this).popover('toggle');
         });
     });
+    
     function sendPushNot() {
         if ($('textarea#styled_message').val() == '') {
             alert('Message can not be null');
@@ -1329,12 +1847,70 @@ if ($count >= 1) {
                     $('#register_form_error').show();
                     $('#styled_message').val('');
                 }
-
+            }
+        });
+    }
+    
+    function sendPushNot1() {
+        //var mssg = 'Location request';
+        //alert ('Location request #' + '<?php echo $load['load_number']; ?>');
+        $.ajax({
+            type: "POST",
+            url: '<?php echo site_url('load/push_not_custom_msg_load') ?>',
+            async: true,
+            beforeSend: function () {
+                $('.loading').show();
+            },
+            data: {
+                android_title: "Smith Track'n Go",
+                driver_id: '<?php echo $driver['idts_driver']; ?>',
+                app_id: '<?php echo $driver['app_id']; ?>',
+                apns_number: '<?php echo $driver['apns_number']; ?>',
+                load_id: '<?php echo $load['idts_load']; ?>',
+                driver_latitud: '<?php echo $load['driver_latitud']; ?>',
+                driver_loingitude: '<?php echo $load['driver_longitud']; ?>',
+                driver_mail: '<?php echo $driver['email']; ?>',
+                load_number: '<?php echo $load['load_number']; ?>',
+                msg: 'Location request #' + '<?php echo $load['load_number']; ?>'
+            },
+            dataType: "json",
+            success: function (data) {
+                $('.loading').hide();
+                if (data['status'] == 1) {
+                    $('#register_form_error').hide();
+                    control_request();
+                    //var o = data['dbresult'];
+                    //saveMsg(o.date, o.time, o.city, o.state, o.comment, o.entered_by);
+                    //$('#styled_message').val('');
+                } else {
+                    $('#register_form_error').html(data['msg']);
+                    $('#register_form_error').show();
+                    $('#styled_message').val('');
+                }
+            }
+        });
+    }
+    
+    function control_request() {
+        $.ajax({
+            type: "POST",
+            url: '<?php echo site_url('load/control_req') ?>',
+            async: true,
+            data: {
+                load_id: '<?php echo $load['idts_load'] ?>'
+            },
+            dataType: "json",
+            success: function (o) {
+                alert (o.secuencia);
+                if (o.secuencia == 5) {
+                    alert ('este es el ultimo request se le mandara un msj via texto al telefono..');
+                }
             }
         });
     }
 
     function saveNotinDB() {
+        //alert('entre');
         var user_id = '<?php echo $user_id; ?>';
         var load_id = '<?php echo $load['idts_load']; ?>';
         var type = '1';
@@ -1362,13 +1938,13 @@ if ($count >= 1) {
                 saveMsg(o.date, o.time, o.city, o.state, o.comment, o.entered_by);
                 $('textarea').val('');
             }
-
         });
     }
-
+    
     function saveMsg(date, time, city, state, comment, user) {
         var subject = $('#subject').val();
-        var msg = $('textarea#styled_message').val();
+        var msg = $('textarea#msg').val();
+        
         var user = '<?php echo $login; ?>';
         //        var output = '<div><b class="subject">' + user + ':</b><br>' + msg + '</div>';
         var output = '<tr><td style="text-align: center; width:100px">' + date + '</td><td style="text-align: center; width:100px">' + time + '</td><td style="text-align: center;">' + city + '</td><td style="text-align: center;">' + state + '</td><td style="text-align: center; width:100px"><div class="notes" style="float:left">' + comment + '</div><a class="set-callcheck" data-note="' + comment + '" hidefocus="true" style="outline: medium none;margin: 0px 5px;" data-toggle="modal" data-target="#callcheckViewModal">view</a></td><td style="text-align: center; width:100px">' + user + '</td></tr>';
