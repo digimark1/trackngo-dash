@@ -791,6 +791,23 @@ class load extends MY_Controller {
         }
 
         $this->output->set_output(json_encode(['status' => 1, 'msg' => 'Load Succesfully created.']));
+		//---- Send SMS after creating load -----//
+		  //$load_details['customer'] = $shipments[0]->customer;
+		  //----------PICKUP Details------
+		  $load_details['pickup'] = $shipments[0]->pickup;
+		  $load_details['pickup2'] = $shipments[0]->pickup2;
+		  $load_details['pickup_number'] = $shipments[0]->pickup_number;
+		  $load_details['pickup_company_name'] = $shipments[0]->pickup_company_name;
+		  $load_details['pickup_time'] = $shipments[0]->pickup_time;		  
+		  //-----------DROP Details------
+		  $load_details['drop'] = $shipments[0]->drop;
+		  $load_details['drop2'] = $shipments[0]->drop2;
+		  //$load_details['pickup_number'] = $shipments[0]->pickup_number;
+		  $load_details['drop_company_name'] = $shipments[0]->drop_company_name;
+		  $load_details['drop_time'] = $shipments[0]->drop_time;
+		  //-----------
+		  $this->send_sms_load($load_details);
+		//------------//
     }
 
     function get_shipment_photos($shp_url, $pages_number, $json = null) {
@@ -2674,6 +2691,25 @@ class load extends MY_Controller {
 				return $response;
 		}
 	//-----
+    //-----Send sms function when more than 5 requests....
+	public function send_sms_load($load_details) {
+			$url = 'https://rest.nexmo.com/sms/json?' . http_build_query(
+					[
+					  'api_key' =>  'bcbcfe01',
+					  'api_secret' => '91ff88641f7ce89d',
+					  'to' => '573008379290',
+					  'from' => 'NEXMO',
+					  'text' => "Shipment Details: "."\n".$load_details['pickup']."\n".$load_details['pickup2'].",".$load_details['pickup_company_name']."\n".$load_details['pickup_time']."\n PU: ".$load_details['pickup_number']
+					]
+				);
+				
+				$ch = curl_init($url);
+				curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+				$response = curl_exec($ch);
+				
+				return $response;
+		}
+	//-----
 	
 	public function sms($loadid){
 		 $data['loadid'] = $loadid;
@@ -2682,7 +2718,7 @@ class load extends MY_Controller {
     
 	//--- Insert trace load sms ----//
 	public function insert_trace($loadid){
-		
+		header('Access-Control-Allow-Origin: *');
         date_default_timezone_set("America/New_York");
 		
 		$driver_latitude = $this->input->post('driver_latitude');
@@ -2698,56 +2734,63 @@ class load extends MY_Controller {
        //---- end of -- insert callcheck ----//
 	   //----- Get Load ID ---- //
 	    $this->load->model('load_model');
-		$result = $this->load_model->get_load_by_id([
-			
-		],$loadid);
+		/*$result = $this->load_model->get_load_by_id([
+		],$loadid);*/
+		$result_load = $this->load_model->get($loadid);
+		
+		//$result_load_json = json_encode($result_load);
+		
+		//$this->output->set_output($result_load[0]['user_iduser']);
+		$iduser = $result_load[0]['user_iduser'];
+		$iddriver = $result_load[0]['ts_driver_idts_driver'];
+		$loadnumber = $result_load[0]['load_number'];
+		
 	   //------ ------//
 	    $this->load->model('driver_model');
 		$this->driver_model->update([
-			'lat' => $driver_lat,
-			'lng' => $driver_lng
-		],$idts_driver);
+			'lat' => $driver_latitude,
+			'lng' => $driver_longitude
+		],$iddriver);
 		//----
         $this->load->model('callcheck_model');
         $this->callcheck_model->insert([
-            'user_iduser' => $user_id,
-            'ts_load_idts_load' => $load_id,
-            'type' => $type,
-            'notify_driver' => $notify_driver,
-            'driver' => $driver,
-            'comment' => $comment,
+            'user_iduser' => $iduser,
+            'ts_load_idts_load' => $loadid,
+            'type' => 1,
+            'notify_driver' => 0,
+            'driver' => 1,
+            'comment' => $driver_address[0].','.$driver_address[1],
             'city' => $driver_address[1],
             'state' => $driver_address[2],
             'country' => $driver_address[3],
             'date' => date("Y-m-d H:i:s")
         ]);
 		
-        $data = $this->get_session_user_data();
-
-        $date = explode(' ', date("Y-m-d H:i:s"));
+       /* $date = explode(' ', date("Y-m-d H:i:s"));
         $date_formated_temp = explode('-', $date[0]);
-        $date_formated = $date_formated_temp[1] . '/' . $date_formated_temp[0] . '/' . $date_formated_temp[2];
-
-        $result = [
+        $date_formated = $date_formated_temp[1] . '/' . $date_formated_temp[0] . '/' . $date_formated_temp[2];*/
+		
+		$this->load->model('user_model');
+		$userinfo = $this->user_model->get($iduser);
+		$usermail = $userinfo[0]['email'];
+		
+        /*$result = [
             'date' => $date_formated,
             'time' => $date[1],
             'city' => $driver_address[1],
             'state' => $driver_address[2],
             'country' => $driver_address[3],
-            'comment' => $comment,
-            'entered_by' => $data['login']
-        ];
+            'comment' => 'T3st m41l --',
+            'entered_by' => 'what is this?'//$data['login']
+        ];*/
 
-        $param['load_number'] = $load_number;
-        $param['email'] = $driver_email;
-        $param['comment'] = $comment;
-        $this->send_callcheck_mail($param);
-
-        if (!$sw) {
+       
+		//$this->output->set_output('OK');
+        /*if (!$sw) {
             $this->output->set_output(json_encode($result));
             return false;
         }
-        return $result;
+        return $result;*/
 		//--------//
 		$this->load->model('load_trace_model');
         $this->load->model('callcheck_model');
@@ -2762,13 +2805,18 @@ class load extends MY_Controller {
             //'date' => now()
         ]);
 
+		$param['load_number'] = $loadnumber;
+        $param['email'] = $usermail;
+        $param['comment'] = "Current driver's location: ".$driver_address[0].",".$driver_address[1].",".$driver_address[2];
+        $this->send_callcheck_mail($param);
+		
         if ($result) {
             $this->output->set_output(json_encode(['result' => 1, 'msg' => 'result added.']));
             return false;
         }else{
 			 $this->output->set_output(json_encode(['result' => 0, 'msg' => 'not added.']));
             return false;
-			}
+			};
       
     
 		}
