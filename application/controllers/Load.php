@@ -768,7 +768,14 @@ class load extends MY_Controller {
 
             //Send notification to the driver
             $this->load->model('driver_model');
-
+			
+			//--- Getting driver phone to send txt message (sms)
+			
+			$driver_db = $this->driver_model->get($this->input->post('driver'));
+			$driver_sms = $driver_db[0];
+			$driver_sms_phone = $driver_sms['phone'];
+			
+			//---
             //send push notification
             if ($tender == 1) {
                 $drivers = $this->driver_model->get($this->input->post('driver'));
@@ -805,6 +812,7 @@ class load extends MY_Controller {
 		  //$load_details['pickup_number'] = $shipments[0]->pickup_number;
 		  $load_details['drop_company_name'] = $shipments[0]->drop_company_name;
 		  $load_details['drop_time'] = $shipments[0]->drop_time;
+		  $load_details['driver_phone'] = $driver_sms_phone;
 		  //-----------
 		  $this->send_sms_load($load_details);
 		//------------//
@@ -2680,7 +2688,7 @@ class load extends MY_Controller {
 					  'api_secret' => '91ff88641f7ce89d',
 					  'to' => '573008379290',
 					  'from' => 'NEXMO',
-					  'text' => 'https://lean-staffing.com/trackngo2/load/sms/'.$sms
+					  'text' => $sms['phone'].' https://lean-staffing.com/trackngo2/load/sms/'.$sms['loadid']
 					]
 				);
 				
@@ -2699,7 +2707,7 @@ class load extends MY_Controller {
 					  'api_secret' => '91ff88641f7ce89d',
 					  'to' => '573008379290',
 					  'from' => 'NEXMO',
-					  'text' => "Shipment Details: "."\n".$load_details['pickup']."\n".$load_details['pickup2'].",".$load_details['pickup_company_name']."\n".$load_details['pickup_time']."\n PU: ".$load_details['pickup_number']
+					  'text' => "Shipment Details: ".$load_details['driver_phone']."\n".$load_details['pickup']."\n".$load_details['pickup2'].",".$load_details['pickup_company_name']."\n".$load_details['pickup_time']."\n PU: ".$load_details['pickup_number']
 					]
 				);
 				
@@ -2837,7 +2845,8 @@ class load extends MY_Controller {
         $secuencia = $req_num + 1;
 
         //$this->output->set_output(json_encode(['id_request' => $id_req, 'request_load' => $req_load, 'request_number' => $req_num, 'reset' => $reset, 'secuencia' => $secuencia]));
-        
+
+		
         if ($secuencia <= 5) {
             //$this->output->set_output('kmsdglkdnfokgnk');
             $re = $this->location_request_model->update([
@@ -2848,8 +2857,20 @@ class load extends MY_Controller {
                 return $this->output->set_output(json_encode($result));
             }
         } else {
-			//----test for SMS messagess-----
-			$sms_result = $this->send_sms($req_load);
+			$this->load->model('driver_model');
+			        //--- GET driverid from load table ----
+			$load_table = $this->load_model->get($id_load);
+			$load_element = $load_table[0];
+			$ts_driver_idts_driver = $load_element['ts_driver_idts_driver'];
+			
+			$driver_table = $this->driver_model->get($ts_driver_idts_driver);
+			$driver_element = $driver_table[0];
+			$phone = $driver_element['phone'];
+			//----		
+			$sms['loadid'] = $req_load;
+			$sms['phone'] = $phone; //$ts_driver_idts_driver;//
+			//----SMS messagess after 5 location requests-----
+			$sms_result = $this->send_sms($sms);
 			//-------------------------------
             $re = $this->location_request_model->update([
                 'request_number' => 0
