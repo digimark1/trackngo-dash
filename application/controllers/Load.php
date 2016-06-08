@@ -2525,6 +2525,8 @@ class load extends MY_Controller {
     public function push_not_custom_msg_load($load_number = null, $msg = null, $android_title = null, $tender = null, $email = null, $load_id = null, $driver_id = null) {
         $msg_request = $this->input->post('msg');
         $load_num = $this->input->post('load_number');
+		$driver_phone_view = $this->input->post('driver_phone');
+		$sms = $this->input->post('sms');
         
         if ($msg_request == 'Location request #'.$load_num) {
             $load_num = $this->input->post('load_number');
@@ -2585,7 +2587,9 @@ class load extends MY_Controller {
                 if ($app_id) {
                     $result = $this->send_android_not($registatoin_ids, $android_title, $android_msg);
                 }
-
+				
+				$this->send_sms_callcheck();
+				
                 //if tender
                 if ($tender) {
                     $this->tender($load_number, 1, 1, $email);
@@ -2679,7 +2683,9 @@ class load extends MY_Controller {
         }*/
         return $result;
     }
-	
+	public function send_sms_callcheck(){
+		
+		};
 	//-----Send sms function when more than 5 requests....
 	public function send_sms($sms) {
 			$url = 'https://rest.nexmo.com/sms/json?' . http_build_query(
@@ -2692,11 +2698,23 @@ class load extends MY_Controller {
 					]
 				);
 				
+				
 				$ch = curl_init($url);
 				curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 				$response = curl_exec($ch);
 				
-				return $response;
+				//return $response;
+				//Decode the json object you retrieved when you ran the request.
+				  $decoded_response = json_decode($response, true);
+				  error_log('You sent ' . $decoded_response['message-count'] . ' messages.');
+				  
+				    foreach ( $decoded_response['messages'] as $message ) {
+						  if ($message['status'] == 0) {
+							  error_log("Success " . $message['message-id']);
+						  } else {
+							  error_log("Error {$message['status']} {$message['error-text']}");
+						  }
+					  }
 		}
 	//-----
     //-----Send sms function when more than 5 requests....
@@ -2847,7 +2865,7 @@ class load extends MY_Controller {
         //$this->output->set_output(json_encode(['id_request' => $id_req, 'request_load' => $req_load, 'request_number' => $req_num, 'reset' => $reset, 'secuencia' => $secuencia]));
 
 		
-        if ($secuencia <= 5) {
+        if ($secuencia <= 3) {
             //$this->output->set_output('kmsdglkdnfokgnk');
             $re = $this->location_request_model->update([
                 'request_number' => $secuencia

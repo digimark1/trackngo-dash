@@ -373,7 +373,7 @@
 
                                             <div class="rowSubmit clearfix" style="padding:0px 0px;">
                                                 <div class="input_styled checklist">
-                                                    <div class="rowCheckbox checkbox-filled"><!--<div class="custom-checkbox"><input name="save" type="checkbox" checked="" id="save" value="save" hidefocus="true" style="outline: none;"><label for="save" class="checked">&nbsp;</label></div>--></div>
+                                                    <div class="rowCheckbox checkbox-filled"><div class="checkbox" style="padding-left: 40px;margin-top: 0px;"><label style="padding-left: 5px;"><input type="checkbox" class="checkbox1" name="not_driver_sms" id="not_driver_sms" checked="" value="1">Send SMS</label></div><!--<div class="custom-checkbox"><input name="save" type="checkbox" checked="" id="save" value="save" hidefocus="true" style="outline: none;"><label for="save" class="checked">&nbsp;</label></div>--></div>
                                                 </div>
                                                 <span style="float:left; padding-left: 15px; visibility: hidden">
                                                     <input type="checkbox" name="sw_not_driver" id="ntfy_driver" value="" checked=""> Notify Driver
@@ -1698,9 +1698,16 @@ if ($count >= 1) {
         });
         
         $('#commentForm').submit(function (evt) {
+			var sms;
             evt.preventDefault();
             if ($('input[name="sw_not_driver"]:checked').length > 0) {
-                sendPushNot();
+				
+			   if ($('#not_driver_sms').is(':checked')) {
+				     sms = 1;
+				   }else{
+				     sms = 0;
+				   }				   
+                sendPushNot(sms);
             } else {
                 saveNotinDB();
             }
@@ -1730,7 +1737,12 @@ if ($count >= 1) {
 
             if (evt.keyCode == 13) {
                 if ($('input[name="sw_not_driver"]:checked').length > 0) {
-                    sendPushNot();
+						 if ($('#not_driver_sms').is(':checked')) {
+							 sms = 1;
+						   }else{
+							 sms = 0;
+						   }
+                    sendPushNot(sms);
                     $('textarea#styled_message').val('');
                     $('textarea#styled_message').focus();
                 } else {
@@ -1810,7 +1822,7 @@ if ($count >= 1) {
         });
     });
     
-    function sendPushNot() {
+    function sendPushNot(sms) {
         if ($('textarea#styled_message').val() == '') {
             alert('Message can not be null');
             return false;
@@ -1827,11 +1839,13 @@ if ($count >= 1) {
                 driver_id: '<?php echo $driver['idts_driver'] ?>',
                 app_id: '<?php echo $driver['app_id'] ?>',
                 apns_number: '<?php echo $driver['apns_number'] ?>',
+				driver_phone: '<?php echo $driver['phone'] ?>',
                 load_id: '<?php echo $load['idts_load']; ?>',
                 driver_latitud: '<?php echo $load['driver_latitud']; ?>',
                 driver_loingitude: '<?php echo $load['driver_longitud']; ?>',
                 driver_mail: '<?php echo $driver['email']; ?>',
                 load_number: '<?php echo $load['load_number']; ?>',
+				sms:sms,
                 msg: 'Msg load #' + '<?php echo $load['load_number']; ?>' + ' - ' + $('textarea#styled_message').val()
             },
             dataType: "json",
