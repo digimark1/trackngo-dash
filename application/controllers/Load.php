@@ -2527,6 +2527,7 @@ class load extends MY_Controller {
         $load_num = $this->input->post('load_number');
 		$driver_phone_view = $this->input->post('driver_phone');
 		$sms = $this->input->post('sms');
+        $check_sms = $this->input->post('check_sms');
         
         if ($msg_request == 'Location request #'.$load_num) {
             $load_num = $this->input->post('load_number');
@@ -2587,14 +2588,12 @@ class load extends MY_Controller {
                 if ($app_id) {
                     $result = $this->send_android_not($registatoin_ids, $android_title, $android_msg);
                 }
-				
-				$this->send_sms_callcheck();
-				
                 //if tender
                 if ($tender) {
                     $this->tender($load_number, 1, 1, $email);
                     //change load status              
                 }
+ 
 
                 $data = $msg;
                 $msg_split = substr($data, strpos($data, "-") + 1);
@@ -2652,9 +2651,16 @@ class load extends MY_Controller {
         $app_id = $driver['app_id'];
         $driver_phone = $driver['phone'];
         $email = $driver['email'];
-
         $registatoin_ids[0] = $app_id;
 
+        $sms['msg'] = $msg;
+        $sms['load_number'] = $load_number;
+        $sms['phone'] = $driver['phone'];
+
+            //if sms checked, send a sms callcheck
+            if($check_sms == 1){
+                $this->send_sms_callcheck($sms);
+            }
        // if ($apns_number || $app_id) {
             //Apple notification
             if ($apns_number) {
@@ -2683,9 +2689,30 @@ class load extends MY_Controller {
         }*/
         return $result;
     }
-	public function send_sms_callcheck(){
+    //----- Send SMS as a Callcheck -------//
+    public function send_sms_callcheck($sms){
+        
+        //"Load #: ".$sms['load_number']."\n"."Message: ".
+        $url = 'https://rest.nexmo.com/sms/json?' . http_build_query(
+                [
+                  'api_key' =>  'bcbcfe01',
+                  'api_secret' => '91ff88641f7ce89d',
+                  'to' => ''.$sms['phone'].'',
+                  'from' => 'NEXMO',
+                  'text' => $sms['msg']
+                ]
+            );
+            
+            $ch = curl_init($url);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+            $response = curl_exec($ch);
+            
+            return $response;
+    }
+    //-------------------------------------//
+	//public function send_sms_callcheck(){
 		
-		};
+		//};
 	//-----Send sms function when more than 5 requests....
 	public function send_sms($sms) {
 			$url = 'https://rest.nexmo.com/sms/json?' . http_build_query(
@@ -2694,11 +2721,9 @@ class load extends MY_Controller {
 					  'api_secret' => '91ff88641f7ce89d',
 					  'to' => ''.$sms['phone'].'',
 					  'from' => 'NEXMO',
-					  'text' => ' https://lean-staffing.com/trackngo2/load/sms/'.$sms['loadid']
+					  'text' => 'https://lean-staffing.com/trackngo2/load/sms/'.$sms['loadid']
 					]
-				);
-				
-				
+				);							
 				$ch = curl_init($url);
 				curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 				$response = curl_exec($ch);
@@ -2717,7 +2742,7 @@ class load extends MY_Controller {
 					  }
 		}
 	//-----
-    //-----Send sms function when more than 5 requests....
+    //-----Send sms function when more than 3 requests....
 	public function send_sms_load($load_details) {
 			$url = 'https://rest.nexmo.com/sms/json?' . http_build_query(
 					[
@@ -2894,7 +2919,8 @@ class load extends MY_Controller {
                 'request_number' => 0
             ], ['id_request' => $id_req]);
 			
-			return $sms_result;
+			 $result= ['secuencia' => $secuencia];
+             return $this->output->set_output(json_encode($result));
         }
     }
 	
