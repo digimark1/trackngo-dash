@@ -2692,9 +2692,9 @@ class load extends MY_Controller {
 					[
 					  'api_key' =>  'bcbcfe01',
 					  'api_secret' => '91ff88641f7ce89d',
-					  'to' => '573008379290',
+					  'to' => ''.$sms['phone'].'',
 					  'from' => 'NEXMO',
-					  'text' => $sms['phone'].' https://lean-staffing.com/trackngo2/load/sms/'.$sms['loadid']
+					  'text' => ' https://lean-staffing.com/trackngo2/load/sms/'.$sms['loadid']
 					]
 				);
 				
@@ -2723,7 +2723,7 @@ class load extends MY_Controller {
 					[
 					  'api_key' =>  'bcbcfe01',
 					  'api_secret' => '91ff88641f7ce89d',
-					  'to' => '573008379290',
+					  'to' => ''.$load_details['driver_phone'].'',
 					  'from' => 'NEXMO',
 					  'text' => "Shipment Details: ".$load_details['driver_phone']."\n".$load_details['pickup']."\n".$load_details['pickup2'].",".$load_details['pickup_company_name']."\n".$load_details['pickup_time']."\n PU: ".$load_details['pickup_number']
 					]
