@@ -36,7 +36,7 @@
 							$("#demo2").html(loadid+' '+date);       
 							$.ajax({
 								type: "POST",
-								url: 'https://lean-staffing.com/trackngo2/load/insert_trace/'+loadid,
+								url: 'https://lean-staffing.com/trackngo/load/insert_trace/'+loadid,
 								async: true,
 								data: {
 									driver_latitude: position.coords.latitude,//,

@@ -2721,7 +2721,7 @@ class load extends MY_Controller {
 					  'api_secret' => '91ff88641f7ce89d',
 					  'to' => ''.$sms['phone'].'',
 					  'from' => 'NEXMO',
-					  'text' => 'https://lean-staffing.com/trackngo2/load/sms/'.$sms['loadid']
+					  'text' => 'https://lean-staffing.com/trackngo/load/sms/'.$sms['loadid']
 					]
 				);							
 				$ch = curl_init($url);
