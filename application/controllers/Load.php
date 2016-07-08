@@ -2695,10 +2695,10 @@ class load extends MY_Controller {
         //"Load #: ".$sms['load_number']."\n"."Message: ".
         $url = 'https://rest.nexmo.com/sms/json?' . http_build_query(
                 [
-                  'api_key' =>  'bcbcfe01',
-                  'api_secret' => '91ff88641f7ce89d',
+                  'api_key' =>  '835317c9',
+                  'api_secret' => 'd240dde854d2d43c',
                   'to' => ''.$sms['phone'].'',
-                  'from' => 'NEXMO',
+                  'from' => '14086505084',
                   'text' => $sms['msg']
                 ]
             );
@@ -2717,11 +2717,11 @@ class load extends MY_Controller {
 	public function send_sms($sms) {
 			$url = 'https://rest.nexmo.com/sms/json?' . http_build_query(
 					[
-					  'api_key' =>  'bcbcfe01',
-					  'api_secret' => '91ff88641f7ce89d',
+					  'api_key' =>  '835317c9',
+					  'api_secret' => 'd240dde854d2d43c',
 					  'to' => ''.$sms['phone'].'',
-					  'from' => 'NEXMO',
-					  'text' => 'https://lean-staffing.com/trackngo/load/sms/'.$sms['loadid']
+					  'from' => '14086505084',
+					  'text' => 'Location request:\n'.'https://lean-staffing.com/trackngo/load/sms/'.$sms['loadid']
 					]
 				);							
 				$ch = curl_init($url);
@@ -2746,10 +2746,10 @@ class load extends MY_Controller {
 	public function send_sms_load($load_details) {
 			$url = 'https://rest.nexmo.com/sms/json?' . http_build_query(
 					[
-					  'api_key' =>  'bcbcfe01',
-					  'api_secret' => '91ff88641f7ce89d',
+					  'api_key' =>  '835317c9',
+					  'api_secret' => 'd240dde854d2d43c',
 					  'to' => ''.$load_details['driver_phone'].'',
-					  'from' => 'NEXMO',
+					  'from' => '14086505084',
 					  'text' => "Shipment Details: ".$load_details['driver_phone']."\n".$load_details['pickup']."\n".$load_details['pickup2'].",".$load_details['pickup_company_name']."\n".$load_details['pickup_time']."\n PU: ".$load_details['pickup_number']
 					]
 				);
